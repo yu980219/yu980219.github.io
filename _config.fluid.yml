@@ -676,6 +676,7 @@ post:
 
   # 文章图片标题
   # Image caption
+  # Image caption
   image_caption:
     enable: true
 

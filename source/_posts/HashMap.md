@@ -34,7 +34,7 @@ HashMap使用**拉链法**解决冲突：
 
 **所谓“拉链法” 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。**
 
-![在这里插入图片描述](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612002351185.png)
+![hashmap的结构示意图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612002351185.png)
 
 ### 常见问题
 
@@ -54,7 +54,7 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
 总结：和泊松分布无关（泊松分布是链表树化计算出来的概率），千万不要被一些博客误解，就一句话：0.75是为了时间和空间上的权衡。
 
-![image-20220929135428498](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/image-20220929135428498.png)
+![装载因子0.75与泊松分布没有关系](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/image-20220929135428498.png)
 
 #### 为什么长度是2的次幂？
 
@@ -70,64 +70,65 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
   扩容时rehash步骤：
   
+
 举个例子：
-  
+
   原数组长度为16，现需要将其扩容到32
 
   **16-1的二进制：0000 1111**
-  
+
 **32-1的二进制：0001 1111**
-  
+
 ------------
-  
+
 计算数组下标公式不变：hash(key) & (table.length-1)
-  
+
 假设某一元素的hash为**52**
-  
+
 **52的二进制：0011 0100**
-  
+
 ----------
-  
+
 扩容前，该元素下标：
-  
+
 **52&(16-1)：**
-  
+
   ​		**0011 0100**
-  
+
   **&	 0000 1111**
-  
+
   **————————**
-  
+
   ​		**0000 0100 = 4**
-  
-  ------
-  
+
+------
+
   扩容后，该元素下标：
-  
+
   **52&(32-1)：**
-  
+
   ​		**001`1` 0100**
-  
+
   **&	 000`1` 1111**
-  
+
   **————————**
-  
+
   ​		**000`1` 0100 = 20**
-  
-  ---------------------
-  
+
+---------------------
+
   规律就是，16-1到32-1的变化，只发生在最高位上，每次扩容2倍，只需要在原容量的高位前面补1。
-  
+
   key的hash值不变，长度每次在最高位变化1。
-  
+
   也就是说，我们每次只需要对比扩容后key的hash和length-1对应的最高位上的数值就好了，与运算的逻辑为，**同1得1，其他是0**。
-  
+
   - 如果这个位置是0，余数计算的结果将保持不变，意味着扩容后此元素还在这个槽中（槽编号没发生改变）
   
   - 如果这个位置是1，余数计算结果就变成了`原槽索引 + 原array.length`。
-  
+
   **总结：**
-  
+
   1. 能利用 & 操作代替 % 操作，提升性能
   2. 数组扩容时，仅仅关注 “特殊位” 就可以重新定位元素
 
@@ -199,7 +200,7 @@ tab[i] = newNode(hash, key, value, null);
 */
 ```
 
-![在这里插入图片描述](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612005610198.png)
+![索引计算流程图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612005610198.png)
 
 总结：
 
@@ -207,7 +208,7 @@ tab[i] = newNode(hash, key, value, null);
 
    int有32位，h>>>16再异或key.hashcode()，被称为扰动函数，让高16位也参与到hashcode的取值中，**混合原始哈希码的高位和低位，以此来加大低位的随机性**。
 
-   ![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/16390890-8018e0b694b486d7.png)
+   ![索引计算样例](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/16390890-8018e0b694b486d7.png)
 
    *Q：扰动为什么是异或，而不是别的呢？*
 
@@ -314,7 +315,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 总结：
 
-![在这里插入图片描述](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/84561e1f9026499294f72b8b85004ae6.png)
+![put流程图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/84561e1f9026499294f72b8b85004ae6.png)
 
 #### get()：获取元素
 
@@ -371,185 +372,185 @@ final Node<K,V> getNode(int hash, Object key) {
 >
 > 这里有几个概念：
 >
-> ![在这里插入图片描述](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/ff43c854c6b84604bc07d6cfc2ed24aa.png)
+> ![resize时的一些局部变量介绍](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/ff43c854c6b84604bc07d6cfc2ed24aa.png)
 
-- ```java
-  final Node<K,V>[] resize() {
-      // 原数组
-      Node<K,V>[] oldTab = table;
-      // oldCap：原容量
-      // 如果tab压根不存在，说明是第一次创建，原容量默认为0，否则就是原容量。
-      int oldCap = (oldTab == null) ? 0 : oldTab.length;
-      // oldThr用来存储当前阈值，也就是原阈值。
-      int oldThr = threshold;
-      // 新容量，和新阈值，默认都为0
-      int newCap, newThr = 0;
-      // 如果原容量大于0，说明这是初始化完毕的hashmap，准备扩容。
-      if (oldCap > 0) {
-          /**
-          <极限的扩容流程>
-          例：
-          容量：2^30 -> 2^30
-          阈值：2^29 -> Integer.MAX_VALUE
-         	**/
-          
-          // 容量到达最大值了吗？到了就不能再扩容了，直接返回。
-          if (oldCap >= MAXIMUM_CAPACITY) {
-              // 把int的最大值赋给阈值，这样，永远都达不到这个数，就永远不会扩容了。
-              threshold = Integer.MAX_VALUE;
-              return oldTab;
-          }
-          
-          /**
-          <通常正常的扩容流程>
-          该分支正常扩容，例：
-          容量：16 -> 32
-          阈值：12 -> 24
-         	**/
-          
-          // oldCap << 1：相当于乘以2，也就是我们说的扩容2倍
-          // 扩容2倍赋值给newCap并且看看容量有没有超过最大阈值
-          else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                   oldCap >= DEFAULT_INITIAL_CAPACITY)
-              // 新阈值变为原来的2倍
-              newThr = oldThr << 1; // double threshold
-      }
-      
-      // 走到这一步，说明map还没被初始化，因为上面才是初始化之后的扩容流程。
-      // 没初始化，为什么原阈值还会大于0呢？
-      // 那只有三种情况，就是使用了hashmap的构造方法：
-      // public HashMap(int initialCapacity, float loadFactor)
-      // public HashMap(int initialCapacity)
-      // public HashMap(Map m)
-      // 说明，初始化hashmap的时候，使用了构造方法指定了容量大小，构造方法里，设定了阈值。
-      
-      /**
-          <初始化流程>
-          该分支走了有参构造，例：
-          新阈值：空缺
-          原阈值：16 -> 新容量：16
-         	**/
-      else if (oldThr > 0) // initial capacity was placed in threshold
-          // 把原阈值赋值给新容量。因为构造方法里的tableSizeFor()方法，设定了阈值的大小就是容量的大小。
-          newCap = oldThr;
-      
-      /**
-          <初始化流程>
-          该分支走了无参构造，例：
-          新容量：默认16
-          新阈值：默认16*0.75=12
-         	**/
-      // 如果到了这一步，说明原容量<=0。
-      // 也就是调用了无参构造方法，没真正的初始化hashmap，
-      else {               // zero initial threshold signifies using defaults
-          // 默认容量
-          newCap = DEFAULT_INITIAL_CAPACITY;
-          // 默认阈值。
-          newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-      }
-      
-      /**
-          <初始化流程>
-          填补上面的新阈值空缺
-          新阈值：新容量16*0.75=12
-          新容量：16
-         	**/
-      
-      // 如果新阈值=0，
-     	// 说明走了上面的 else if (oldThr > 0) 
-      // 因为只有这个分支里 没设置newThr
-      // 那就是说hashmap使用了有参构造方法初始化了
-      if (newThr == 0) {
-          // 计算新阈值。这就填补上上面的新阈值空缺的情况了
-          float ft = (float)newCap * loadFactor;
-          newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                    (int)ft : Integer.MAX_VALUE);
-      }
-      
-      // 至此，扩容之前的所有准备工作已经完毕
-      // 无论这次是扩容操作，还是初始化操作。
-      // 新阈值和新容量都已经被设置好。
-      // 接下来就是要进行rehash，将旧数组的元素移交到新数组。
-      threshold = newThr;
-      @SuppressWarnings({"rawtypes","unchecked"})
-      // 创建一个新数组，容量为新容量
-          Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-      // 再赋值给当前全局变量
-      table = newTab;
-      
-      // 下面就是扩容的核心流程
-      // 说到这里，必须知道一个前置知识，就是jdk8中扩容的hash计算方式
-      // 在上文《常见问题》中《为什么长度是2的次幂》有讲到，一定要看完再回来。
-      if (oldTab != null) {
-          // 遍历整个旧数组
-          for (int j = 0; j < oldCap; ++j) {
-              // 创建一个临时变量e，后续都是把旧数组位置上的node指向e
-              Node<K,V> e;
-              // 如果这个位置上的元素不空
-              if ((e = oldTab[j]) != null) {
-                  oldTab[j] = null;
-                  // 如果e的next为空，说明该槽位并没有链表或者树，只有一个节点
-                  if (e.next == null)
-                      // 直接rehash，重新计算下标位置，并赋值到新元素的位置上即可。
-                      newTab[e.hash & (newCap - 1)] = e;
-                  // 如果是树节点
-                  else if (e instanceof TreeNode)
-                      // 调用树节点的方法处理
-                      ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                  // 最后是链表结构的情况
-                  else { // preserve order
-                      // lo：low的缩写，低位
-                      // hi：high的缩写，高位
-                      // 暂时不用知道他们什么意思，看下面。
-                      Node<K,V> loHead = null, loTail = null;
-                      Node<K,V> hiHead = null, hiTail = null;
-                      Node<K,V> next;
-                      /** 遍历链表
-                       上文《为什么长度是2的次幂》读完，下面读起来就会很顺畅
-                       扩容后，
-                       如果与运算结果=1，槽位变化。
-                       如果与运算结果=0，槽位不变。
-                       那么上面的4个参数中的loHead，loTail代表，所有槽位不变的node节点的指针，hiHead和hiTail代表所有槽位变化的node节点的指针。
-                       这样，就可以在这一个链表里，把所有变化的，和没变化的拆分成两条链。所有没发生变化的自然就在原槽位呆着不动，所有变化的再拿出来做处理。下文有图。
-                       或者可以看看这篇文章https://www.codenong.com/jsa0e02fce06d2/
-                      **/
-                      do {
-                          next = e.next;
-                          if ((e.hash & oldCap) == 0) {
-                              if (loTail == null)
-                                  loHead = e;
-                              else
-                                  loTail.next = e;
-                              loTail = e;
-                          }
-                          else {
-                              if (hiTail == null)
-                                  hiHead = e;
-                              else
-                                  hiTail.next = e;
-                              hiTail = e;
-                          }
-                      } while ((e = next) != null);
-                      
-                      // 不用变动槽位的，把lo这条链取出来，放在原槽位即可
-                      if (loTail != null) {
-                          loTail.next = null;
-                          newTab[j] = loHead;
-                      }
-                      
-                      // 需要变动槽位的，把hi这条链取出来，放在（原槽索引 + 原capSize）的位置即可。
-                      if (hiTail != null) {
-                          hiTail.next = null;
-                          newTab[j + oldCap] = hiHead;
-                      }
-                  }
-              }
-          }
-      }
-      // 完成扩容
-      return newTab;
-  }
-  ```
+```java
+final Node<K,V>[] resize() {
+    // 原数组
+    Node<K,V>[] oldTab = table;
+    // oldCap：原容量
+    // 如果tab压根不存在，说明是第一次创建，原容量默认为0，否则就是原容量。
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    // oldThr用来存储当前阈值，也就是原阈值。
+    int oldThr = threshold;
+    // 新容量，和新阈值，默认都为0
+    int newCap, newThr = 0;
+    // 如果原容量大于0，说明这是初始化完毕的hashmap，准备扩容。
+    if (oldCap > 0) {
+        /**
+        <极限的扩容流程>
+        例：
+        容量：2^30 -> 2^30
+        阈值：2^29 -> Integer.MAX_VALUE
+       	**/
+        
+        // 容量到达最大值了吗？到了就不能再扩容了，直接返回。
+        if (oldCap >= MAXIMUM_CAPACITY) {
+            // 把int的最大值赋给阈值，这样，永远都达不到这个数，就永远不会扩容了。
+            threshold = Integer.MAX_VALUE;
+            return oldTab;
+        }
+        
+        /**
+        <通常正常的扩容流程>
+        该分支正常扩容，例：
+        容量：16 -> 32
+        阈值：12 -> 24
+       	**/
+        
+        // oldCap << 1：相当于乘以2，也就是我们说的扩容2倍
+        // 扩容2倍赋值给newCap并且看看容量有没有超过最大阈值
+        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                 oldCap >= DEFAULT_INITIAL_CAPACITY)
+            // 新阈值变为原来的2倍
+            newThr = oldThr << 1; // double threshold
+    }
+    
+    // 走到这一步，说明map还没被初始化，因为上面才是初始化之后的扩容流程。
+    // 没初始化，为什么原阈值还会大于0呢？
+    // 那只有三种情况，就是使用了hashmap的构造方法：
+    // public HashMap(int initialCapacity, float loadFactor)
+    // public HashMap(int initialCapacity)
+    // public HashMap(Map m)
+    // 说明，初始化hashmap的时候，使用了构造方法指定了容量大小，构造方法里，设定了阈值。
+    
+    /**
+        <初始化流程>
+        该分支走了有参构造，例：
+        新阈值：空缺
+        原阈值：16 -> 新容量：16
+       	**/
+    else if (oldThr > 0) // initial capacity was placed in threshold
+        // 把原阈值赋值给新容量。因为构造方法里的tableSizeFor()方法，设定了阈值的大小就是容量的大小。
+        newCap = oldThr;
+    
+    /**
+        <初始化流程>
+        该分支走了无参构造，例：
+        新容量：默认16
+        新阈值：默认16*0.75=12
+       	**/
+    // 如果到了这一步，说明原容量<=0。
+    // 也就是调用了无参构造方法，没真正的初始化hashmap，
+    else {               // zero initial threshold signifies using defaults
+        // 默认容量
+        newCap = DEFAULT_INITIAL_CAPACITY;
+        // 默认阈值。
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
+    
+    /**
+        <初始化流程>
+        填补上面的新阈值空缺
+        新阈值：新容量16*0.75=12
+        新容量：16
+       	**/
+    
+    // 如果新阈值=0，
+   	// 说明走了上面的 else if (oldThr > 0) 
+    // 因为只有这个分支里 没设置newThr
+    // 那就是说hashmap使用了有参构造方法初始化了
+    if (newThr == 0) {
+        // 计算新阈值。这就填补上上面的新阈值空缺的情况了
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                  (int)ft : Integer.MAX_VALUE);
+    }
+    
+    // 至此，扩容之前的所有准备工作已经完毕
+    // 无论这次是扩容操作，还是初始化操作。
+    // 新阈值和新容量都已经被设置好。
+    // 接下来就是要进行rehash，将旧数组的元素移交到新数组。
+    threshold = newThr;
+    @SuppressWarnings({"rawtypes","unchecked"})
+    // 创建一个新数组，容量为新容量
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+    // 再赋值给当前全局变量
+    table = newTab;
+    
+    // 下面就是扩容的核心流程
+    // 说到这里，必须知道一个前置知识，就是jdk8中扩容的hash计算方式
+    // 在上文《常见问题》中《为什么长度是2的次幂》有讲到，一定要看完再回来。
+    if (oldTab != null) {
+        // 遍历整个旧数组
+        for (int j = 0; j < oldCap; ++j) {
+            // 创建一个临时变量e，后续都是把旧数组位置上的node指向e
+            Node<K,V> e;
+            // 如果这个位置上的元素不空
+            if ((e = oldTab[j]) != null) {
+                oldTab[j] = null;
+                // 如果e的next为空，说明该槽位并没有链表或者树，只有一个节点
+                if (e.next == null)
+                    // 直接rehash，重新计算下标位置，并赋值到新元素的位置上即可。
+                    newTab[e.hash & (newCap - 1)] = e;
+                // 如果是树节点
+                else if (e instanceof TreeNode)
+                    // 调用树节点的方法处理
+                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                // 最后是链表结构的情况
+                else { // preserve order
+                    // lo：low的缩写，低位
+                    // hi：high的缩写，高位
+                    // 暂时不用知道他们什么意思，看下面。
+                    Node<K,V> loHead = null, loTail = null;
+                    Node<K,V> hiHead = null, hiTail = null;
+                    Node<K,V> next;
+                    /** 遍历链表
+                     上文《为什么长度是2的次幂》读完，下面读起来就会很顺畅
+                     扩容后，
+                     如果与运算结果=1，槽位变化。
+                     如果与运算结果=0，槽位不变。
+                     那么上面的4个参数中的loHead，loTail代表，所有槽位不变的node节点的指针，hiHead和hiTail代表所有槽位变化的node节点的指针。
+                     这样，就可以在这一个链表里，把所有变化的，和没变化的拆分成两条链。所有没发生变化的自然就在原槽位呆着不动，所有变化的再拿出来做处理。下文有图。
+                     或者可以看看这篇文章https://www.codenong.com/jsa0e02fce06d2/
+                    **/
+                    do {
+                        next = e.next;
+                        if ((e.hash & oldCap) == 0) {
+                            if (loTail == null)
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
+                        }
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
+                        }
+                    } while ((e = next) != null);
+                    
+                    // 不用变动槽位的，把lo这条链取出来，放在原槽位即可
+                    if (loTail != null) {
+                        loTail.next = null;
+                        newTab[j] = loHead;
+                    }
+                    
+                    // 需要变动槽位的，把hi这条链取出来，放在（原槽索引 + 原capSize）的位置即可。
+                    if (hiTail != null) {
+                        hiTail.next = null;
+                        newTab[j + oldCap] = hiHead;
+                    }
+                }
+            }
+        }
+    }
+    // 完成扩容
+    return newTab;
+}
+```
 
 
 ![loHead，loTail，在遍历链表时的流程，hiHead，hiTail同理](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/1260967-cc6df182e8a54ebe.jpg)

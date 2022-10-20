@@ -10,6 +10,8 @@ date: 2022-03-02 19:06:26
 
 ## HashMap
 
+### 基本属性
+
 ```java
 // 默认容量：即2的4次方
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;

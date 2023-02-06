@@ -12,11 +12,13 @@ date: 2022-03-02 19:06:26
 
 ### 基本属性
 
+#### 一、核心常量
+
 ```java
-// 默认容量：即2的4次方
+// 默认容量：即2的4次方，16
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
 
-// 最大容量：即2的30次方
+// 最大容量：即2的30次方，1073741824
 static final int MAXIMUM_CAPACITY = 1 << 30;
 
 // 默认负载因子：0.75
@@ -32,19 +34,43 @@ static final int UNTREEIFY_THRESHOLD = 6;
 static final int MIN_TREEIFY_CAPACITY = 64;
 ```
 
-HashMap使用**拉链法**解决冲突：
+#### 二、构造方法
 
-**所谓“拉链法” 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。**
+```java
+// 空构造方法
+public HashMap()
+    
+// 可设置容量构造方法
+public HashMap(int initialCapacity)
+    
+// 容量和负载因子构造方法
+public HashMap(int initialCapacity, float loadFactor)
+    
+// 可设置初始数据构造方法
+public HashMap(Map<? extends K, ? extends V> m)
+```
 
-![hashmap的结构示意图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612002351185.png)
+#### 三、核心变量
+
+**loadFactor**：负载因子变量
+
+**threshold**：调整大小的下一个大小值（容量负载因子）
+
+**modCount**：这个HashMap被结构修改的次数，结构修改是那些改变HashMap中的映射数量或以其他方式修改其内部结构（例如：rehash）的修改。该字段用于使用hashmap的集合视图上的迭代器快速失败。
+
+**size**：使用数
+
+**Set<Map.Entry<K,V>>**：持有缓存的entrySet()。请注意：AbstactMap字段用于keySet()和values()。
+
+**Node<K,V>[]**：HashMap最上层的数据结构
 
 ### 常见问题
 
-#### 为什么使用HashMap？
+#### （1）为什么使用HashMap？
 
 Hashmap是用来存放键值对的。同时因为它基于hash表的实现，它可以实现快速的增删查改。在理想情况下，可以达到O（1）的查询速度。当然这只是理想状况。
 
-#### 装载因子为什么是0.75？
+#### （2）装载因子为什么是0.75？
 
 ```java
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
@@ -58,15 +84,11 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
 ![装载因子0.75与泊松分布没有关系](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/image-20220929135428498.png)
 
-#### 为什么长度是2的次幂？
+#### （3）为什么长度是2的次幂？
 
 - ##### 与“取余”等价的算法
 
-  取余操作中如果除数是2的幂次则等价于与其除数减一的与操作 ，也就是说
-
-  hash%length==hash&(length-1）的前提是length是2的 n 次方，
-
-  并且采用二进制位操作 ,相对于取余操作能够提高运算效率。
+  取余操作中如果除数是2的幂次则等价于与其除数减一的与操作 ，也就是说hash%length==hash&(length-1）的前提是length是2的 n 次方，并且采用二进制位操作 ,相对于取余操作能够提高运算效率。
 
 - ##### 扩容时方便定位
 
@@ -134,9 +156,15 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
   1. 能利用 & 操作代替 % 操作，提升性能
   2. 数组扩容时，仅仅关注 “特殊位” 就可以重新定位元素
 
-#### 如何解决哈希冲突？
+#### （4）如何解决哈希冲突？
 
-#### 为什么阈值为8树化，6再退化，8和6怎么来的？
+HashMap使用**拉链法**解决冲突：
+
+**所谓“拉链法” 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。**
+
+![hashmap的结构示意图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612002351185.png)
+
+#### （5）为什么阈值为8树化，6再退化，8和6怎么来的？
 
 - 阈值>=8，链表转红黑树。
 
@@ -173,17 +201,19 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
 - 阈值<=6，红黑树转链表。
 
-红黑树和链表的转换也需要性能，如果等于8就树化，小于8就转链表，hashmap就会在这中间反复横跳，影响性能。
+红黑树和链表的转换也需要性能，如果等于8就树化，小于8就转链表，hashmap就会在这中间反复横跳，影响性能，预留了一个缓冲。
 
-#### 为什么使用红黑树而不用B树 ？
+#### （6）为什么使用红黑树而不用B树 ？
 
 如果用 B/B+ 树 的话，在数据量不是很多的情况下，数据都会 “挤在” 一个结点里面，这个时候遍历效率就**退化**成了**链表**。
 
-#### **为什么size要大于64才进行树形化操作呢？**
+#### （7）**为什么数组容量要大于64才进行树形化操作呢？**
+
+ 假设数组容量是16初始容量，也发送了8次的哈希冲突，但是哈希冲突产生的原因是因为数组的容量太小，在进行数组运算时，将下标落在了一个位置上，也就是说并不是因为哈希冲突造成的链表长度过长，而是因为数组长度太小导致取余冲突问题，所以hashmap会优先进行容量扩容，直到达到64还是发生8次哈希冲突，就排除了由于数组长度太小造成的冲突问题。
 
 ### 源码篇
 
-#### hash()：计算在桶中的位置
+#### 一、hash()：计算在桶中的位置
 
 ```java
 static final int hash(Object key) {
@@ -197,8 +227,8 @@ tab[i] = newNode(hash, key, value, null);
 
 /*
  	1. h = key.hashCode()					取hashcode值
-    2. h ^ (h >>> 16)						高位参与运算（异或：同为0，异为1）
-    3. index = (n - 1) & hash				取模运算（与运算：同1得1，其他是0）
+    2. h ^ (h >>> 16)						将hashcode右移16位，再和原结果进行异或运算：高位参与运算（异或：同为0，异为1）
+    3. index = (n - 1) & hash				取模运算（按位与运算：同1得1，其他是0）
 */
 ```
 
@@ -206,7 +236,9 @@ tab[i] = newNode(hash, key, value, null);
 
 总结：
 
-1. 高位参与运算
+1. 为什么要右移16位而不是直接返回hashcode的值？
+
+   目的是让高位参与运算
 
    int有32位，h>>>16再异或key.hashcode()，被称为扰动函数，让高16位也参与到hashcode的取值中，**混合原始哈希码的高位和低位，以此来加大低位的随机性**。
 
@@ -216,9 +248,13 @@ tab[i] = newNode(hash, key, value, null);
 
    A：因为异或的计算法则是，同为0，异为1，00 11 01 10，数字0和1的四种组合情况，结果为1和0的各占50%，结果最平均。
 
-2. key是可以为null的，为null的key会被放在索引为0的槽位上。
+2. 为什么使用按位与&运算而不是取模运算？
 
-#### put()：放入元素
+   因为按位与运算要比取模运算的效率高的多，取模运算要进行进制转换，转换成10进制，而位运算是直接进行二进制操作。
+
+3. key是可以为null的，为null的key会被放在索引为0的槽位上。
+
+#### 二、put()：放入元素
 
 ```java
 public static void main(String[] args) {
@@ -240,16 +276,14 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     // 让tab指向该hashmap的底层数组，n指向该hashmap的容量
     // 如果数组空或者容量是0，说明map是刚刚创建，要先进行一次初始化操作。
     if ((tab = table) == null || (n = tab.length) == 0)
-        // resize()方法一会再说，这是只需要知道tab初始化好了，n现在指向了初始化之后的默认数组长度16，
+        // 第一次进行初始化操作，也就是扩容操作，并返回长度赋值给n。
         n = (tab = resize()).length;
     // 初始化好以后，i = (n - 1) & hash，是关键，这一步就是确定数组索引位置i。
-    // 并且让p这个Node，指向了数组中该位置。
-    // 如果这个位置空了
+    // 如果发现这个槽位空了
     if ((p = tab[i = (n - 1) & hash]) == null)
-        // 那么理所当然的，把这个Node放在数组的这个索引位置上。	
+        // 新建一个节点，next指向null，并赋值到当前下标位置。
         tab[i] = newNode(hash, key, value, null);
     // 如果这个不空，说明冲突了，下面就是拉链法解决冲突，或者树化，或者覆盖值的操作。
-    // 为了方便理解，下文的p，直接用tab[i]代替，代表当前数组位置上的对象。
     else {
         // e代表当前节点，k代表key值
         Node<K,V> e; K k;
@@ -272,9 +306,9 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                 if ((e = p.next) == null) {
                     // 直接尾插。
                     p.next = newNode(hash, key, value, null);
-                    // 如果遍历发现，长度>=8了
+                    // 如果遍历发现，长度>=8了，说明到达了链表树化的阈值。
                     if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-                        // 要树化链表
+                        // 要树化链表，转为红黑树
                         treeifyBin(tab, hash);
                     // 如果一直到最后e还是空，说明没有相同的key，这是一个插入操作，直接跳出循环
                     break;
@@ -308,7 +342,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     // 所以要计算修改的次数，并判断是不是需要扩容
     ++modCount;
     if (++size > threshold)
-        // 扩容
+        // 如果到达阈值要进行扩容
         resize();
     afterNodeInsertion(evict);
     return null;
@@ -319,7 +353,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 ![put流程图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/84561e1f9026499294f72b8b85004ae6.png)
 
-#### get()：获取元素
+#### 三、get()：获取元素
 
 ```java
 public static void main(String[] args) {
@@ -363,7 +397,7 @@ final Node<K,V> getNode(int hash, Object key) {
 }
 ```
 
-#### resize()：扩容
+#### 四、resize()：扩容
 
 > 这段代码比较难理解，要认真反复的看。
 >
@@ -385,7 +419,7 @@ final Node<K,V>[] resize() {
     int oldCap = (oldTab == null) ? 0 : oldTab.length;
     // oldThr用来存储当前阈值，也就是原阈值。
     int oldThr = threshold;
-    // 新容量，和新阈值，默认都为0
+    // 创建了新容量，和新阈值，默认都为0
     int newCap, newThr = 0;
     // 如果原容量大于0，说明这是初始化完毕的hashmap，准备扩容。
     if (oldCap > 0) {
@@ -411,20 +445,20 @@ final Node<K,V>[] resize() {
        	**/
         
         // oldCap << 1：相当于乘以2，也就是我们说的扩容2倍
-        // 扩容2倍赋值给newCap并且看看容量有没有超过最大阈值
+        // 扩容2倍赋值给newCap并且看看容量有没有超过最大阈值 并且 旧容量是否大于默认容量16
         else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                  oldCap >= DEFAULT_INITIAL_CAPACITY)
-            // 新阈值变为原来的2倍
+            // 如果都满足，新阈值变为原来的2倍
             newThr = oldThr << 1; // double threshold
     }
     
     // 走到这一步，说明map还没被初始化，因为上面才是初始化之后的扩容流程。
     // 没初始化，为什么原阈值还会大于0呢？
-    // 那只有三种情况，就是使用了hashmap的构造方法：
+    // 那只有三种情况，就是使用了hashmap的有参构造方法：
     // public HashMap(int initialCapacity, float loadFactor)
     // public HashMap(int initialCapacity)
     // public HashMap(Map m)
-    // 说明，初始化hashmap的时候，使用了构造方法指定了容量大小，构造方法里，设定了阈值。
+    // 说明，初始化hashmap的时候，使用了构造方法指定了容量大小，构造方法里的tableSizeFor()方法，设定了阈值的大小，但因为数组还没有创建，所以容量是0，阈值则为自修正的2的整数倍。
     
     /**
         <初始化流程>
@@ -433,7 +467,7 @@ final Node<K,V>[] resize() {
         原阈值：16 -> 新容量：16
        	**/
     else if (oldThr > 0) // initial capacity was placed in threshold
-        // 把原阈值赋值给新容量。因为构造方法里的tableSizeFor()方法，设定了阈值的大小就是容量的大小。
+        // 把原阈值赋值给新容量。
         newCap = oldThr;
     
     /**
@@ -445,9 +479,9 @@ final Node<K,V>[] resize() {
     // 如果到了这一步，说明原容量<=0。
     // 也就是调用了无参构造方法，没真正的初始化hashmap，
     else {               // zero initial threshold signifies using defaults
-        // 默认容量
+        // 默认容量 16
         newCap = DEFAULT_INITIAL_CAPACITY;
-        // 默认阈值。
+        // 默认阈值 12。
         newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
     }
     
@@ -465,6 +499,7 @@ final Node<K,V>[] resize() {
     if (newThr == 0) {
         // 计算新阈值。这就填补上上面的新阈值空缺的情况了
         float ft = (float)newCap * loadFactor;
+        // 这里也要判断容量是否大于容量上限
         newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
                   (int)ft : Integer.MAX_VALUE);
     }
@@ -483,13 +518,15 @@ final Node<K,V>[] resize() {
     // 下面就是扩容的核心流程
     // 说到这里，必须知道一个前置知识，就是jdk8中扩容的hash计算方式
     // 在上文《常见问题》中《为什么长度是2的次幂》有讲到，一定要看完再回来。
+    // 如果旧数组 == null，则不涉及数组迁移等操作，在最后直接返回即可。
     if (oldTab != null) {
-        // 遍历整个旧数组
+        // 遍历整个旧数组，把数组上面的节点取出一个一个处理
         for (int j = 0; j < oldCap; ++j) {
             // 创建一个临时变量e，后续都是把旧数组位置上的node指向e
             Node<K,V> e;
-            // 如果这个位置上的元素不空
+            // 如果这个位置上的元素空了，就不进行处理。有数据则处理。
             if ((e = oldTab[j]) != null) {
+                // 把旧数组的当前位置设为null
                 oldTab[j] = null;
                 // 如果e的next为空，说明该槽位并没有链表或者树，只有一个节点
                 if (e.next == null)
@@ -518,13 +555,19 @@ final Node<K,V>[] resize() {
                     **/
                     do {
                         next = e.next;
+                        // 与运算结果=0，槽位不变。
                         if ((e.hash & oldCap) == 0) {
+                            // 看当前节点是不是第一个节点
                             if (loTail == null)
+                                // 如果是，则把该节点放到头部
                                 loHead = e;
                             else
+                                // 如果不是，把该节点链接到尾部
                                 loTail.next = e;
+                            // 最后当前节点指向尾部
                             loTail = e;
                         }
+                        // 与运算结果=1，槽位变化。
                         else {
                             if (hiTail == null)
                                 hiHead = e;

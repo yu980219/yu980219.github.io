@@ -233,7 +233,7 @@ Zookeeper树型目录服务：
 
 **查看服务状态**：./zkServer.sh status
 
-![查看服务状态](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230403231958857.png)
+![查看服务状态](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230403231958858.png)
 
 ## 四、Dubbo快速入门
 

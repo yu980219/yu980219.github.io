@@ -1,3 +1,13 @@
+---
+title: MySQL架构篇
+tags: [MySQL]
+categories:
+  - 后端
+  - MySQL
+  - MySQL进阶
+index_img: /img/default.jpeg
+date: 2022-10-30 22:19:20
+---
 # **MySQL架构篇**
 
 ## **一、MySQL服务器环境**

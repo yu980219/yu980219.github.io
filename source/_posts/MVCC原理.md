@@ -3,8 +3,8 @@ title: MVCC原理
 tags: [MVCC]
 categories:
   - 后端
-  - MySQL进阶
   - MySQL
+  - MySQL进阶
 index_img: /img/default.jpeg
 date: 2022/9/21 10:48:00
 ---

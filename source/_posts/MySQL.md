@@ -3,6 +3,7 @@ title: MySQL
 tags: [MySQL]
 categories:
   - 后端
+  - MySQL基础
   - MySQL
 index_img: /img/default.jpeg
 date: 2021/12/28 23:41:00

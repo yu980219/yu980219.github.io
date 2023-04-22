@@ -276,7 +276,7 @@ T3时刻，表 `tab_user` 中 `id` 为 `1 `的记录得到的版本链表如下�
 
 T5时刻，表 `tab_user` 中 `id` 为 `1` 的记录的版本链就长这样：
 
-![图片13 - 副本](C:/Users/Administrator/Desktop/markdown%E5%9B%BE%E7%89%87%E4%B8%B4%E6%97%B6%E5%AD%98%E5%82%A8/%E5%9B%BE%E7%89%8713%20-%20%E5%89%AF%E6%9C%AC.png)
+![image-20230423012825070](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012825070.png)
 
 这个 `SELECT02` 的执行过程如下：
 
@@ -385,7 +385,7 @@ LEFT JOIN PERFORMANCE_SCHEMA.events_statements_current d ON d.THREAD_ID = c.THRE
 
 **代码与执行流程与RC案例完全相同，唯一不同的是事务隔离级别。**
 
-![图片15 - 副本](C:/Users/Administrator/Desktop/markdown%E5%9B%BE%E7%89%87%E4%B8%B4%E6%97%B6%E5%AD%98%E5%82%A8/%E5%9B%BE%E7%89%8715%20-%20%E5%89%AF%E6%9C%AC.png)
+![image-20230423012843570](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012843570.png)
 
 这个 `SELECT1` 的执行过程如下：
 
@@ -399,7 +399,7 @@ LEFT JOIN PERFORMANCE_SCHEMA.events_statements_current d ON d.THREAD_ID = c.THRE
 
 T5时刻，表 `t` 中 `id` 为 1 的记录的版本链就长这样：
 
-![图片16 - 副本](C:/Users/Administrator/Desktop/markdown%E5%9B%BE%E7%89%87%E4%B8%B4%E6%97%B6%E5%AD%98%E5%82%A8/%E5%9B%BE%E7%89%8716%20-%20%E5%89%AF%E6%9C%AC.png)
+![image-20230423012902368](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012902368.png)
 
 这个 `SELECT2` 的执行过程如下：
 

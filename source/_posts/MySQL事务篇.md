@@ -207,7 +207,7 @@ ReadView是张存储事务id的表，主要包含当前系统中有哪些活跃�
 - **m_up_limit_id**：事务id上限，表示生成ReadView时，系统中应该分配给下一个事务的id值
 - **m_creator_trx_id**：表示生成该ReadView的事务的事务id
 
-![photo10](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/%E5%9B%BE%E7%89%8710%20-%20%E5%89%AF%E6%9C%AC.png)
+![image-20230423012445524](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012445524.png)
 
 ##### 2）ReadView怎么产生，什么时候生成？
 
@@ -258,7 +258,7 @@ ReadView是张存储事务id的表，主要包含当前系统中有哪些活跃�
 
 T3时刻，表 `tab_user` 中 `id` 为 `1 `的记录得到的版本链表如下所示：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_shiwu/%E5%9B%BE%E7%89%8711%20-%20%E5%89%AF%E6%9C%AC.png)
+![image-20230423012527952](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012527952.png)
 
 这个 `SELECT01` 的执行过程如下：
 

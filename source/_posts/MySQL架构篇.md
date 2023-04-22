@@ -6,7 +6,7 @@ categories:
   - MySQL
   - MySQL进阶
 index_img: /img/default.jpeg
-date: 2022-10-30 22:19:20
+date: 2021-12-25 04:59:22
 ---
 # **MySQL架构篇**
 
@@ -206,19 +206,13 @@ select c_id,first_name,last_name from customer where c_id=14;
 
 2. **存储引擎层：**
 
+     - 负责数据的存储和提取
 
-      - 负责数据的存储和提取
+     - 可插拔式存储引擎：InnoDB、MyISAM、Memory 等
 
+     - 最常用存储引擎是InnoDB
 
-      - 可插拔式存储引擎：InnoDB、MyISAM、Memory 等
-
-
-      - 最常用存储引擎是InnoDB
-
-
-      -  从MySQL 5.5版本开始，默认是InnoDB
-
-
+     -  从MySQL 5.5版本开始，默认是InnoDB
 
 ![执行流程](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%871.png)
 
@@ -488,7 +482,7 @@ create table t_myisam(a int primary key, b int) engine=myisam;
 
 ### **3.2 InnoDB架构图**
 
-![InnoDB架构图](C:/Users/Administrator/Desktop/markdown%E5%9B%BE%E7%89%87%E4%B8%B4%E6%97%B6%E5%AD%98%E5%82%A8/%E5%9B%BE%E7%89%8710.png)
+![innoDb架构图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8725.jpg)
 
 上图详细展示了InnoDB存储引擎的体系架构，从图中可见，InnoDB存储引擎由**内存结构、磁盘结构**两部分组成。
 
@@ -518,7 +512,7 @@ InnoDB 内存结构主要分为如下四个区域：
 
 - 对于 Buffer Pool 中数据的修改，InnoDB 直接在 Buffer Pool 中修改，并将修改写入 redo Log 中，当数据页被 LRU 算法淘汰时写入磁盘，若持久化前系统崩溃，则在重启后使用 redo Log 进行恢复。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8713.png)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8726.jpg)
 
 ```mysql
 # 查看innodb存储引擎状态，包含缓冲池、修改缓冲、自适应哈希状态信息、日志缓冲等信息...
@@ -527,7 +521,7 @@ mysql> show engine innodb status;
 mysql> show variables like 'innodb_buffer_pool_size';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8712.png)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8729.jpg)
 
 #### **2）修改缓冲(Change Buffer)**
 
@@ -539,14 +533,14 @@ Change Buffer 大小默认占 Buffer Pool 的 25%，最大50%，在引擎启动�
 >
 > **聚簇索引**也叫聚集索引，索引组织表，指的**是一种数据存储方式，指数据与索引的数据结构存储在一起**。如 InnoDB 的主键索引中所有叶子节点都存储了对应行的数据。因为数据肯定只是存储在一个地方，所以一个表只能有一个聚集索引。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL进阶/%E5%9B%BE%E7%89%8715.png)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8730.jpg)
 
 - 周期性合并二级索引页
 
 - 周期性净化磁盘中二级索引页
 
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8716.png)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8727.jpg)
 
 #### **3）自适应哈希索引(AHI)**
 
@@ -556,7 +550,7 @@ AHI 的大小为 Buffer Pool 的 1/64，在 MySql 5.7 之后支持分区，以�
 
 AHI 所作用的目标是频繁查询的数据页和索引页，而由于数据页是聚簇索引的一部分，因此 AHI 是建立在索引之上的索引，**对于二级索引，若命中 AHI，则将直接从 AHI 获取二级索引页的记录指针，再根据主键沿着聚簇索引查找数据；若聚簇索引查询同样命中 AHI，则直接返回目标数据页的记录指针，此时就可以根据记录指针直接定位数据页**。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8717.png)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8728.jpg)
 
 ```mysql
 # 查看innodb存储引擎状态，包含自适应哈希状态信息

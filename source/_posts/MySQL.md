@@ -5,7 +5,7 @@ categories:
   - 后端
   - MySQL
   - MySQL基础
-index_img: /img/default.jpeg
+index_img: /img/mysql.jpeg
 date: 2021/12/28 23:41:00
 ---
 # MySQL

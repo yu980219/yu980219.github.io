@@ -5,7 +5,7 @@ categories:
   - 后端
   - MySQL
   - MySQL进阶
-index_img: /img/default.jpeg
+index_img: /img/mysql.jpeg
 date: 2021-12-25 04:59:22
 ---
 # **MySQL架构篇**

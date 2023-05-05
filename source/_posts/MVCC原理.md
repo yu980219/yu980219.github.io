@@ -5,7 +5,7 @@ categories:
   - 后端
   - MySQL
   - MySQL进阶
-index_img: /img/default.jpeg
+index_img: /img/mysql.jpeg
 date: 2022/9/21 10:48:00
 ---
 

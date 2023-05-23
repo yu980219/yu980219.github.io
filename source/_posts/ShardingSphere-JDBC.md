@@ -9,8 +9,6 @@ date: 2022-07-23 12:48:19
 ---
 # ShardingSphere-JDBC
 
-FROM：索尔老师
-
 ## 一、ShardingSphere介绍
 
 ### 1.Apache ShardingSphere
@@ -1419,3 +1417,7 @@ SELECT * FROM t_order WHERE id > 10000000 LIMIT 10;
 归并引擎的整体结构划分如下图。
 
 ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010917074.png)
+
+**文献来源：**
+
+[Sharding-JDBC+Mycat，从原理到配置](https://www.bilibili.com/video/BV1CL4y157ie)

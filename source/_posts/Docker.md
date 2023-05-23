@@ -2282,6 +2282,599 @@ kv被存放在了13节点上，也就是redis-3上
 
 ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013856589.png)
 
-### 7.6 SpringBoot微服务打包Docker镜像
+## 八、Docker整合
 
-...
+### 8.1 SpringBoot微服务打包Docker镜像
+
+1. 准备好一个springboot项目：myfavorites-0.0.1-SNAPSHOT.jar，拷贝到linux中。
+
+2. 在同级文件夹下，创建dockerfile文件
+
+   vim Dockerfile
+
+   ```dockerfile
+   FROM java:8
+   VOLUME /tmp
+   ADD myfavorites-0.0.1-SNAPSHOT.jar springboot.jar
+   EXPOSE 8080
+   ENTRYPOINT ["java","-jar","/springboot.jar"]
+   ```
+
+   保存并退出。
+
+   > FROM：表示基础镜像，即运行环境
+   >
+   > VOLUME：/tmp创建/tmp目录并持久化到Docker数据文件及，因为SpringBoot使用的内嵌Tomcat容器默认使用/Tmp作为工作目录
+   >
+   > ADD：拷贝文件并且重命名（ADD myfavorites-0.0.1-SNAPSHOT.jar springboot.jar 将应用jar包复制到/springboot.jar）
+   >
+   > EXPOSE：并不是真正的发布端口，这个只是容器部署人员与监理image的人员之间的交流，即监理image的人员告诉容器部署人员容器应该映射哪个端口给外界
+   >
+   > ENTRYPOINT：容器启动时运行的命令，相当于我们在命令行中输入 java -jar xxx.jar
+
+3. 构建镜像
+
+   ```shell
+   docker build -t springboot .
+   ```
+
+4. 完成容器的创建
+
+   上一步结束后，docker images 就可以发现 该镜像，基于该镜像，完成容器的创建。
+
+   把所有容器全部停掉：docker stop $(docker ps -a -q)
+
+   运行容器（这里可以运行两个，暴露不同的端口号）：
+
+   docker run -d --name springboot-8080 -p 8080:8080 --rm springboot
+
+   docker run -d --name springboot-8081 -p 8081:8080 --rm springboot
+
+5. 访问页面
+
+   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519013039430.png)
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519013205117.png)
+
+8080和8081都能访问成功。
+
+### 8.2 IDEA集成Docker实现镜像打包一键部署
+
+Idea集成docker实现镜像打包一键部署
+
+#### 1）Docker开启远程访问
+
+```shell
+#修改该Docker服务文件
+vi /lib/systemd/system/docker.service
+#修改ExecStart这行
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+```
+
+> 将文件内的 ExecStart注释。 新增如上行。
+> #ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375-H unix:///var/run/docker.sock
+
+```shell
+#重新加载配置文件
+systemctl daemon-reload
+#重启服务
+systemctl restart docker.service
+#查看端口是否开启
+netstat -nlpt #如果找不到netstat命令，可进行安装。yum install net-tools
+#直接curl看是否生效
+curl http://127.0.0.1:2375/info
+```
+
+#### 2）IDEA安装Docker插件
+
+> 打开Idea，从File->Settings->Plugins->Install JetBrains plugin进入插件安装界面，
+>
+> 在搜索框中输入docker，可以看到Docker integration，点击右边的Install按钮进行安装。
+>
+> 安装后重启Idea。
+
+#### 3）IDEA配置docker
+
+配置docker，连接到远程docker服务。
+
+从File->Settings->Build,Execution,Deployment->Docker打开配置界面
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519015408579.png)
+
+开放防火墙端口命令：
+
+```shell
+# 查看已经开放的端口
+firewall-cmd --list-ports
+# 开放 2375
+firewall-cmd --zone=public --add-port=2375/tcp --permanent
+# 重启防火墙
+firewall-cmd --reload
+# 再次查看 2375 是否已经开放
+firewall-cmd --list-ports
+```
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519015610707.png)
+
+对着镜像右键，进行create创建容器操作
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519020103781.png)
+
+启动后，再次访问测试接口
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519020300382.png)
+
+#### 4）docker-maven-plugin
+
+传统过程中，打包、部署、等。
+
+而在持续集成过程中，项目工程一般使用 Maven 编译打包，然后生成镜像，通过镜像上线，能够大大提供上线效率，同时能够快速动态扩容，快速回滚，着实很方便。docker-maven-plugin 插件就是为了帮助我们在Maven工程中，通过简单的配置，自动生成镜像并推送到仓库中。
+
+**pom.xml**
+
+```xml
+<properties>
+    <docker.image.prefix>guoweixin</docker.image.prefix>
+</properties>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>1.0.0</version>
+        </plugin>
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+                <!-- 镜像名称 guoweixin/exam-->
+                <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                <!--指定标签-->
+                <imageTags>
+                    <imageTag>latest</imageTag>
+                </imageTags>
+                <!-- 基础镜像jdk 1.8-->
+                <baseImage>java</baseImage>
+                <!-- 制作者提供本人信息 -->
+                <maintainer>guoweixin guoweixin@aliyun.com</maintainer>
+                <!--切换到/ROOT目录 -->
+                <workdir>/ROOT</workdir>
+                <cmd>["java", "-version"]</cmd>
+                <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+                <!-- 指定 Dockerfile 路径
+<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+-->
+                <!--指定远程 docker api地址-->
+                <dockerHost>http://192.168.20.135:2375</dockerHost>
+                <!-- 这里是复制 jar 包到 docker 容器指定目录配置 -->
+                <resources>
+                    <resource>
+                        <targetPath>/ROOT</targetPath>
+                        <!--用于指定需要复制的根目录，${project.build.directory}表示target目录-->
+                        <directory>${project.build.directory}</directory>
+                        <!--用于指定需要复制的文件。${project.build.finalName}.jar指的是打包后的jar包文件。-->
+                        <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+**Dockerfile**
+
+如上用docker-maven插件 自动生成如下文件：
+
+```dockerfile
+FROM java
+MAINTAINER guoweixin guoweixin@aliyun.com
+WORKDIR /ROOT
+ADD /ROOT/qfnj-0.0.1-SNAPSHOT.jar /ROOT/
+ENTRYPOINT ["java", "-jar", "qfnj-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-version"]
+```
+
+#### 5）执行命令
+
+对项目进行 打包。并构建镜像 到Docker 上。
+
+```cmd
+mvn clean package docker:build
+```
+
+#### 6）IDEA操作Docker
+
+#### 7）扩展配置
+
+绑定Docker 命令到 Maven 各个阶段
+
+> 我们可以绑定 Docker 命令到 Maven 各个阶段。
+>
+> 我们可以把 Docker 分为 build、tag、push，然后分别绑定 Maven 的 package、deploy 阶段。
+>
+> 我们只需要执行 mvn deploy 就可以完成整个 build、tag、push操作了，当我们执行 mvn build 就只完成build、tag 操作。
+
+```xml
+<executions>
+    <!--当执行mvn package 时，执行： mvn clean package docker:build -->
+    <execution>
+        <id>build-image</id>
+        <phase>package</phase>
+        <goals>
+            <goal>build</goal>
+        </goals>
+    </execution>
+    <!--当执行mvn package 时，会对镜像进行 标签设定-->
+    <execution>
+        <id>tag-image</id>
+        <phase>package</phase>
+        <goals>
+            <goal>tag</goal>
+        </goals>
+        <configuration>
+            <image>${docker.image.prefix}/${project.artifactId}:latest</image>
+            <newName>docker.io/${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+        </configuration>
+    </execution>
+    <execution>
+        <id>push-image</id>
+        <phase>deploy</phase>
+        <goals>
+            <goal>push</goal>
+        </goals>
+        <configuration>
+            <imageName>docker.io/${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
+        </configuration>
+    </execution>
+</executions>
+```
+
+总结：
+
+当我们执行 `mvn package` 时，执行 build、tag 操作，
+
+当执行 `mvn deploy` 时，执行build、tag、push 操作。
+
+如果我们想跳过 docker 某个过程时，只需要：
+
+- `-DskipDockerBuild` 跳过 build 镜像
+- `-DskipDockerTag` 跳过 tag 镜像
+- `-DskipDockerPush` 跳过 push 镜像
+- `-DskipDocker` 跳过整个阶段
+
+例如：我们想执行 package 时，跳过 tag 过程，那么就需要 `mvn package -DskipDockerTag`
+
+### 8.3 Idea整合Docker CA加密认证
+
+前面提到的配置是允许所有人都可以访问的，因为docker默认是root权限的，把2375端口暴露在外面，意味着别人随时都可以提取到你服务器的root权限，是很容易被黑客黑的，因此,docker官方推荐使用加密的tcp连接，以Https的方式与客户端建立连接。
+
+官方示例Demo：
+
+https://docs.docker.com/engine/security/https/#create-a-ca-server-and-client-keys-with-openssl
+
+#### Docker认证命令配置
+
+##### 1）创建ca文件夹，存放CA私钥和公钥
+
+```shell
+mkdir -p /usr/local/ca 
+cd /usr/local/ca/
+```
+
+##### 2）生成CA私钥和公钥
+
+```shell
+openssl genrsa -aes256 -out ca-key.pem 4096
+```
+
+输入密码时，输入两次相同的密码，并且后面会用到。
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522025233486.png)
+
+##### 3）依次输入密码、国家、省、市、组织名称、邮箱等
+
+```shell
+openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem
+```
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522024709823.png)
+
+现在已经有了CA，接下来创建一个服务器密钥和证书签名请求(CSR)。确保“公用名”与你用来连接到Docker的主机名匹配。
+
+##### 4）生成server-key.pem
+
+```shell
+openssl genrsa -out server-key.pem 4096
+```
+
+##### 5）CA来签署公钥
+
+由于TLS连接可以通过IP地址和DNS名称进行，所以在创建证书时需要指定IP地址。例如，允许使用10.10.10.20 和127.0.0.1进行连接: ]
+
+$Host换成你自己服务器外网的IP或者域名
+
+```shell
+openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr
+ 比如
+openssl req -subj "/CN=192.168.20.135" -sha256 -new -key server-key.pem -out server.csr 
+ 或
+openssl req -subj "/CN=www.javaqf.com" -sha256 -new -key server-key.pem -out server.csr
+```
+
+本地是局域网： 
+
+```shell
+openssl req -subj "/CN=192.168.31.212" -sha256 -new -key server-key.pem -out server.csr
+```
+
+##### 6）配置白名单
+
+1 允许指定ip可以连接到服务器的docker，可以配置ip，用逗号分隔开。
+
+2 因为已经是ssl连接，所以我推荐配置0.0.0.0,也就是所有ip都可以连接(但只有拥有证书的才可以连接成功)，这样配置好之后公司其他人也可以使用。
+
+```shell
+如果填写的是ip地址 命令如下 echo subjectAltName = IP:$HOST,IP:0.0.0.0 >> extfile.cnf 
+如果填写的是域名 命令如下 echo subjectAltName = DNS:$HOST,IP:0.0.0.0 >> extfile.cnf
+```
+
+上面的$Host依旧是你服务器外网的IP或者域名，请自行替换。
+
+```
+echo subjectAltName = IP:192.168.31.212,IP:0.0.0.0 >> extfile.cnf
+```
+
+##### 7）执行命令
+
+将Docker守护程序密钥的扩展使用属性设置为仅用于服务器身份验证:
+
+```shell
+echo extendedKeyUsage = serverAuth >> extfile.cnf
+```
+
+##### 8）生成签名证书
+
+```shell
+openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem \
+-CAcreateserial -out server-cert.pem -extfile extfile.cnf
+```
+
+##### 9）生成客户端的key.pem
+
+```shell
+openssl genrsa -out key.pem 4096 
+openssl req -subj '/CN=client' -new -key key.pem -out client.csr
+```
+
+##### 10）要使密钥适合客户端身份验证
+
+创建扩展配置文件:
+
+```shell
+echo extendedKeyUsage = clientAuth >> extfile.cnf 
+echo extendedKeyUsage = clientAuth > extfile-client.cnf
+```
+
+##### 11）现在，生成签名证书
+
+```shell
+openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem \
+-CAcreateserial -out cert.pem -extfile extfile-client.cnf
+```
+
+生成cert.pem,需要输入前面设置的密码
+
+##### 12）删除不需要的文件，两个证书签名请求
+
+生成cert.pem和server-cert之后。您可以安全地删除两个证书签名请求和扩展配置文件:
+
+```shell
+rm -v client.csr server.csr extfile.cnf extfile-client.cnf
+```
+
+##### 13）可修改权限
+
+要保护您的密钥免受意外损坏，请删除其写入权限。要使它们只能被您读取，更改文件模式
+
+```shell
+chmod -v 0400 ca-key.pem key.pem server-key.pem
+```
+
+证书可以是对外可读的，删除写入权限以防止意外损坏
+
+```shell
+chmod -v 0444 ca.pem server-cert.pem cert.pem
+```
+
+##### 14）归集服务器证书
+
+```shell
+cp server-*.pem /etc/docker/ 
+cp ca.pem /etc/docker/
+```
+
+##### 15）修改Docker配置
+
+使Docker守护程序仅接受来自提供CA信任的证书的客户端的连接
+
+```shell
+vim /lib/systemd/system/docker.service 
+将
+ExecStart=/usr/bin/dockerd 
+替换为： 
+ExecStart=/usr/bin/dockerd --tlsverify --tlscacert=/usr/local/ca/ca.pem --tlscert=/usr/local/ca/server-cert.pem --tlskey=/usr/local/ca/server-key.pem -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+```
+
+##### 16）重新加载daemon并重启docker
+
+```shell
+systemctl daemon-reload 
+systemctl restart docker
+```
+
+##### 17）开放2375端口
+
+```shell
+/sbin/iptables -I INPUT -p tcp --dport 2375 -j ACCEPT
+```
+
+##### 18）重启docker
+
+```shell
+systemctl restart docker
+```
+
+#### IDEA操作Docker
+
+##### 1）保存相关客户端的pem文件到本地
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030158213.png)
+
+2）IDEA CA配置
+
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030617839.png)
+
+PS：如果配置package一键部署，需要把pom中的http改为https
+
+![image-20230522030736946](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030736946.png)
+
+## 九、Docker Compose
+
+### **思考**
+
+前面我们使用 Docker 的时候，定义 Dockerfile 文件，然后使用 docker build、docker run -d --name -p等命令操作容器。然而微服务架构的应用系统一般包含若干个微服务，每个微服务一般都会部署多个实例，如果每个微服务都要手动启停，那么效率之低，维护量之大可想而知
+
+**使用 Docker Compose 可以轻松、高效的管理容器，它是一个用于定义和运行多容器 Docker 的应用程序工具**
+
+### **简介**
+
+`Docker Compose` 是 Docker 官方编排（Orchestration）项目之一，**负责快速的部署分布式应用**。
+
+### 描述
+
+`Compose` 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。从功能上看，跟 `OpenStack`中的 `Heat` 十分类似。
+
+其代码目前在 https://github.com/docker/compose 上开源。
+
+`Compose` 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multi-container Docker applications）」，其前身是开源项目 Fig。
+
+通过第一部分中的介绍，我们知道使用一个 Dockerfile 模板文件，可以让用户很方便的定义一个单独的应用容器。然而，在日常工作中，经常会碰到需要多个容器相互配合来完成某项任务的情况。例如要实现一个 Web 项目，除了 Web 服务容器本身，往往还需要再加上后端的数据库服务容器，甚至还包括负载均衡容器等。
+
+`Compose` 恰好满足了这样的需求。它允许用户通过一个单独的 `docker-compose.yml` 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）。
+
+`Compose` 中有两个重要的概念：
+
+- 服务 ( `service` )：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
+- 项目 ( `project` )：由一组关联的应用容器组成的一个完整业务单元，在 `docker-compose.yml` 文件中定义。
+
+`Compose` 的默认管理对象是项目，通过子命令对项目中的一组容器进行便捷地生命周期管理。
+
+`Compose` 项目由 Python 编写，实现上调用了 Docker 服务提供的 API 来对容器进行管理。因此，只要所操作的平台支持 Docker API，就可以在其上利用 `Compose` 来进行编排管理。
+
+### Docker Compose使用
+
+#### 术语
+
+> 首先介绍几个术语。
+>
+> - 服务 ( service )：一个应用容器，实际上可以运行多个相同镜像的实例。
+> - 项目 ( project )：由一组关联的应用容器组成的一个完整业务单元。
+>
+> 可见，一个项目可以由多个服务（容器）关联而成， Compose 面向项目进行管理。
+
+#### Docker-compose创建容器
+
+> 通过一个单独的 docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）。
+
+##### 示例：
+
+**用compose的方式创建3个springboot服务**
+
+```shell
+#1 管理文件夹，创建相应的目录
+[root@MiWiFi-R4A-srv ~]# mkdir -p /opt/docker-boot-cluster
+[root@MiWiFi-R4A-srv ~]# cd /opt/docker-boot-cluster/
+```
+
+#2 在如上目录中 编写创建 `docker-compose.yml`配置文件
+
+编写 docker-compose.yml 文件，这个是 Compose 使用的主模板文件。
+
+```yml
+version: '3.1'
+services:
+  boot-8080:
+    restart: always
+    image: yu/myfavorites
+    container_name: boot-8080
+    ports:
+      - 8080:8080
+  boot-8081:
+    restart: always
+    image: yu/myfavorites
+    container_name: boot-8081
+    ports:
+      - 8081:8080
+  boot-8082:
+    restart: always
+    image: yu/myfavorites
+    container_name: boot-8082
+    ports:
+      - 8082:8080
+```
+
+```shell
+#3 启动(执行命令创建容器)
+docker-compose up -d
+```
+
+#默认执行的文件名：docker-compose.yml(且需要在当前上下文路径中) 。如果说文件名不是默认的需要使用下面的指令：
+
+```shell
+docker-compose -f 文件名.后缀名 up –d
+```
+
+##### **测试：**
+
+分别访问8080，8081，8082端口的接口，调用成功。
+
+#### Docker-compose 常用命令
+
+> build 构建或重建服务
+> help 命令帮助
+> kill 杀掉容器
+> logs 显示容器的输出内容
+> port 打印绑定的开放端口
+> ps 显示容器
+> pull 拉取服务镜像
+> restart 重启服务
+> rm 删除停止的容器
+> run 运行一个一次性命令
+> scale 设置服务的容器数目
+> start 开启服务
+> stop 停止服务
+> up 创建并启动容器
+> down
+
+#### 常用命令示例：
+
+> docker-compose up -d nginx 构建启动nignx容器
+> docker-compose exec nginx bash 登录到nginx容器中
+> docker-compose down 删除所有nginx容器,镜像
+> docker-compose ps 显示所有容器
+> docker-compose restart nginx 重新启动nginx容器
+> docker-compose run --no-deps --rm php-fpm php -v 在php-fpm中不启动关联容器，并容器执行php -v 执行完成后删除容器
+> docker-compose build nginx 构建镜像 。
+> docker-compose build --no-cache nginx 不带缓存的构建。
+> docker-compose logs nginx 查看nginx的日志
+> docker-compose logs -f nginx 查看nginx的实时日志
+> docker-compose config -q 验证（docker-compose.yml）文件配置，当配置正确时，不输出任何内容，当文件配置错误，输出错误信息。
+> docker-compose events --json nginx 以json的形式输出nginx的docker日志
+> docker-compose pause nginx 暂停nignx容器
+> docker-compose unpause nginx 恢复ningx容器
+> docker-compose rm nginx 删除容器（删除前必须关闭容器）
+> docker-compose stop nginx 停止nignx容器
+> docker-compose start nginx 启动nignx容器

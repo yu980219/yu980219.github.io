@@ -1,6 +1,6 @@
 ---
-title: Redis
-tags: [Redis, Java]
+title: Redis基础
+tags: [redis, Java]
 categories:
   - 后端
   - Redis
@@ -8,13 +8,7 @@ index_img: /img/default.jpeg
 date: 2020-10-06 23:44:42
 ---
 
-> 最近学习了b站上老师讲的Redis入门课程，老师讲的很基础，从最初的Redis安装到搭建集群，到最后的问题讲解。适合刚刚接触Redis和想要复习Redis的初学者，在这里和老师的笔记做了个同步文档，希望可以对大家有帮助。
->
-> 教程来源：[Redis超详细版教程通俗易懂](https://www.bilibili.com/video/BV1FZ4y1u7ny)
->
->
-> 因为这里没有用docker，所以5.1章节抽取本站教程转载。
-# Redis
+# Redis基础
 
 ## 一、Redis介绍
 
@@ -66,24 +60,22 @@ NoSQL只是一种概念，泛指非关系型数据库，和关系型数据库做
 
 Redis（Remote Dictionary Server）远程字典服务，由C语言去编写，所以不需要java环境。
 
-
-
 ## 二、Redis安装
 
 ### 2.1 下载中文版Redis可视化软件
 
 <font size=5 color=orange>RedisDesktopManager</font>
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201006233000439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1OTgwMjE5,size_16,color_FFFFFF,t_70#pic_center)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233000439.png)
 
 
 ### 2.2 为Redis赋值
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201006233023172.png#pic_center)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233023172.png)
 
 
 ### 2.3 在Redis中查看
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201006233047923.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1OTgwMjE5,size_16,color_FFFFFF,t_70#pic_center)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233047923.png)
 
 
 
@@ -116,7 +108,7 @@ Redis（Remote Dictionary Server）远程字典服务，由C语言去编写，�
   
   BIT：一般存储的也是一个字符串，存储的是一个byte[]
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201006233124892.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1OTgwMjE5,size_16,color_FFFFFF,t_70#pic_center)
+![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233124892.png)
 
 应用：
 
@@ -474,7 +466,7 @@ public class User implements Serializable {
 }
 ```
 
-> 		导入spring-context依赖
+导入spring-context依赖
 
 >创建Demo类，编写测试内容
 
@@ -720,7 +712,7 @@ OK
 
 #### 4. 在命令行客户端配置密码（redis重启前有效）
 
-前面介绍了通过`redis.conf`配置密码，这种配置方式需要重新启动Redis。也可以通命令行客户端配置密码，这种配置方式不用重新启动Redis。配置方式如下：
+前面介绍了通过`redis.conf`配置密码，这种配置方式需要重新启动Redis。也可以通命令行客户端配置密码，这种配置方式不用重新启动Redis。配置方式如下：
 
 ```sh
 127.0.0.1:6379> config set requirepass newPassword
@@ -743,15 +735,14 @@ OK
 #### 6. Jedis客户端中使用auth
 
 ```java
-//连接Redis
+	//连接Redis
     Jedis jedis=new Jedis("192.168.200.130",6379);
     jedis.auth("123");
 ```
 
 ```java
-//创建连接池（3000：超时时间；123：auth密码）
+	//创建连接池（3000：超时时间；123：auth密码）
 	JedisPool pool=new JedisPool(poolConfig,"192.168.200.130",6379,3000,"123");
-
 ```
 
 ### 5.2 Redis的事务
@@ -780,7 +771,7 @@ RDB是Redis默认的持久化机制
 > 2. RDB持久化的时机：
 >
 >    save 900 1：在900秒内，有1个key改变了，就执行RDB持久化。
->     save 300 10：在300秒内，有10个key改变了，就执行RDB持久化。
+>    save 300 10：在300秒内，有10个key改变了，就执行RDB持久化。
 >    save 60 10000：在6秒内，有10000个key改变了，就执行RDB持久化。
 > 
 > 3. RDB无法保证数据的绝对安全。
@@ -794,18 +785,18 @@ dbfilename redis.rdb
 
 ----
 
-> 		AOF持久化机制默认是关闭的，Redis官方推荐同时开启RDB和AOF持久化，更安全，避免数据丢失。
->	
+> 	AOF持久化机制默认是关闭的，Redis官方推荐同时开启RDB和AOF持久化，更安全，避免数据丢失。
+>			
 > 	1. AOF持久化的速度，相对RDB是较慢的，存储的是一个文本文件，到了后期文件会比较大，传输困难。
->	
+>			
 > 	2. AOF的持久化时机。
->	
+>			
 > 	  appendfsync always：每执行一个写操作，立即持久化到AOF文件中，性能比较低。
->	
+>			
 > 	  appendfsync everysec：每秒执行一次持久化。
->	
+>			
 > 	  appendfsync no：会根据你的操作系统不同，环境的不同，在一定时间内执行一次持久化。
->	
+>			
 > 	3. AOF相对RDB更安全，推荐同时开启AOF和RDB。
 
 ```sh
@@ -965,3 +956,9 @@ cluster-announce-bus-port 17001
 1.扩展主从架构，搭建大量的从节点，缓解Redis的压力。
 
 2.可以在Tomcat中JVM缓存，在查看Redis之前，先去查询Tomcat中的缓存。
+
+**文献来源：**
+
+[Redis超详细版教程通俗易懂](https://www.bilibili.com/video/BV1FZ4y1u7ny)
+
+[详解Redis使用认证密码登录](https://www.jb51.net/article/115775.htm)

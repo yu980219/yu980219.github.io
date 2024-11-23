@@ -1,0 +1,13 @@
+新电脑
+安装hexo：npm install -g hexo-cli
+查看hexo版本：hexo -version
+hexo init # 初始化hexo
+npm install # 安装组件
+生成页面：hexo g
+预览：hexo s
+上传页面到git：hexo d
+
+更新项目
+git上传项目到master
+hexo g生成页面
+hexo d上传

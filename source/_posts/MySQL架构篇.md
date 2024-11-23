@@ -20,7 +20,7 @@ date: 2021-12-25 04:59:22
 
 ### **2.1 逻辑架构图**
 
-![逻辑架构图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%873.png)
+![逻辑架构图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254857.png)
 
 - **Connectors连接器：**负责跟客户端建立连接
 - **Management Serveices & Utilities系统管理和控制工具**
@@ -57,7 +57,7 @@ MySQL是通过文件系统对数据索引后进行存储的，MySQL从物理结�
 mysql> show variables like 'log_%';
 ```
 
-![日志信息](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%872.png)
+![日志信息](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254751.png)
 
 #### **错误日志：error log**
 
@@ -214,7 +214,7 @@ select c_id,first_name,last_name from customer where c_id=14;
 
      -  从MySQL 5.5版本开始，默认是InnoDB
 
-![执行流程](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%871.png)
+![执行流程](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254732.png)
 
 #### **第一步：连接到数据库**
 
@@ -232,7 +232,7 @@ mysql> show processlist;
 # 其中的 Command 列显示为“Sleep”的这一行，就表示现在系统里面有一个空闲连接。
 ```
 
-![show processlist](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%874.png)
+![show processlist](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254103.png)
 
 #### **第二步：查缓存**
 
@@ -341,7 +341,7 @@ mysql> select c_id,first_name,last_name form customer where c_id=14;
 
 解析树举例：
 
-![解析树](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%875.png)
+![解析树](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254514.png)
 
 #####  **3）预处理器：**
 
@@ -382,7 +382,7 @@ explain select * from customer where last_name='刘皇叔' and address_id=11;
 
 使用explain工具可以查看优化器的执行计划
 
-![explain](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%876.png)
+![explain](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254396.png)
 
 注意：优化器最多就是辅助，作用很有限，我们的SQL语句不能依赖于MySQL的优化器去调优！如果SQL语句垃圾，则没有可优化的空间。优化SQL的根本在于掌握MySQL分析与调优知识。
 
@@ -426,7 +426,7 @@ mysql -umysql_user -p123456@heroA
 mysql> select * from customer where c_id=14;
 ```
 
-![无权限错误](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%877.png)
+![无权限错误](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254034.png)
 
 #####  **3）案例：存储引擎查看与设置**
 
@@ -437,7 +437,7 @@ mysql> select * from customer where c_id=14;
 > show engines
 ```
 
-![show engines](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%878.png)
+![show engines](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254735.png)
 
 只有InnoDB引擎支持事务、行锁、外键。
 
@@ -482,7 +482,7 @@ create table t_myisam(a int primary key, b int) engine=myisam;
 
 ### **3.2 InnoDB架构图**
 
-![innoDb架构图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8725.jpg)
+![innoDb架构图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254661.jpeg)
 
 上图详细展示了InnoDB存储引擎的体系架构，从图中可见，InnoDB存储引擎由**内存结构、磁盘结构**两部分组成。
 
@@ -512,7 +512,7 @@ InnoDB 内存结构主要分为如下四个区域：
 
 - 对于 Buffer Pool 中数据的修改，InnoDB 直接在 Buffer Pool 中修改，并将修改写入 redo Log 中，当数据页被 LRU 算法淘汰时写入磁盘，若持久化前系统崩溃，则在重启后使用 redo Log 进行恢复。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8726.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254407.jpeg)
 
 ```mysql
 # 查看innodb存储引擎状态，包含缓冲池、修改缓冲、自适应哈希状态信息、日志缓冲等信息...
@@ -521,7 +521,7 @@ mysql> show engine innodb status;
 mysql> show variables like 'innodb_buffer_pool_size';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8729.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254394.jpeg)
 
 #### **2）修改缓冲(Change Buffer)**
 
@@ -533,14 +533,14 @@ Change Buffer 大小默认占 Buffer Pool 的 25%，最大50%，在引擎启动�
 >
 > **聚簇索引**也叫聚集索引，索引组织表，指的**是一种数据存储方式，指数据与索引的数据结构存储在一起**。如 InnoDB 的主键索引中所有叶子节点都存储了对应行的数据。因为数据肯定只是存储在一个地方，所以一个表只能有一个聚集索引。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8730.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254060.jpeg)
 
 - 周期性合并二级索引页
 
 - 周期性净化磁盘中二级索引页
 
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8727.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254523.jpeg)
 
 #### **3）自适应哈希索引(AHI)**
 
@@ -550,7 +550,7 @@ AHI 的大小为 Buffer Pool 的 1/64，在 MySql 5.7 之后支持分区，以�
 
 AHI 所作用的目标是频繁查询的数据页和索引页，而由于数据页是聚簇索引的一部分，因此 AHI 是建立在索引之上的索引，**对于二级索引，若命中 AHI，则将直接从 AHI 获取二级索引页的记录指针，再根据主键沿着聚簇索引查找数据；若聚簇索引查询同样命中 AHI，则直接返回目标数据页的记录指针，此时就可以根据记录指针直接定位数据页**。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8728.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254594.jpeg)
 
 ```mysql
 # 查看innodb存储引擎状态，包含自适应哈希状态信息
@@ -559,7 +559,7 @@ mysql> show engine innodb status;
 mysql> show variables like 'innodb_adaptive_hash_index';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8718.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254248.png)
 
 #### **4）日志缓冲(Log Buffer)**
 
@@ -571,7 +571,7 @@ mysql> show variables like 'innodb_adaptive_hash_index';
 
 ### **3.4 磁盘文件之表空间**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8719.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254519.png)
 
 **在磁盘中，InnoDB 将所有数据都逻辑地存放在一个空间中，称为表空间（Tablespace）。表空间由段（Segment）、区（extent）、页（Page）组成。**
 
@@ -591,7 +591,7 @@ mysql> show variables like 'innodb_adaptive_hash_index';
 -  临时表空间（The Temporary Tablespace）
 
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8720.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254003.png)
 
 #### **1）系统表空间**
 
@@ -622,7 +622,7 @@ mysql> show variables like 'innodb_adaptive_hash_index';
 
 **通用表空间存在的目的是为了在系统表空间与独立表空间之间作出平衡**。系统表空间与独立表空间中的表可以向通用表空间移动，反之亦可，但系统表空间中的表无法直接与独立表空间中的表相互转化。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8721.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254528.png)
 
 ##### **2. Undo 表空间**
 
@@ -634,7 +634,7 @@ MySQL 5.7 之前临时表存储在系统表空间中，这样会导致 ibdata �
 
 ### **3.5 磁盘文件之存储结构**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8722.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254539.png)
 
 #### **1）段【Segment】**
 
@@ -670,7 +670,7 @@ getconf PAGE_SIZE
 
 所以InnoDB从磁盘中读取一个数据页时，操作系统会分4次从磁盘文件中读取数据到内存。写入也是一样的，需要分4次从内存写入到磁盘中。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8723.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240255376.png)
 
 #### **4）行【Row】**
 

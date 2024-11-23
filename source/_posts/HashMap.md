@@ -82,7 +82,7 @@ static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
 总结：和泊松分布无关（泊松分布是链表树化计算出来的概率），千万不要被一些博客误解，就一句话：0.75是为了时间和空间上的权衡。
 
-![装载因子0.75与泊松分布没有关系](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/image-20220929135428498.png)
+![装载因子0.75与泊松分布没有关系](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20220929135428498.png)
 
 #### （3）为什么长度是2的次幂？
 
@@ -162,7 +162,7 @@ HashMap使用**拉链法**解决冲突：
 
 **所谓“拉链法” 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。**
 
-![hashmap的结构示意图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612002351185.png)
+![hashmap的结构示意图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258236.png)
 
 #### （5）为什么阈值为8树化，6再退化，8和6怎么来的？
 
@@ -232,7 +232,7 @@ tab[i] = newNode(hash, key, value, null);
 */
 ```
 
-![索引计算流程图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/20200612005610198.png)
+![索引计算流程图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258841.png)
 
 总结：
 
@@ -242,7 +242,7 @@ tab[i] = newNode(hash, key, value, null);
 
    int有32位，h>>>16再异或key.hashcode()，被称为扰动函数，让高16位也参与到hashcode的取值中，**混合原始哈希码的高位和低位，以此来加大低位的随机性**。
 
-   ![索引计算样例](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/16390890-8018e0b694b486d7.png)
+   ![索引计算样例](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258085.png)
 
    *Q：扰动为什么是异或，而不是别的呢？*
 
@@ -351,7 +351,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 总结：
 
-![put流程图](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/84561e1f9026499294f72b8b85004ae6.png)
+![put流程图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258768.png)
 
 #### 三、get()：获取元素
 
@@ -408,7 +408,7 @@ final Node<K,V> getNode(int hash, Object key) {
 >
 > 这里有几个概念：
 >
-> ![resize时的一些局部变量介绍](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/ff43c854c6b84604bc07d6cfc2ed24aa.png)
+> ![resize时的一些局部变量介绍](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258887.png)
 
 ```java
 final Node<K,V>[] resize() {
@@ -598,7 +598,7 @@ final Node<K,V>[] resize() {
 ```
 
 
-![loHead，loTail，在遍历链表时的流程，hiHead，hiTail同理](https://gitee.com/yu980219/picture-warehouse/raw/master/images/hashmap/1260967-cc6df182e8a54ebe.jpg)
+![loHead，loTail，在遍历链表时的流程，hiHead，hiTail同理](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258597.jpeg)
 
 ### **文章引用**
 

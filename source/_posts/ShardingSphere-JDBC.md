@@ -27,7 +27,7 @@ ShardingSphere 已于2020年4月16日成为 Apache 软件基金会的顶级项�
 - 支持任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, HikariCP 等；
 - 支持任意实现 JDBC 规范的数据库，目前支持 MySQL，PostgreSQL，Oracle，SQLServer 以及任何可使用 JDBC 访问的数据库。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230517235839013.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230517235839013.png)
 
 ### 3.ShardingSphere-Proxy
 
@@ -36,7 +36,7 @@ ShardingSphere 已于2020年4月16日成为 Apache 软件基金会的顶级项�
 - 向应用程序完全透明，可直接当做 MySQL/PostgreSQL 使用；
 - 适用于任何兼容 MySQL/PostgreSQL 协议的的客户端。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518000240949.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000240949.png)
 
 ### 4.ShardingSphere-Sidecar（TODO）
 
@@ -44,7 +44,7 @@ ShardingSphere 已于2020年4月16日成为 Apache 软件基金会的顶级项�
 
 Database Mesh 的关注重点在于如何将分布式的数据访问应用与数据库有机串联起来，它更加关注的是交互，是将杂乱无章的应用与数据库之间的交互进行有效地梳理。 使⽤Database Mesh，访问数据库的应用和数据库终将形成一个巨大的网格体系，应用和数据库只需在网格体系中对号入座即可，它们都是被啮合层所治理的对象。
 
-![image-20230518000358776](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518000358776.png)
+![image-20230518000358776](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000358776.png)
 
 |            | ShardingSphere-JDBC | ShardingSphere-Proxy | ShardingSphere-Sidecar |
 | ---------- | ------------------- | -------------------- | ---------------------- |
@@ -1026,7 +1026,7 @@ void queryByHint(){
 
 ### 5.广播表
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518004837728.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518004837728.png)
 
 现在有这么一个场景，device_type列对应的tb_device_type表中的数据，不应该被分表，两个库中都应该有全量的该表的数据。
 
@@ -1073,7 +1073,7 @@ void queryByHint(){
 
 Master将数据写入到binlog⽇志中。Slave读取主节点的Binlog数据到本地的relaylog⽇志⽂件中。此时，Slave持续不断的与Master同步，且数据存在于relaylog中，而并非落在数据库。于是Slave开启一条线程，专门讲relaylog中的数据写入到数据库中。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005118415.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005118415.png)
 
 - 准备Master主库
 
@@ -1117,7 +1117,7 @@ Master将数据写入到binlog⽇志中。Slave读取主节点的Binlog数据到
 
   通过 `show master status` 命令查看并记录⽂件名和偏移量。
 
-  ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005437414.png)
+  ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005437414.png)
 
 - 准备Slave从库：
 
@@ -1269,7 +1269,7 @@ ShardingSphere 采用一套自动化的执行引擎，负责将路由和改写�
 
 针对上述场景，ShardingSphere 提供了一种解决思路。 它提出了连接模式（ConnectionMode）的概念，将其划分为内存限制模式（MEMORY_STRICTLY）和连接限制模式（CONNECTION_STRICTLY）这两种类型。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005933107.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005933107.png)
 
 #### 1）内存限制模式
 
@@ -1305,7 +1305,7 @@ ShardingSphere 最初将使用何种模式的决定权交由用户配置，让�
 
 - 通过下图的公式，可以获得每个数据库实例在 `maxConnectionSizePerQuery` 的允许范围内，每个连接需要执行的 SQL 路由结果组，并计算出本次请求的最优连接模式。
 
-  ![image-20230518010213578](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010213578.png)
+  ![image-20230518010213578](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010213578.png)
 
   在 maxConnectionSizePerQuery 允许的范围内，当一个连接需要执行的请求数量大于 1时，意味着当前的数据库连接无法持有相应的数据结果集，则必须采用内存归并； 反之，当一个连接需要执行的请求数量等于 1 时，意味着当前的数据库连接可以持有相应的数据结果集，则可以采用流式归并。
 
@@ -1339,13 +1339,13 @@ ShardingSphere 在对排序的查询进行归并时，将每个结果集的当�
 
 
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010426647.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010426647.png)
 
 下图则展现了进行 next 调用的时候，排序归并是如何进行的。 通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_0 将会被弹出队列，并且将当前游标指向的数据值（也就是 100）返回至查询客户端，并且将游标下移一位之后，重新放入优先级队列。 而优先级队列也会根据 t_score_0 的当前数据结果集指向游标的数据值（这⾥是 90）进行排序，根据当前数值，t_score_0 排列在队列的最后一位。 之前队列中排名第⼆的t_score_2 的数据结果集则自动排在了队列⾸位。
 
 在进行第⼆次 next 时，只需要将目前排列在队列⾸位的 t_score_2 弹出队列，并且将其数据结果集游标指向的值返回至客户端，并下移游标，继续加入队列排队，以此类推。 当一个结果集中已经没有数据了，则无需再次加入队列。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010459607.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010459607.png)
 
 可以看到，对于每个数据结果集中的数据有序，而多数据结果集整体无序的情况下，ShardingSphere 无需将所有的数据都加载至内存即可排序。 它使用的是流式归并的方式，每次 next 仅获取唯一正确的一条数据，极大的节省了内存的消耗。
 
@@ -1363,11 +1363,11 @@ SELECT name, SUM(score) FROM t_score GROUP BY name ORDER BY name;
 
 在分组项与排序项完全一致的情况下，取得的数据是连续的，分组所需的数据全数存在于各个数据结果集的当前游标所指向的数据值，因此可以采用流式归并。如下图所示。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010609103.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010609103.png)
 
 进行归并时，逻辑与排序归并类似。 下图展现了进行 next 调用的时候，流式分组归并是如何进行的。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010634421.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010634421.png)
 
 通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_java 将会被弹出队列，并且将分组值同为 “Jerry” 的其他结果集中的数据一同弹出队列。 在获取了所有的姓名为 “Jerry” 的同学的分数之后，进行累加操作，那么，在第一次 next 调用结束后，取出的结果集是 “Jerry” 的分数总和。 与此同时，所有的数据结果集中的游标都将下移至数据值“Jerry” 的下一个不同的数据值，并且根据数据结果集当前游标指向的值进行重排序。 因此，包含名字顺着第⼆位的 “John” 的相关数据结果集则排在的队列的前列。
 
@@ -1416,7 +1416,7 @@ SELECT * FROM t_order WHERE id > 10000000 LIMIT 10;
 
 归并引擎的整体结构划分如下图。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010917074.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010917074.png)
 
 **文献来源：**
 

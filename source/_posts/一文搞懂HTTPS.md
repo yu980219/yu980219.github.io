@@ -20,7 +20,7 @@ HTTPS（S：secure）安全
 
 发送者使用密钥将数据加密，接收者使用同样的密钥将其解密，互为逆向过程。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523011422840.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523011422840.png)
 
 这也被称之为，【对称加密】，即**加解密使用相同的密钥**。
 
@@ -28,7 +28,7 @@ HTTPS（S：secure）安全
 
 如果由一方生成，以【明文】的方式传递过去，中间的攻击者自然也能轻松的拦截下来。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523012044625.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523012044625.png)
 
 攻击者一旦有了【密钥】，那后续的加密将会变得毫无意义。
 
@@ -38,7 +38,7 @@ HTTPS（S：secure）安全
 
 【非对称加密】中，密钥总是**成对出现**，分别称为【公钥】和【私钥】。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523013035936.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523013035936.png)
 
 由【公钥】加密的数据，只能由【私钥】解密，【公钥】自己也无法破解。
 
@@ -52,7 +52,7 @@ HTTPS（S：secure）安全
 
 这个随机数据就可以作为【对称加密】的【密钥】。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523014043587.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523014043587.png)
 
 如果攻击者，在服务器发送给浏览器公钥的过程中将其拦截，并替换成自己的公钥再发送给浏览器。
 
@@ -62,7 +62,7 @@ HTTPS（S：secure）安全
 
 然后再用服务器的公钥对【明文】进行加密，再发送给服务器，服务器用自己的私钥解密。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523015426689.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523015426689.png)
 
 这样虽然，通信双方协商出了对称加密的密钥，但攻击者也知道了，所以后续的加密变得毫无意义。
 
@@ -82,7 +82,7 @@ HTTPS（S：secure）安全
 
 把【签名数据】和【原始明文】放在一起，发送给服务器的管理员，这就是所谓的【TLS证书】，这个第三方机构被称为【CA】
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523223227212.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523223227212.png)
 
 现在服务器传递给浏览器的不再是自己的公钥，而是这个能表明自己身份的证书，浏览器拿到证书之后需要先进行【验证】。
 
@@ -117,7 +117,7 @@ CA机构责任重大的同时，权力也有些过于集中，以至于让这种
 
 证书透明要求CA机构每颁发一个证书的时候，都要向一个叫【日志服务】的角色提交证书的详情，日志服务负责将其记录下来，同时向CA返回一个【SCT】数据，CA将SCT加入证书的扩展中，把这个携带SCT的证书颁发给站点服务器，浏览器拿到这个带有SCT的证书，除了验证证书本身以外，还要向日志服务验证SCT，日志服务含有自己的【公私钥】对，而SCT中则包含被其私钥签名的数据，所以浏览器使用日志服务的公钥，对SCT中的签名进行验签来确定真实性。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523231802878.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523231802878.png)
 
 这种看起来无意义的套娃操作，在CA机制上套了一层CT的机制，那CA机构可以篡改和颁发错误的证书，日志服务就不能篡改或颁发错误的SCT吗？这就是CT机制要解决的核心问题：【去中心化】。
 
@@ -129,7 +129,7 @@ CA机构责任重大的同时，权力也有些过于集中，以至于让这种
 
 将证书颁发记录按照产生时间依次排序，分别计算出每个记录的哈希值，相邻的两个哈希值组合在一起，形成新数据，再对这个数据进行哈希计算，同样再把相邻的两个哈希值组合在一起，形成新的数据，直到最后只有一个数据，这个哈希值的数据被称为根哈希值（Root Hash），只要大家监督这个根哈希值，就能保证数据无法被私自篡改。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/https/image-20230523233348242.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523233348242.png)
 
 这样修改叶子的任何一个哈希值，都会导致根哈希值的改变。同样你也无法删除这棵树中任何一个节点，这也会引起根哈希值的改变。
 

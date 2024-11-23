@@ -19,7 +19,7 @@ MVCC是基于“数据版本”对并发事务进行访问。
 
 ## 一、示例
 
-![多个事务执行](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206234203521.png)
+![多个事务执行](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206234203521.png)
 
 前面三个事务按照时间线依次执行，事务ID依次自增。
 
@@ -39,7 +39,7 @@ MVCC是基于“数据版本”对并发事务进行访问。
 
 ## 二、基本知识
 
-![UNDO_LOG版本链](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206234827436.png)
+![UNDO_LOG版本链](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206234827436.png)
 
 ### 1. 什么是UNDO_LOG？
 
@@ -49,7 +49,7 @@ undo_log就是回滚日志的意思，在我们进行事务处理中，如果我
 
 以示例为例，最上面一行保存了当前表中的数据，因为事务执行完以后，最后的结果为“张老三”。
 
-![最后的结果](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206235419152.png)
+![最后的结果](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206235419152.png)
 
 当前的事务编号 trx_id为3，“张老三”的记录下，作为innoDB会额外的附加两个字段，`trx_id`和`DB_ROLL_PTR`。
 
@@ -65,13 +65,13 @@ undo_log就是回滚日志的意思，在我们进行事务处理中，如果我
 
 无论1号事务是否提交，都会被记到版本链中。
 
-![事务操作时的版本链](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207000040876.png)
+![事务操作时的版本链](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207000040876.png)
 
 还有一个最原始的数据。
 
 因为“张三丰”是最原始的数据，所以最后一行没有事务编号，指针也是空的。
 
-![原始数据](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207000142491.png)
+![原始数据](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207000142491.png)
 
 到这里就明白了，原始数据为“张三丰”，经过了三次更新，更新为了“张老三”，每一次数据都采用事务编号作为版本来进行标识，这样就能有效的标识出每一个版本。
 
@@ -112,7 +112,7 @@ Select... lock in share mode（读锁）
 
 在每一次执行快照读的时候生成一次ReadView
 
-![RC级别ReadView分析](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207001231486.png)
+![RC级别ReadView分析](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207001231486.png)
 
 第一次Select，当前活跃的事务id为2、3、4
 
@@ -134,7 +134,7 @@ Select... lock in share mode（读锁）
 
 #### 数据提取的过程
 
-![RC级别数据提取的过程-第一次Select](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207001544237.png)
+![RC级别数据提取的过程-第一次Select](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207001544237.png)
 
 将每一个版本的数据代入到右侧的判断规则来，如果在右侧有符合条件的，直接把当前版本的数据返回。如果右侧的条件都不满足，按照版本链向下依次尝试，知道获得满足条件的结果。
 
@@ -164,7 +164,7 @@ Select... lock in share mode（读锁）
 
    (2) 1<2 成立，说明数据已经被提交了，返回结果**张三**。
 
-![RC级别数据提取的过程-第二次Select](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207002728887.png)
+![RC级别数据提取的过程-第二次Select](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207002728887.png)
 
 1. 张老三
 
@@ -188,7 +188,7 @@ Select... lock in share mode（读锁）
 
 仅在第一次执行快照读的时候生成ReadView，后续快照读会复用第一次的ReadView。（有例外）
 
-![第二次Select复用了第一次的ReadView](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207003055059.png)
+![第二次Select复用了第一次的ReadView](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207003055059.png)
 
 总结：所以第一次执行得到的是“张三”，第二次执行得到的也是“张三”，ReadView复用的方式解决了不可重复读的情况。
 
@@ -202,4 +202,4 @@ Select... lock in share mode（读锁）
 
 *特例：当两次**快照读**之间存在**当前读**，ReadView会重新生成，导致幻读。*
 
-![前后两个事务加入了当前读](https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207003711816.png)
+![前后两个事务加入了当前读](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207003711816.png)

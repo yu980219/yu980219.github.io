@@ -16,7 +16,7 @@ date: 2021-02-12 14:49:41
 
 ### 1.1 单体架构
 
-![单体架构](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230401005033509.png)
+![单体架构](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230401005033509.png)
 
 架构说明：
 
@@ -36,7 +36,7 @@ date: 2021-02-12 14:49:41
 
 ### 1.2 垂直架构
 
-![垂直架构](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230401005300010.png)
+![垂直架构](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230401005300010.png)
 
 架构说明：
 
@@ -60,7 +60,7 @@ SOA全称为Service-Oriented Architecture，即面向服务的架构。它可以
 
 站在功能的角度，把业务逻辑抽象成可服用的服务，通过服务的编排实现业务的快速再生，目的：把原先固有的业务功能转变为通用的业务服务，实现业务逻辑的快速复用。
 
-![SOA架构](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230401010121116.png)
+![SOA架构](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230401010121116.png)
 
 架构说明：
 
@@ -84,7 +84,7 @@ SOA全称为Service-Oriented Architecture，即面向服务的架构。它可以
 
 ### 1.4 微服务架构
 
-![微服务架构](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230401011539873.png)
+![微服务架构](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230401011539873.png)
 
 架构说明：
 
@@ -130,7 +130,7 @@ Dubbo提供了三大核心能力：**面向接口的远程方法调用，智能�
 
 Dubbo架构图（Dubbo官方提供）：
 
-![dubbo架构图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230401012912139.png)
+![dubbo架构图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230401012912139.png)
 
 **调用关系说明：**
 
@@ -174,13 +174,13 @@ Zookeeper是Apache Hadoop的子项目，是一个树型的目录服务，支持�
 
 为了便于理解Zookeeper的树型目录服务，我们先来看一下我们电脑的文件系统（也是一个树型目录结构）：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230403230840518.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230403230840518.png)
 
 我们的电脑可以分为多个盘符（例如C、D、E等），每个盘符下可以创建多个目录，每个目录下面可以创建问价你，也可以创建子目录，最终构成了一个树型结构。通过这种树型结构的目录，我们可以将文件分门别类的进行存放，方便我们后期查找。而且磁盘上的每个文件都有一个唯一的访问路径。
 
 Zookeeper树型目录服务：
 
-![Zookeeper树型目录服务](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/u=2188561733,3120794136&fm=253&fmt=auto&app=138&f=JPEG)
+![Zookeeper树型目录服务](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240313013.png)
 
 流程说明：
 
@@ -225,15 +225,15 @@ Zookeeper树型目录服务：
 
 **启动服务命令**：./zkServer.sh start
 
-![启动服务](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230403231924113.png)
+![启动服务](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230403231924113.png)
 
 **停止服务命令**：./zkServer.sh stop
 
-![停止服务](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230403231939347.png)
+![停止服务](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230403231939347.png)
 
 **查看服务状态**：./zkServer.sh status
 
-![查看服务状态](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230403231958858.png)
+![查看服务状态](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230403231958858.png)
 
 ## 四、Dubbo快速入门
 
@@ -675,11 +675,11 @@ public class HelloController {
 
 tomcat7:run 分别启动提供方和消费方
 
-![启动tomcat](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230404000325481.png)
+![启动tomcat](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230404000325481.png)
 
 输入 http://localhost:8084/dubbo/hello?name=hahah
 
-![调用方法](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230404000853566.png)
+![调用方法](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230404000853566.png)
 
 **思考一：**上面的Dubbo入门案例中我们是将HelloService接口从服务提供者工程(dubbo_provider)复制到服务消费者工程(dubbo_consumer)中，接口是相同的，这种做法是否合适？还有没有更好的方式？
 
@@ -711,13 +711,13 @@ tomcat7:run 分别启动提供方和消费方
 
 首页：
 
-![dubbo-admin首页](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230404010939935.png)
+![dubbo-admin首页](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230404010939935.png)
 
 ### 5.2 使用
 
 服务治理页：
 
-![dubbo-admin服务治理页](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230404011919057.png)
+![dubbo-admin服务治理页](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230404011919057.png)
 
 ## 六、Dubbo相关配置说明
 
@@ -878,29 +878,29 @@ public class HelloServiceImpl implements HelloService {
 
 （4）启动服务提供者和服务消费者，并访问
 
-![无提供者](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405010038458.png)
+![无提供者](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405010038458.png)
 
 上面的错误为没有可用的服务提供者
 
 查看dubbo管理控制台发现服务并没有发布，如下：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405004420732.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405004420732.png)
 
 可以通过断点调试的方式查看Dubbo执行过程，Dubbo通过`AnnotationBean`类的`postProcessAfterInitialization`方法进行处理。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405010526226.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405010526226.png)
 
 isMatchPackage必须匹配这个包，才能发布服务。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405010616339.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405010616339.png)
 
 实际helloService的代理类名称为
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405011032814.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405011032814.png)
 
 该方法最后返回了false
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/dubbo/image-20230405011105396.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230405011105396.png)
 
 ### 7.2 解决方案
 

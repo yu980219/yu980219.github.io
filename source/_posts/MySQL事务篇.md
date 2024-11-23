@@ -32,7 +32,7 @@ Insert into tab_user(id,name,age,address) values (1,'刘备',18,'蜀国');
 
 ## 二、Insert语句执行流程
 
-![图片1](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%871.png)
+![图片1](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253782.png)
 
 ## 三、事务回顾
 
@@ -100,7 +100,7 @@ Insert into tab_user(id,name,age,address) values (1,'刘备',18,'蜀国');
 
 转账和查询总额操作的时序图如下：
 
-![图片2](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%872.png)
+![图片2](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253576.png)
 
 ### 4.2 解决方案
 
@@ -110,7 +110,7 @@ Insert into tab_user(id,name,age,address) values (1,'刘备',18,'蜀国');
 
 查询总额事务会对读取的行加锁，等到操作结束后再释放所有行上的锁。因为用户A的存款被锁，导致转账操作被阻塞，直到查询总额事务提交并将所有锁都释放。
 
-![图片3](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%873.png)
+![图片3](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253246.png)
 
 这种方案比较简单粗暴，就是一个事务去读取一条数据的时候，就上锁，不允许其他事务来操作。假如当前事务只是加**读锁**，那么其他事务就不能有**写锁**，也就是不能修改数据；而假如当前事务需要加**写**锁，那么其他事务就不能持有任何锁。总而言之，能加锁成功，就确保了除了当前事务之外，其他事务不会对当前数据产生影响，所以自然而然的，当前事务读取到的数据就只能是**最新**的，而不会是**快照**数据。
 
@@ -122,7 +122,7 @@ Insert into tab_user(id,name,age,address) values (1,'刘备',18,'蜀国');
 
 查询总额事务先读取了用户A的账户存款，然后转账事务会修改用户A和用户B账户存款，查询总额事务读取用户B存款时不会读取转账事务修改后的数据，而是读取本事务开始时的副本数据【快照数据】。
 
-![图片4](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%874.png)
+![图片4](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253691.png)
 
 **MVCC使得普通的SELECT请求不加锁，读写不冲突，显著提高了数据库的并发处理能力**。MVCC保障了ACID中的隔离性，究竟怎么实现？接下来看
 
@@ -138,7 +138,7 @@ MVCC 实现原理是数据快照，不同的事务访问不同版本的数据快
 
 MVCC 的实现依赖与**Undo日志** 与 **Read View** 。
 
-![图片5](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%875.png)
+![图片5](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253477.png)
 
 InnoDB下的表有**默认字段**和**可见字段**，默认字段是实现MVCC的关键，默认字段是隐藏的列。默认字段最关键的两个列，**一个保存了行的事务ID，一个保存了行的回滚指针**。每开始新的事务，都会自动递增产生一个新的事务id。事务开始后，生成当前事务影响行的ReadView。当查询时，需要用当前查询的事务id与ReadView确定要查询的数据版本。
 
@@ -163,7 +163,7 @@ Insert 操作的记录只对事务本身可见，对于其它事务此记录是�
 Insert into tab_user(id,name,age,address) values (10,'麦麦',23,'beijing')
 ```
 
-![图片6](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%876.png)
+![图片6](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253723.png)
 
 ##### 2）Update Undo日志：是Update或Delete操作中产生的Undo日志
 
@@ -177,7 +177,7 @@ update tab_user set name='雄雄',age=18 where id=10;
 # 当事务2使用Update语句修改该行数据时，会首先使用写锁锁定目标行，将该行当前的值复制到Undo中，然后再真正地修改当前行的值，最后填写事务ID，使用回滚指针指向Undo中修改前的行。
 ```
 
-![图片7](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%877.png)
+![图片7](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253133.png)
 
 **当事务3进行修改与事务2的处理过程类似，如下图所示（第二次修改）：**
 
@@ -186,7 +186,7 @@ update tab_user set name='雄雄',age=18 where id=10;
 update tab_user set name='迪迪',age=16 where id=10;
 ```
 
-![图片8](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/%E5%9B%BE%E7%89%878.png)
+![图片8](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253249.png)
 
 #### 4.3.2 ReadView日志
 
@@ -207,7 +207,7 @@ ReadView是张存储事务id的表，主要包含当前系统中有哪些活跃�
 - **m_up_limit_id**：事务id上限，表示生成ReadView时，系统中应该分配给下一个事务的id值
 - **m_creator_trx_id**：表示生成该ReadView的事务的事务id
 
-![image-20230423012445524](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012445524.png)
+![image-20230423012445524](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253674.png)
 
 ##### 2）ReadView怎么产生，什么时候生成？
 
@@ -258,7 +258,7 @@ ReadView是张存储事务id的表，主要包含当前系统中有哪些活跃�
 
 T3时刻，表 `tab_user` 中 `id` 为 `1 `的记录得到的版本链表如下所示：
 
-![image-20230423012527952](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012527952.png)
+![image-20230423012527952](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253516.png)
 
 这个 `SELECT01` 的执行过程如下：
 
@@ -276,7 +276,7 @@ T3时刻，表 `tab_user` 中 `id` 为 `1 `的记录得到的版本链表如下�
 
 T5时刻，表 `tab_user` 中 `id` 为 `1` 的记录的版本链就长这样：
 
-![image-20230423012825070](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012825070.png)
+![image-20230423012825070](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253075.png)
 
 这个 `SELECT02` 的执行过程如下：
 
@@ -385,7 +385,7 @@ LEFT JOIN PERFORMANCE_SCHEMA.events_statements_current d ON d.THREAD_ID = c.THRE
 
 **代码与执行流程与RC案例完全相同，唯一不同的是事务隔离级别。**
 
-![image-20230423012843570](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012843570.png)
+![image-20230423012843570](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253073.png)
 
 这个 `SELECT1` 的执行过程如下：
 
@@ -399,7 +399,7 @@ LEFT JOIN PERFORMANCE_SCHEMA.events_statements_current d ON d.THREAD_ID = c.THRE
 
 T5时刻，表 `t` 中 `id` 为 1 的记录的版本链就长这样：
 
-![image-20230423012902368](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql%E4%BA%8B%E5%8A%A1%E7%AF%87/failed/image-20230423012902368.png)
+![image-20230423012902368](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253568.png)
 
 这个 `SELECT2` 的执行过程如下：
 
@@ -471,7 +471,7 @@ COMMIT;
 
 #### 4.4.3 一个CRUD的CUD操作的具体流程
 
-![图片17](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_shiwu/%E5%9B%BE%E7%89%8717.png)
+![图片17](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253369.png)
 
 从图中可以看到：
 

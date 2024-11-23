@@ -28,7 +28,7 @@ date: 2021-02-02 21:45:54
 
 docker流程： java-jar（环境） — 打包项目帯上环境（镜像） — ( Docker仓库：商店）–下载我们发布的镜像—直接运行即可
 
-![在这里插入图片描述](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/c575979e284441b1bbb0ad13b754e7dc.png)
+![在这里插入图片描述](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240258306.png)
 
 Docker的思想就来自于集装箱！
 
@@ -75,7 +75,7 @@ Docker是基于Go语言开发的，开源项目。
 
 - 官网：https://www.docker.com/
 
-![docker官网](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418000159864.png)
+![docker官网](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418000159864.png)
 
 - 文档地址：https://docs.docker.com/ Docker的文档是超级详细的！
 
@@ -85,7 +85,7 @@ Docker是基于Go语言开发的，开源项目。
 
 > 之前的虚拟机技术
 
-![之前的虚拟机技术](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418002123031.png)
+![之前的虚拟机技术](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418002123031.png)
 
 虚拟机技术缺点：
 
@@ -95,7 +95,7 @@ Docker是基于Go语言开发的，开源项目。
 
 > 容器化技术
 
-![容器化技术](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418002340896.png)
+![容器化技术](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418002340896.png)
 
 容器化技术不是模拟的一个完整的操作系统
 
@@ -135,8 +135,8 @@ Docker是内核级别的虚拟机化，可以在一个物理机上运行很多�
 
 ### 2.1 Docker的基本组成
 
-![Docker架构图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/1591950504042.png)
-**镜像（image）**：
+![Docker架构图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240259585.png)
+**镜像（image)**：
 
 docker镜像就好比一个模板，可以通过这个模板来创建容器服务，tomcat镜像===>run===>tomcat01容器（提供服务器），可通过镜像创建多个容器。
 
@@ -231,21 +231,21 @@ systemctl start docker
 docker version
 ```
 
-![docker version](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418010541255.png)
+![docker version](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418010541255.png)
 
 ```shell
 # 测试
 docker run hello-world
 ```
 
-![docker run hello-world](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418010937780.png)
+![docker run hello-world](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418010937780.png)
 
 ```shell
 # 查看下载的这个 hello-world 镜像
 docker images
 ```
 
-![docker images](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230418011058247.png)
+![docker images](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230418011058247.png)
 
 卸载docker
 
@@ -281,11 +281,11 @@ Docker配置国内镜像源加速教程：https://www.runoob.com/docker/docker-m
 }
 ```
 
-![配置阿里云镜像后的docker](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420002709854.png)
+![配置阿里云镜像后的docker](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420002709854.png)
 
 ### 2.4 回顾Hello World流程
 
-![run的运行流程图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230419234350846.png)
+![run的运行流程图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230419234350846.png)
 
 ### 2.5 底层原理
 
@@ -295,14 +295,14 @@ Docker是一个 Client - Server 结构的系统，Docker 的守护进程运行�
 
 Docker-Server 接收到 Docker-Client 的指令，就会执行这个命令！
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230419234649418.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230419234649418.png)
 
 **Docker 为什么比 VM 快？**
 
 1. Docker 有着比虚拟机更少的抽象层
 2. Docker 利用的是宿主机的内核，VM 需要的是 Guest OS
 
-![VM和Docker的区别](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/u=1974852863,3311841718&fm=253&fmt=auto&app=138&f=JPEG)
+![VM和Docker的区别](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240300955.png)
 
 所以说，新建一个容器的时候，docker 不需要像虚拟机一样重新加载一个操作系统内核，**避免引导和加载操作系统内核**。虚拟机是加载 Guset OS , 分钟级别的，而docker是利用宿主机的操作系统，省略了这个复杂的过程，秒级的，因此新建一个docker容器只需要几秒钟。
 
@@ -399,9 +399,9 @@ docker pull mysql:5.7
 
 下载完mysql lastest版本再下载5.7版本会出现 Already exists，这是两个版本冲突的包，如果本地已经有了，就不必再次下载了，这是docker的分层思想。
 
-![docker pull mysql:5.7](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420005418921.png)
+![docker pull mysql:5.7](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420005418921.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420005626787.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420005626787.png)
 
 - **docker rmi** 删除镜像
 
@@ -466,7 +466,7 @@ anaconda-ks.cfg  initial-setup-ks.cfg
   -q   # 只显示容器的编号
 ```
 
-![docker ps](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420011029449.png)
+![docker ps](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420011029449.png)
 
 - **退出容器**
 
@@ -492,7 +492,7 @@ docker stop 容器id         # 停止当前正在运行的容器
 docker kill 容器id         # 强制停止当前容器
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420012014388.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420012014388.png)
 
 ### 3.4 常用其它命令
 
@@ -508,7 +508,7 @@ docker run -d centos
 # 如nginx，容器启动后，发现自己没有提供服务，就会立刻停止，就是没有程序了
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420224011278.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420224011278.png)
 
 - **查看日志**
 
@@ -528,7 +528,7 @@ da3008d5641c   centos    "/bin/sh -c 'while t…"   8 seconds ago   Up 8 seconds
 [root@master ~]# docker logs -tf --tail 10 da3008d5641c
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420225009481.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420225009481.png)
 
 - **查看容器中的进程信息**
 
@@ -824,7 +824,7 @@ data  pflm  test.java  xiaoyu
 
 ### 3.5 小结
 
-![docker命令图](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/2363254-20211002145236621-74451512.png)
+![docker命令图](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240300869.png)
 
 ```shell
 attach 		Attach local standard input, output, and error streams to a running container	# 当前 shell 下 attach 连接指定运行镜像 
@@ -946,11 +946,11 @@ root@6ba58e0cadf8:/etc/nginx#
 
 端口暴露的概念
 
-![端口暴露](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420234237227.png)
+![端口暴露](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420234237227.png)
 
 可以在公网访问了
 
-![在外网访问nginx](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420234333825.png)
+![在外网访问nginx](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420234333825.png)
 
 停止容器
 
@@ -961,7 +961,7 @@ root@6ba58e0cadf8:/etc/nginx#
 
 外网无法访问
 
-![外网无法访问](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230420235128398.png)
+![外网无法访问](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230420235128398.png)
 
 **思考问题：**我们每次改动 nginx 配置文件，都需要进入容器内部吗？那会十分的麻烦。我要是可以在容器外部提供一个映射路径，达到在容器外修改文件名，容器内部就可以自动修改。 `-v` 数据卷 技术可以解决！
 
@@ -983,7 +983,7 @@ docker run -d -p 3355:8080 --name tomcat01 tomcat
 
 外网访问没有问题，但此时的tomcat是不完整的。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230421001109021.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230421001109021.png)
 
 ```shell
 # 进入容器
@@ -1020,7 +1020,7 @@ ROOT  docs  examples  host-manager  manager
 root@ae782d777533:/usr/local/tomcat/webapps#
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230421001604839.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230421001604839.png)
 
 **思考问题：**我们以后要部署项目，都需要进入容器内部，十分的麻烦。我要是可以在容器外部放置项目，能自动同步到内部就好了。
 
@@ -1042,7 +1042,7 @@ docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=
 # 使用命令 docker stats 查看CPU的状态
 ```
 
-![ES占用1.2个G的内存](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230504235128633.png)
+![ES占用1.2个G的内存](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230504235128633.png)
 
 ```shell
 # 测试ES是否成功
@@ -1074,11 +1074,11 @@ docker run -d --name elasticsearch02 -p 9200:9200 -p 9300:9300 -e "discovery.typ
 # 再次查看内存占用
 ```
 
-![ES占用150M内存](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230504235938487.png)
+![ES占用150M内存](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230504235938487.png)
 
 <p id="2">作业：使用kibana连接es？思考网络如何才能连接。</p>
 
-![如何让kibana连接ES？](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505000254838.png)
+![如何让kibana连接ES？](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505000254838.png)
 
 ### 3.7 可视化
 
@@ -1093,17 +1093,17 @@ docker run -d -p 8088:9000 \--restart=always -v /var/run/docker.sock:/var/run/do
 
 访问测试：从外网访问8088，http://ip:8088/，第一次进入时间比较久，因为它要把所有的数据给挂载出来。
 
-![登陆界面](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422201924364.png)
+![登陆界面](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422201924364.png)
 
 给它设置一个密码就可以使用了
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422202020730.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422202020730.png)
 
 选择本地的：Local，进入之后的面板如下
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422202148113.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422202148113.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422202243513.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422202243513.png)
 
 可视化面板平时不会使用，大家自己测试玩玩即可。
 
@@ -1135,11 +1135,11 @@ docker run -d -p 8088:9000 \--restart=always -v /var/run/docker.sock:/var/run/do
 - bootfs（boot file system）主要包含 bootloader 和 Kernel，bootloader 主要是引导加载 kernel，Linux 刚启动时会加 bootfs 文件系统，在 Docker 镜像的最底层是 boots。这一层与我们典型的 Linux/Unix 系统是一样的，包含 boot 加載器和内核。当 boot 加载完成之后整个内核就都在内存中了，此时 内存的使用权已由 bootfs 转交给内核，此时系统也会卸载 bootfs。
 - rootfs（root file system)，在 bootfs 之上。包含的就是典型 Linux 系统中 的 /dev，/proc，/bin。/etc 等标准目录和文件。 rootfs 就是各种不同的操作系统发行版，比如 Ubuntu，Centos等等。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422202846356.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422202846356.png)
 
 平时我们安装进虚拟机的CentOS都是好几个G，为什么Docker这里才200M？
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422203318596.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422203318596.png)
 
 对于个精简的OS，rootfs 可以很小，只需要包合最基本的命令，工具和程序库就可以了，因为底层直接用 Host 的 kernel，自己只需要提供 rootfs 就可以了。由此可见对于不同的 Linux 发行版，boots基本是一致 的，rootfs 会有差別，因此不同的发行版可以公用 bootfs.
 
@@ -1151,7 +1151,7 @@ docker run -d -p 8088:9000 \--restart=always -v /var/run/docker.sock:/var/run/do
 
 第一层显示 Already exists，已经存在，是基本层
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422203520499.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422203520499.png)
 
 > 思考：为什么Docker镜像要采用这种分层的结构呢？
 
@@ -1159,7 +1159,7 @@ docker run -d -p 8088:9000 \--restart=always -v /var/run/docker.sock:/var/run/do
 
 查看镜像分层的方式可以通过`docker image inspect [镜像名]` 命令：docker image inspect redis:latest
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422203945998.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422203945998.png)
 
 > 理解
 
@@ -1167,17 +1167,17 @@ docker run -d -p 8088:9000 \--restart=always -v /var/run/docker.sock:/var/run/do
 - 举一个简单的例子，假如基于 Ubuntu Linux16.04 创建一个新的镜像，这就是新镜像的第一层；如果在该镜像中添加 Python 包，就会在基础镜像层之上创建第二个镜像层；如果继续添加一个安全补丁，就会创建第三个镜像层
 - 该像当前已经包含3个镜像层，如下图所示（这只是一个用于演示的很简单的例子）。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/f9eef1731785a9c7452ceaf45e0b0f79.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240301065.png)
 
 再添加额外镜像层的同时，镜像始终保持是当前所有镜像的组合，（理解这一点非常重要）如下图，每个镜像层包含 3 个文件，而镜像包含了来自两个镜像层的 6 个文件。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/4558c75783b3a5aafb0b470a46265e0f.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240303155.png)
 
 上图中的镜像层跟之前图中的略有区別，主要目的是便于展示文件
 
 下图中展示了一个稍微复杂的三层镜像，在外部看来整个镜像只有6个文件，这是因为最上层中的文件7是文件5的一个更新版
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/4f17993c4f3aba2dbe9675810292527f.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240301597.png)
 
 这种情况下，上层镜像层中的文件覆盖了底层镜像层中的文件。这样就使得文件的更新版本作为一个新镜像层添加到镜像当中。
 
@@ -1189,7 +1189,7 @@ Docker在 Windows上仅支持 windowsfilter 一种存储引擎，该引擎基于
 
 下图展示了与系统显示相同的三层镜像。所有镜像层堆叠并合并，对外提供统一的视图。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/207ddb28ff28e743cc14089c90af7241.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240301823.png)
 
 > 特点
 
@@ -1197,7 +1197,7 @@ Docker 镜像都是只读的，当容器启动时，一个新的可写层加载�
 
 这一层就是我们通常说的容器层，容器之下的都叫镜像层！
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/9872d363fc277f3bba2c822efb2ac2a3.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240301443.png)
 
 如何提交一个自己的镜像？
 
@@ -1224,7 +1224,7 @@ docker commit -m="描述信息" -a="作者" 容器id 目标镜像名:[TAG]
 docker commit -a="kuangshen" -m="add webapps app" 容器id tomcat02:1.0
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230422211313150.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230422211313150.png)
 
 如果你想要保存当前容器的状态，就可以通过commit来提交，获得一个镜像，就好比使用VM的时候的快照。
 
@@ -1246,7 +1246,7 @@ MySQL，容器删除了，删库跑路！需求：MySQL 数据可以存储在本
 
 这就是卷技术！目录的挂载，将我们容器内的目录，挂载到 Linux 上面
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230424235758499.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230424235758499.png)
 
 **总结一句话：容器的持久化和同步操作！容器间也是可以数据共享的！**
 
@@ -1263,13 +1263,13 @@ docker run -it -v 主机目录：容器内目录
 # 启动起来的时候我们可以通过 docker inspect 容器ID 查看
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230425000622550.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230425000622550.png)
 
 *注：这是双向绑定*
 
 **测试文件的同步**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230425001055458.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230425001055458.png)
 
 再来测试
 
@@ -1307,15 +1307,15 @@ docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/
 # sqlyog--连接到服务器的3310--和容器内的3306映射
 ```
 
-![测试MySQL连接](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232130573.png)
+![测试MySQL连接](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232130573.png)
 
 在本地测试创建一个数据，查看一下我们映射的路径是否ok
 
 新建一个数据库后，对应的主机内的`/home/mysql/data`也出现了test数据库的文件
 
-![创建数据库](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506021323231.png)
+![创建数据库](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506021323231.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232301801.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232301801.png)
 
 假设我们将容器删除
 
@@ -1325,7 +1325,7 @@ docker ps
 docker ps -a
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232344260.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232344260.png)
 
 发现，我们挂载到本地的数据卷依旧没有丢失，这就实现了容器数据持久化功能。
 
@@ -1345,7 +1345,7 @@ docker volume ls
 # 这种就是匿名挂载，我们在 -v 只写了容器内的路径，没有写容器外的路径！
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232629027.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232629027.png)
 
 #### 具名挂载
 
@@ -1358,11 +1358,11 @@ docker volume ls
 # 查看一下这个卷
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232751918.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232751918.png)
 
 所有的docker容器内的卷，没有指定目录的情况下都是在 `/var/lib/docker/volumes/[xxx]/_data` 下
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426232833258.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426232833258.png)
 
 我们通过具名挂载可以方便的找到我们的一个卷，大多数情况使用`具名挂载`
 
@@ -1412,35 +1412,35 @@ CMD /bin/bash
 
 `docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos:1.0 .`最后面要加上 “`.`”
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235006489.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235006489.png)
 
 `docker images`，这里就是我们自己创建的镜像
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235049773.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235049773.png)
 
 启动一下自己写的容器
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235311860.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235311860.png)
 
 这个卷和外部一定有一个同步的目录。且这种方式属于匿名挂载
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235527585.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235527585.png)
 
 我们现在容器中的卷内创建一个文件`container.txt`
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235750691.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235750691.png)
 
 不要退出容器，在容器外查看
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235832457.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235832457.png)
 
 可以看到挂载的卷的位置
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230426235926575.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230426235926575.png)
 
 进入路径，可以看到同步过来的文件。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427000102175.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427000102175.png)
 
 测试一下刚才的文件是否同步出去了：在主机的挂载目录下也能找到刚才创建的文件，说明同步成功了
 
@@ -1450,7 +1450,7 @@ CMD /bin/bash
 
 ### 5.6 数据卷容器
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427000336179.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427000336179.png)
 
 ```shell
 # 启动三个容器
@@ -1464,11 +1464,11 @@ docker run -it --name docker02 --volumes-from docker01 kuangshen/centos:1.0
 
 进入docker01的数据卷创建一个文件
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427001101874.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427001101874.png)
 
 再进入docker02，会发现docker01创建的内容同步到了docker02上
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427001316058.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427001316058.png)
 
 ```shell
 docker run -it --name docker02 --volumes-from docker01 kuangshen/centos:1.0
@@ -1482,9 +1482,9 @@ docker run -it --name docker02 --volumes-from docker01 kuangshen/centos:1.0
 
 Q：如果我们把docker01停掉，docker02和docker03的数据还在不在？
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427001654541.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427001654541.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427001745416.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427001745416.png)
 
 [回顾第三小节](#1)：多个MySQL实现数据共享
 
@@ -1519,9 +1519,9 @@ dockerfile 是用来构建docker镜像的文件！是一个命令参数脚本
 
 看下官方是怎么做的？
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427003322784.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427003322784.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230427003440913.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230427003440913.png)
 
 很多官方镜像都是基础包，很多功能没有，我们通常会自己搭建自己的镜像！（可能一百个人有一百个需求，我们可能要求镜像里除了centos，还要有jdk、mysql）
 
@@ -1536,7 +1536,7 @@ dockerfile 是用来构建docker镜像的文件！是一个命令参数脚本
 3. `#` 表示注释
 4. 每一个指令都会创建提交一个新的镜像层，并提交！
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/2233058-20210730100548473-307490555.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240302497.png)
 
 Dockerfile 是面向开发的，我们以后要发布项目，做镜像，就需要编写 dockerfile 文件，这个文件十分简单！
 
@@ -1565,13 +1565,13 @@ COPY 		# 类似ADD，将我们文件拷贝到镜像中
 ENV 		# 构建的时候设置环境变量！
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/u=2136826455,2256811893&fm=253&app=138&f=JPEG&fmt=auto&q=75)
+![image-20241124030215925](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240302994.png)
 
 ### 6.4 实战测试
 
 Docker Hub 中 99% 的镜像都是从这个基础镜像过来的：`FROM scratch`，然后配置需要的软件和配置 来进行的构建
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429221635547.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429221635547.png)
 
 > 创建一个自己的 centos
 
@@ -1605,21 +1605,21 @@ docker build -f mydockerfile-centos -t mycentos:0.1 .
 # 3、测试运行
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429223156157.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429223156157.png)
 
 **对比：**
 
 **之前的原生的 centos**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429223500600.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429223500600.png)
 
 **我们自己制作的镜像**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429223640835.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429223640835.png)
 
 我们可以列出本地进行的变更历史
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429223908389.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429223908389.png)
 
 我们平时拿到一个镜像，就可以研究一下它是怎么做的了
 
@@ -1661,7 +1661,7 @@ ERRO[0000] error waiting for container:
 - 错误原因：cmd 的情况下，`-l` 替换了 `CMD ["ls","-a"]`。而 `-l` 不是命令，所以会报错。
 - 解决方案：写出完整的命令：`ls -al`。如下
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429224800096.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429224800096.png)
 
 **2. 测试ENTRYPOINT**
 
@@ -1710,9 +1710,9 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
 
    准备tomcat压缩包 和 jdk压缩包到当前目录，编写好README 。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230429235638667.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230429235638667.png)
 
-2. 编写 dokerfile 文件，使用官方命名 `Dockerfile`。这样的话，build 时就会自动寻找这个文件，就不用加 -f 指定文件![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430000914710.png)
+2. 编写 dokerfile 文件，使用官方命名 `Dockerfile`。这样的话，build 时就会自动寻找这个文件，就不用加 -f 指定文件![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430000914710.png)
 
    ```dockerfile
    FROM centos:7
@@ -1768,7 +1768,7 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
    [root@MiWiFi-R4A-srv docker-tomcat]# docker exec -it fc38aba8b1e7 /bin/bash
    ```
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430002420954.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430002420954.png)
 
 5. 访问测试
 
@@ -1779,11 +1779,11 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
 
    curl没问题
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430002512164.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430002512164.png)
 
    在外网查看
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430002621510.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430002621510.png)
 
 6. 发布项目（由于做了卷挂载，我们直接在本地编写项目就可以发布了！）
 
@@ -1833,7 +1833,7 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
 
    访问成功！
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430004234961.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430004234961.png)
 
    查看日志：发现打印了日志，说明日志的目录也挂载成功了。
 
@@ -1842,7 +1842,7 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
    [root@MiWiFi-R4A-srv tomcatlogs]# tail -f catalina.out
    ```
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230430004513679.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230430004513679.png)
 
    我们以后开发的步骤：需要掌握Dockerfile的编写！我们之后的一切都是使用docker镜像来发布运行！
 
@@ -1902,7 +1902,7 @@ Dockerfile中很多命令都十分的相似，我们需要了解它们的区别�
 
 ### 6.7 小结
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/2021021322044064.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240302484.png)
 
 镜像打包（save）成为一个tar压缩包，可以发送压缩包给别人（load）。
 
@@ -1919,7 +1919,7 @@ docker rmi -f $(docker images -aq)
 
 <p id=3>测试：三个网络</p>
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505003033891.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505003033891.png)
 
 **问题： docker 是如果处理容器网络访问的？**[回顾之前提出的问题](#2)
 
@@ -1935,11 +1935,11 @@ docker exec -it tomcat01 ip addr
 
 发现容器启动的时候 会得到一个`eth0@if59`的IP地址，这个地址是docker分配的
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505002211865.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505002211865.png)
 
 思考： Linux 能不能ping通容器内部？-- 可以
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505002241236.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505002241236.png)
 
 > 原理
 
@@ -1949,7 +1949,7 @@ docker exec -it tomcat01 ip addr
 
    再次执行ip addr，发现多了一个网卡（刚刚启动的tomcat容器）。
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505003128692.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505003128692.png)
 
 2. 再启动一个tomcat02，继续测试ip addr，发现又多了一对网卡
 
@@ -1957,14 +1957,14 @@ docker exec -it tomcat01 ip addr
    docker run -d -P --name tomcat02 tomcat:7.0
    ```
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505003347923.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505003347923.png)
 
    ```shell
    # 进入容器查看内部地址
    docker exec -it tomcat02 ip addr
    ```
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505003601861.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505003601861.png)
 
    内部是 **60**: eth0@if**61**
 
@@ -1979,11 +1979,11 @@ docker exec -it tomcat01 ip addr
 
 3. 我们来测试下 tomcat01 和 tomcat02 是否可以ping通
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505004246689.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505004246689.png)
 
 **结论：容器和容器之间是可以 ping 通的**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505004932984.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505004932984.png)
 
 结论：tomcat01和tomcat02是共用的一个路由器—docker0
 
@@ -1991,7 +1991,7 @@ docker exec -it tomcat01 ip addr
 
 > 小结
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230505005954501.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230505005954501.png)
 
 Docker中所有网络接口都是虚拟的，虚拟的转发效率高（内网传递文件）
 
@@ -2012,7 +2012,7 @@ docker run -d -P --name tomcat02 tomcat:7.0
 docker exec -it tomcat02 ping tomcat01
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506001400534.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506001400534.png)
 
 发现ping不通，如何可以解决呢？
 
@@ -2024,7 +2024,7 @@ docker run -d -P --name tomcat03 --link tomcat02 tomcat:7.0
 docker exec -it tomcat03 ping tomcat02
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506001527341.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506001527341.png)
 
 发现可以连通。
 
@@ -2046,7 +2046,7 @@ ping: tomcat03: No address associated with hostname
 docker exec -it tomcat03 cat /etc/hosts
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506002754526.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506002754526.png)
 
 本质探究：--link就是我们在hosts配置中增加了一个 172.18.0.3 tomcat02，而tomcat02中的hosts文件没有（可以后续手动添加）。
 
@@ -2062,7 +2062,7 @@ docker0问题：不支持容器名连接访问
 
 > 查看所有的docker网络：docker netework ls
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506003028687.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506003028687.png)
 
 > 网络模式
 
@@ -2077,7 +2077,7 @@ docker0问题：不支持容器名连接访问
 
 让我们的虚拟机只有原来的三个网络
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506003611758.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506003611758.png)
 
 ```shell
 # 我们直接启动的命令 --net bridge,而这个就是我们的docker0 
@@ -2096,11 +2096,11 @@ docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.
 docker network ls
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506004127804.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506004127804.png)
 
 这个就是我们创建的自定义网络：docker network inspect mynet
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506004434484.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506004434484.png)
 
 ```shell
 # 再次使用我们自定义的网络创建两个tomcat
@@ -2111,7 +2111,7 @@ docker run -d -P --name tomcat-net-02 --net mynet tomcat:7.0
 docker network inspect mynet
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506004926928.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506004926928.png)
 
 ```shell
 # 再次测试ping连接
@@ -2120,7 +2120,7 @@ docker exec -it tomcat-net-01 ping 192.168.0.3
 docker exec -it tomcat-net-01 ping tomcat-net-02
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506005131601.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506005131601.png)
 
 我们自定义的网络docker帮我们维护好了对应的关系，推荐我们平时这样使用网络！
 
@@ -2130,13 +2130,13 @@ redis - 不同的集群使用不同的网络，保证集群是安全和健康的
 
 mysql - 不同的集群使用不同的网络，保证集群是安全和健康的
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506005503051.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506005503051.png)
 
 ### 7.4 网络连通
 
 我们现在的情况是这样的：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506010035376.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506010035376.png)
 
 `tomcat01` 可以ping通`tomcat-net-01` 吗？
 
@@ -2148,14 +2148,14 @@ docker run -d -P --name tomcat02 tomcat:7.0
 
 查看现在所有的容器，docker0和mynet中各有两个tomcat容器
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506010229220.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506010229220.png)
 
 ```shell
 # 用docker0中的tomcat01 去ping mynet中的tomcat-net-01
 docker exec -it tomcat01 ping tomcat-net-01
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506010337301.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506010337301.png)
 
 发现不通
 
@@ -2169,7 +2169,7 @@ docker network connect mynet tomcat01
 docker network inspect mynet
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506010729703.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506010729703.png)
 
 连通之后，将docker0中的tomcat01 和 mynet网络打通，直接放到了mynet网络下。
 
@@ -2181,17 +2181,17 @@ docker network inspect mynet
 # 再次测试 tomcat01 ping tomcat-net-01
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506011012030.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506011012030.png)
 
 网络打通了，但由于tomcat02并没有打通mynet，所以tomcat02依旧是不行的
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506011052390.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506011052390.png)
 
 **结论：假设要跨网络操作别人，就需要使用docker network connect 连通！**
 
 ### 7.5 实战：部署Redis集群
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506014100764.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506014100764.png)
 
 清空所有的环境：docker rm -f $(docker ps -aq)
 
@@ -2220,7 +2220,7 @@ done
 # 进入 /mydata/redis 路径可以看见6个节点，在6个节点下，分别有每个节点自己的redis配置
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506011955593.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506011955593.png)
 
 ```shell
 # 通过脚本运行6个redis（直接在命令行键入以下内容即可）
@@ -2239,7 +2239,7 @@ docker exec -it redis-1 /bin/sh
 redis-cli --cluster create 172.38.0.11:6379 172.38.0.12:6379 172.38.0.13:6379 172.38.0.14:6379 172.38.0.15:6379 172.38.0.16:6379 --cluster-replicas 1
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506012649960.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506012649960.png)
 
 集群配置完毕
 
@@ -2254,19 +2254,19 @@ redis-cli -c
 
 集群数量为3
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013454345.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506013454345.png)
 
 **查看节点状态：cluster nodes**
 
 全部节点都是健康的，三个master，三个slave
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013531664.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506013531664.png)
 
 **执行命令：set a b**
 
 kv被存放在了13节点上，也就是redis-3上
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013631883.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506013631883.png)
 
 **停止容器 redis-3：docker stop redis-3**
 
@@ -2274,13 +2274,13 @@ kv被存放在了13节点上，也就是redis-3上
 
 在14上发现了key a的值
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013811037.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506013811037.png)
 
 **再次查看节点状态：cluster nodes**
 
 13容器宕机了，节点发生了故障转移。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230506013856589.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230506013856589.png)
 
 ## 八、Docker整合
 
@@ -2332,9 +2332,9 @@ kv被存放在了13节点上，也就是redis-3上
 
 5. 访问页面
 
-   ![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519013039430.png)
+   ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519013039430.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519013205117.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519013205117.png)
 
 8080和8081都能访问成功。
 
@@ -2379,7 +2379,7 @@ curl http://127.0.0.1:2375/info
 
 从File->Settings->Build,Execution,Deployment->Docker打开配置界面
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519015408579.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519015408579.png)
 
 开放防火墙端口命令：
 
@@ -2394,15 +2394,15 @@ firewall-cmd --reload
 firewall-cmd --list-ports
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519015610707.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519015610707.png)
 
 对着镜像右键，进行create创建容器操作
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519020103781.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519020103781.png)
 
 启动后，再次访问测试接口
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230519020300382.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230519020300382.png)
 
 #### 4）docker-maven-plugin
 
@@ -2572,7 +2572,7 @@ openssl genrsa -aes256 -out ca-key.pem 4096
 
 输入密码时，输入两次相同的密码，并且后面会用到。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522025233486.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230522025233486.png)
 
 ##### 3）依次输入密码、国家、省、市、组织名称、邮箱等
 
@@ -2580,7 +2580,7 @@ openssl genrsa -aes256 -out ca-key.pem 4096
 openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522024709823.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230522024709823.png)
 
 现在已经有了CA，接下来创建一个服务器密钥和证书签名请求(CSR)。确保“公用名”与你用来连接到Docker的主机名匹配。
 
@@ -2731,15 +2731,15 @@ systemctl restart docker
 
 ##### 1）保存相关客户端的pem文件到本地
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030158213.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230522030158213.png)
 
 2）IDEA CA配置
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030617839.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230522030617839.png)
 
 PS：如果配置package一键部署，需要把pom中的http改为https
 
-![image-20230522030736946](https://gitee.com/haktiong/picture-warehouse/raw/master/images/docker/image-20230522030736946.png)
+![image-20230522030736946](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230522030736946.png)
 
 ## 九、Docker Compose
 

@@ -1,3 +1,5 @@
+fastgithub安装包在百度网盘中
+
 新电脑
 安装hexo：npm install -g hexo-cli
 查看hexo版本：hexo -version
@@ -11,3 +13,43 @@ npm install # 安装组件
 git上传项目到master
 hexo g生成页面
 hexo d上传
+
+图床配置
+仓库名：yu980219/image-host
+分支名：master
+token：在github Settings/Developer Settings/Personal access tokens (classic) 找到picgo token
+存储路径：hexo/
+
+picgo和github和typroa和fastgithub不能同时使用，并且还要配置dns
+使用图床时关闭fastgithub
+访问页面时开启fastgithub
+
+前往：C:\Windows\System32\drivers\etc\hosts
+
+# GitHub Start 
+140.82.113.3      github.com
+140.82.114.20     gist.github.com
+151.101.184.133    assets-cdn.github.com
+151.101.184.133    raw.githubusercontent.com
+151.101.184.133    gist.githubusercontent.com
+151.101.184.133    cloud.githubusercontent.com
+151.101.184.133    camo.githubusercontent.com
+151.101.184.133    avatars0.githubusercontent.com
+199.232.68.133     avatars0.githubusercontent.com
+199.232.28.133     avatars1.githubusercontent.com
+151.101.184.133    avatars1.githubusercontent.com
+151.101.184.133    avatars2.githubusercontent.com
+199.232.28.133     avatars2.githubusercontent.com
+151.101.184.133    avatars3.githubusercontent.com
+199.232.68.133     avatars3.githubusercontent.com
+151.101.184.133    avatars4.githubusercontent.com
+199.232.68.133     avatars4.githubusercontent.com
+151.101.184.133    avatars5.githubusercontent.com
+199.232.68.133     avatars5.githubusercontent.com
+151.101.184.133    avatars6.githubusercontent.com
+199.232.68.133     avatars6.githubusercontent.com
+151.101.184.133    avatars7.githubusercontent.com
+199.232.68.133     avatars7.githubusercontent.com
+151.101.184.133    avatars8.githubusercontent.com
+199.232.68.133     avatars8.githubusercontent.com
+# GitHub End

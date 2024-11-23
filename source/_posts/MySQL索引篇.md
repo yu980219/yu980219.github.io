@@ -18,13 +18,13 @@ select * from tab_user WHERE id=1
 
 执行流程：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218001.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250228.png)
 
 ## 二、MySQL索引简介
 
 ### 2.1 什么是索引？
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218002.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250002.png)
 
 官方介绍索引是帮助MySQL**高效获取数据**的**数据结构**。更通俗的说，数据库索引好比是一本书前面的目录，能**加快数据库的查询速度**。
 
@@ -197,7 +197,7 @@ Hash表，常见的数据结构之一。
 
 对磁盘不友好【一旦变成了全表扫描，磁盘io将是极其沉重】
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218003.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250893.png)
 
 #### 4.2.3 红黑树
 
@@ -209,7 +209,7 @@ Hash表，常见的数据结构之一。
 
 > unique key 为什么不用红黑树，反正只存一个主键？
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218004.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250217.png)
 
 **平衡二叉树存在的问题**
 
@@ -230,7 +230,7 @@ Hash表，常见的数据结构之一。
 
 - 从磁盘读取数据时，系统会将逻辑地址发给磁盘，磁盘将逻辑地址转换为物理地址（哪个磁道，哪个扇区）。 磁头进行机械运动，先找到相应磁道，再找该磁道的对应扇区，扇区是磁盘的最小存储单元。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218005.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251961.png)
 
 - 随机读写时，磁头需要不停的移动，时间都浪费在了磁头寻址上。 而在实际的磁盘存储里，是很少顺序存储的，因为这样的维护成本会很高。
 
@@ -257,7 +257,7 @@ Hash表，常见的数据结构之一。
 
 以下面的B树为例，我们的键值为表主键，具备唯一性。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218006.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251234.png)
 
 B树如何查询数据？：假如我们查询值等于15的数据。查询路径磁盘块1->磁盘块2->磁盘块7。
 
@@ -281,7 +281,7 @@ B树如何查询数据？：假如我们查询值等于15的数据。查询路�
 
 B+树的最底层叶子节点包含所有索引项。具备中路返回特性
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218007.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251725.png)
 
 **等值查询**：假如我们查询值等于15的数据。查询路径磁盘块1->磁盘块2->磁盘块5。
 
@@ -323,13 +323,13 @@ insert into t_user_myisam values(56,'John',89);
 insert into t_user_myisam values(77,'Lily',100);
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218008.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251293.png)
 
 MyISAM的数据文件和索引文件是分开存储的。MyISAM使用B+树构建索引树时，叶子节点中存储的键值为索引列的值，数据为索引所在行的磁盘地址。
 
 #### 5.1.1 主键索引
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218009.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251269.png)
 
 表t_user_myisam的索引存储在索引文件t_user_myisam.MYI中，数据文件存储在数据文件t_user_myisam.MYD中。
 
@@ -410,7 +410,7 @@ insert into t_user_innodb values(56,'John',89);
 insert into t_user_innodb values(77,'Lily',100);
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218010.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251820.png)
 
 InnoDB的数据和索引存储在一个文件t_user_innodb.ibd中。InnoDB的数据组织方式是聚簇索引。
 
@@ -419,7 +419,7 @@ InnoDB的数据和索引存储在一个文件t_user_innodb.ibd中。InnoDB的数
 - 主键索引的叶子节点会存储数据行，辅助索引只会存储主键值。
 - InnoDB要求表必须有一个主键索引(MyISAM 可以没有)。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218011.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251317.png)
 
 ##### 1）等值查询
 
@@ -436,7 +436,7 @@ select * from t_user_innodb where id=30;
 
 **流程分析：**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218012.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251373.png)
 
 ##### 2）范围查询
 
@@ -463,7 +463,7 @@ select * from t_user_innodb where id between 30 and 49;
 
 以表t_user_innodb的age列为例，age索引的索引结果如下图。底层叶子节点的按照（age，id）的顺序排序，先按照age列从小到大排序，age列相同时按照id列从小到大排序。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218013.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251545.png)
 
 ##### 1）等值查询
 
@@ -487,7 +487,7 @@ select * from t_user_innodb where age=22;
 
 根据在辅助索引树中获取的主键id，到主键索引树检索数据的过程称为回表查询。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218014.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251053.png)
 
 ##### 3）范围查询
 
@@ -529,9 +529,9 @@ insert into t_multiple_index (a,b,c,id,d) values(13,16,5,6,'exe');
 insert into t_multiple_index (a,b,c,id,d) values(14,14,14,8,'ddd');
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218015.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251378.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218016.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251409.png)
 
 ##### 2）组合索引的查找方式
 
@@ -547,7 +547,7 @@ select * from t_multiple_index where a=13 and b=16 and c=4;
   - data值即主键id=1，再去主键索引树中检索id=1的数据放入结果集中。（回表：3次磁盘IO）第三项（13,14,5,id=3）：a=13，b=16，c!=4 不符合要求，丢弃。查询结束。
 4. 最后得到1条符合筛选条件，将查询结果集返给客户端。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218017.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251247.png)
 
 ##### 3）最左前缀匹配原则
 
@@ -557,7 +557,7 @@ select * from t_multiple_index where a=13 and b=16 and c=4;
 - 在组合索引树中，最底层的叶子节点按照第一列a列从左到右递增排列，但是b列和c列是无序的，b列只有在a列值相等的情况下小范围内递增有序，而c列只能在a，b两列相等的情况下小范围内递增有序。
 - 所以当我们使用 where a=13 and b=16 and c=4去查询数据的时候，B+树会先比较a列来确定下一步应该搜索的方向，往左还是往右。如果a列相同再比较b列。但是如果查询条件没有a列，B+树就不知道第一步应该从哪个节点查起。！
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218018.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251327.png)
 
 所以联合索引只能从第一列开始查找，比如以下三个查询都可以使用idx_abc索引树，检索数据。
 
@@ -641,7 +641,7 @@ select中列数据如果可以直接在辅助索引树上全部获取，也就�
 
 使用explain工具查看执行计划，可以看到extra中“Using index”，代表使用了覆盖索引。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218019.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251453.png)
 
 <font color=red size=5>大家试试将上面的语句，改为如下语句。大家猜猜这时会不会用到组合索引？</font>
 
@@ -649,7 +649,7 @@ select中列数据如果可以直接在辅助索引树上全部获取，也就�
 select a,b from t_multiple_index where b=16;
 ```
 
-![052401022218020](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218020.Png)
+![052401022218020](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251618.png)
 
 上面的查询语句用到了覆盖索引进行索引扫描。MySQL基于成本考虑，会使用了覆盖索引进行全表扫描，使用覆盖索引可以减少了磁盘IO次数，显著提升查询性能。
 
@@ -678,7 +678,7 @@ SET optimizer_switch = 'index_condition_pushdown=on';
 select * from t_multiple_index where a=13 and b>15 and c='5' and d='pdf';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218021.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251785.png)
 
 - 根据最左前缀匹配原则，这个SQL语句会使用组合索引idx_abc(a,b,c)的（a,b）两列来检索记录。
 - MySQL首先会在组合索引中定位到第一个满足a=13 and b>=15的索引项，**MySQL之后会怎么处理呢**？
@@ -688,13 +688,13 @@ select * from t_multiple_index where a=13 and b>15 and c='5' and d='pdf';
 - 关闭ICP，使用explain工具，查看执行计划，extra列中的“Using where”执行器表示没有使用了索
 - 引条件下推ICP。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218022.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251142.png)
 
 **举个栗子：**
 
 ##### 1）不使用索引ICP
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218023.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252930.png)
 
 具体步骤如下：
 
@@ -710,7 +710,7 @@ select * from t_multiple_index where a=13 and b>15 and c='5' and d='pdf';
 
 ##### 2）使用索引ICP
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218024.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252733.png)
 
 使用ICP时，具体步骤如下：
 
@@ -803,7 +803,7 @@ insert into t_user_index_analyse (id,name,age,pos,pay_time) values(3 ,'2000',23,
 show index from t_user_index_analyse;
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218025.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251885.png)
 
 ### 2、案例演示
 
@@ -826,11 +826,11 @@ explain select * from t_user_index_analyse where name='July' and age=25;
 explain select * from t_user_index_analyse where name='July' and age=25 and pos='dev';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218026.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251877.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218027.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251306.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218028.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251194.png)
 
 #### 2）最左前缀法则
 
@@ -847,9 +847,9 @@ explain select * from t_user_index_analyse where age=23 and pos='dev';
 explain select * from t_user_index_analyse where pos='dev';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218029.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251886.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218030.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251461.png)
 
 中间索引断（带头索引生效，其他索引失效)：
 
@@ -857,7 +857,7 @@ explain select * from t_user_index_analyse where pos='dev';
 explain select * from t_user_index_analyse where name='July' and pos='dev';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218031.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240251412.png)
 
 #### 3）不要在索引上做计算
 
@@ -868,9 +868,9 @@ explain select * from t_user_index_analyse where name='July';
 explain select * from t_user_index_analyse where left(name,4)='July';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218032.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252199.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218033.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252556.png)
 
 #### 4）范围条件右边的列失效
 
@@ -880,9 +880,9 @@ explain select * from t_user_index_analyse where name='July' and age=25 and pos=
 explain select * from t_user_index_analyse where name='July' and age>25 and pos='manager';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218034.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252124.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218035.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252108.png)
 
 #### 5）尽量使用覆盖索引
 
@@ -892,9 +892,9 @@ explain select * from t_user_index_analyse where name='July' and age=25 and pos=
 explain select name,age,pos from t_user_index_analyse where name='July' and age=25 and pos='manager';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218036.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252326.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218037.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252358.png)
 
 #### 6）索引字段上不要使用不等
 
@@ -905,11 +905,11 @@ explain select * from t_user_index_analyse where name != 'July';
 explain select * from t_user_index_analyse where name <> 'July';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218038.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252578.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218039.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252410.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218040.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252610.png)
 
 #### 7）索引字段上不要判断null
 
@@ -918,7 +918,7 @@ explain select * from t_user_index_analyse where name <> 'July';
 explain select * from t_user_index_analyse where name is not null;
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218041.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252971.png)
 
 #### 8）索引字段使用like不以通配符开头
 
@@ -929,11 +929,11 @@ explain select * from t_user_index_analyse where name like '%July';
 explain select * from t_user_index_analyse where name like 'July%';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218042.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252957.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218043.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252536.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218044.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252287.png)
 
 由结果可知，like以通配符结束相当于范围查找，索引不会失效。与范围条件（bettween、<、>、in等)不同的是**不会导致右边的索引失效。**
 
@@ -945,9 +945,9 @@ explain select * from t_user_index_analyse where name = '2000';
 explain select * from t_user_index_analyse where name = 2000;
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218045.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252690.png)
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218046.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252598.png)
 
 #### 10）索引字段不要使用or
 
@@ -956,4 +956,4 @@ explain select * from t_user_index_analyse where name = 2000;
 explain select * from t_user_index_analyse where name = 'July' or name='z3';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_index/052401022218047.Png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240252033.png)

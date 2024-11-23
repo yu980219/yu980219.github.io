@@ -104,5 +104,5 @@ theme: fluid
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://gitee.com/haktiong/haktiong.git
-  branch: master
+  repo: https://github.com/yu980219/yu980219.github.io.git
+  branch: gh-pages

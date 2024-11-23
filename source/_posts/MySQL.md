@@ -136,7 +136,7 @@ date: 2021/12/28 23:41:00
 
   MYSQL中一个节点中可以存放多少个数据是怎么规划的。
 
-  ![image-20211215233004931](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211215233004931.png)
+  ![image-20211215233004931](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211215233004931.png)
 
   > 1. 根节点也可以存放数据。
   > 2. MySQL对于一个物理节点的规划默认是**16KB**。
@@ -177,13 +177,13 @@ Hash表的查找性能是比B+树要好的，但是Hash表不支持区间访问�
 
 - MyISAM支持全文检索，支持表锁。在互联网应用里，因为追求查询性能，且全文检索会使用比较主流的全文检索中间件（es/solr）来做，所以MyISAM存储引擎用得比较少。
 
-![image-20211216001617342](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216001617342.png)
+![image-20211216001617342](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216001617342.png)
 
 ## 2、InnoDB--聚集索引
 
 InnoDB会把索引和数据绑定在一起，那么通过找到索引后，就能快速的找到数据，所以查询性能是比MyISAM强很多。
 
-![image-20211216002628770](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216002628770.png)
+![image-20211216002628770](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216002628770.png)
 
 > 非聚集索引：就是MyISAM。
 >
@@ -193,7 +193,7 @@ InnoDB会把索引和数据绑定在一起，那么通过找到索引后，就�
 
 - ### 问题1：为什么非主键索引的叶子节点存放的是数据是主键值？
 
-  ![image-20211216004518942](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216004518942.png)
+  ![image-20211216004518942](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216004518942.png)
 
   两个原因：
 
@@ -458,7 +458,7 @@ select * from tb_tmp where b=2 and c=3 and a=1;	# 可以，mysql会自动优化�
 EXPLAIN select * from weixin_article_weixiao where title like '医%'
 ```
 
-![image-20211222230315179](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211222230315179.png)
+![image-20211222230315179](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211222230315179.png)
 
 ## 2. MySQL的内部优化器
 
@@ -497,7 +497,7 @@ explain select * from tb_book where id = 1;
 explain select (select 1 from tb_author where id = 1) from (select * from tb_book where id = 1) der;
 ```
 
-![image-20211222233206508](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211222233206508.png)
+![image-20211222233206508](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211222233206508.png)
 
 ##### 2. table列
 
@@ -766,7 +766,7 @@ undo log有什么用途呢？
 
 多个事务并行操作某一行数据时，不同事务对该行数据的修改会产生多个版本，然后通过回滚指针（roll_pointer），连成一个链表，这个链表就称为**版本链**。如下：
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222653290-1858853701.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256260.jpeg)
 
 ##### 5、快照读和当前读
 
@@ -806,7 +806,7 @@ ReadView是如何保证可见性判断的呢？我们先看看 ReadView 的几�
 
 画张图来理解下
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222718140-1599553574.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256514.jpeg)
 
 这里需要思考的一个问题就是 `何时创建ReadView？`
 
@@ -835,7 +835,7 @@ InnoDB 实现MVCC，是通过`ReadView + Undo Log` 实现的，Undo Log 保存�
 
 看完下面这个例子你应该就明白了。
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222741858-1594110121.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256604.jpeg)
 
 #### 8.4 经典面试题:MVCC能否解决了幻读问题呢？
 
@@ -853,11 +853,11 @@ InnoDB 实现MVCC，是通过`ReadView + Undo Log` 实现的，Undo Log 保存�
 
 假设有张用户表,这张表的 id 是主键。表中一开始有4条数据。
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222957860-1748872228.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256040.jpeg)
 
 这里是在RR级别下研究(可重复读)。
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230223019433-210214288.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256564.jpeg)
 
 1、事务A,查询是否存在 id=5 的记录，没有则插入，这是我们期望的正常业务逻辑。
 
@@ -873,7 +873,7 @@ InnoDB 实现MVCC，是通过`ReadView + Undo Log` 实现的，Undo Log 保存�
 INSERT INTO `user` (`id`, `name`, `pwd`) VALUES (5, '田七', 'fff');
 ```
 
-![img](https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230223042875-1554341866.jpg)
+![img](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256986.jpeg)
 
 最终 事务A 提交事务，发现报错了。这就很奇怪，查的时候明明没有这条记录，但插入的时候 却告诉我 主键冲突，这就好像幻觉一样。这才是幻读问题。
 

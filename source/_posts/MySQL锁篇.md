@@ -18,7 +18,7 @@ update tab_user set name='曹操' where id = 1;
 
 执行流程：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561001.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249289.jpeg)
 
 ## 2. MySQL锁介绍
 
@@ -36,7 +36,7 @@ update tab_user set name='曹操' where id = 1;
 - 表级锁：锁某Table，由MySQL的SQL layer层实现
 - 行级锁：锁某Row的索引，也可锁定行索引之间的间隙，由存储引擎实现【InnoDB】
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561002.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249062.jpeg)
 
 **按锁功能分：**
 
@@ -100,7 +100,7 @@ MySQL 实现的表级锁定的争用状态变量：
 mysql> show status like 'table%';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561003.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249659.jpeg)
 
 - table_locks_immediate：产生表级锁定的次数；
 - table_locks_waited：出现表级锁定争用而发生等待的次数；
@@ -331,7 +331,7 @@ delete from t1_simple where id =2
 
 **主键id索引的行锁区间划分图：**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561004.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249338.jpeg)
 
 session1执行：
 
@@ -358,7 +358,7 @@ insert into t1_simple values (3,100); -- 成功
 
 **普通索引index(pubtime)行锁的区间划分图：**
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561005.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249263.jpeg)
 
 | **场景**                                     | **退化成的锁类型** |
 | -------------------------------------------- | ------------------ |
@@ -372,7 +372,7 @@ insert into t1_simple values (3,100); -- 成功
 mysql> select * from t1_simple;
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561006.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249956.jpeg)
 
 session1执行：
 
@@ -401,7 +401,7 @@ insert into t1_simple values (16, 101); -- 成功
 
 （4）插入意向锁不会阻止任何锁，对于插入的记录会持有一个记录锁。
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561007.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249334.jpeg)
 
 ### 4.3 加锁规则【非常重要】
 
@@ -442,7 +442,7 @@ InnoDB也实现了表级锁，也就是意向锁【Intention Locks】。意向�
 
 #### 3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561008.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249554.jpeg)
 
 - 意向锁相互兼容：因为IX、IS只是表明申请更低层次级别元素（比如 page、记录）的X、S操作。
 - 表级S锁和X、IX锁不兼容：因为上了表级S锁后，不允许其他事务再加X锁。
@@ -458,7 +458,7 @@ InnoDB所使用的**行级锁定**争用状态查看：
 mysql> show status like 'innodb_row_lock%';
 ```
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561009.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249968.jpeg)
 
 - Innodb_row_lock_current_waits：当前正在等待锁定的数量；
 - Innodb_row_lock_time：从系统启动到现在锁定总时间长度；
@@ -556,7 +556,7 @@ delete from t1 where id = 10;
 
 这个组合，是最简单，最容易分析的组合。**id是主键，RC隔离级别**，给定SQL： `delete from t1 where id = 10` ; 只需要将主键上id = 10的记录加上写锁即可。如下图所示：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561010.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249139.jpeg)
 
 **结论**：id是主键时，此SQL只需要在id=10这条记录上加写锁即可。
 
@@ -566,7 +566,7 @@ delete from t1 where id = 10;
 
 见下图：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561011.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249318.jpeg)
 
 此组合中，id是unique索引，而主键是name列。此时，加锁的情况由于组合一有所不同。由于id是unique索引，因此delete语句会选择走id列的索引进行where条件的过滤，在找到id=10的记录后，首先会将unique索引上的id=10索引记录加上**写锁**，同时，会根据读取到的name列，回主键索引(聚簇索引)，然后将聚簇索引上的name = ‘d’ 对应的主键索引项加**写锁**。
 
@@ -582,7 +582,7 @@ delete from t1 where id = 10;
 
 同样见下图：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561012.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249132.jpeg)
 
 根据此图，可以看到，首先，id列索引上，满足id = 10查询条件的记录，均已加锁。同时，这些记录对应的主键索引上的记录也都加上了锁。与组合二唯一的区别在于，组合二最多只有一个满足等值查询的记录，而组合三会将所有满足查询条件的记录都加锁。
 
@@ -598,7 +598,7 @@ delete from t1 where id = 10;
 
 请看下图：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561013.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250399.jpeg)
 
 由于id列上没有索引，因此只能走聚簇索引，进行全部扫描。从图中可以看到，满足删除条件的记录有两条，但是，聚簇索引上所有的记录，都被加上了**写锁**。无论记录是否满足条件，全部被加上**写锁**。既不是加表锁，也不是在满足条件的记录上加行锁。
 
@@ -632,7 +632,7 @@ delete from t1 where id = 10;
 
 看下面这幅图：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561014.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250577.jpeg)
 
 相对于组合三最大的区别在于，组合七中多了一个间隙锁。**其实这个多出来的间隙锁，就是RR隔离级别，相对于RC隔离级别，不会出现幻读的关键。**
 
@@ -648,7 +648,7 @@ RR隔离级别下，id列上有一个非唯一索引，对应SQL：delete from t
 
 组合八，RR隔离级别下的最后一种情况，**id列上没有索引**。此时**SQL：delete from t1 where id = 10;**没有其他的路径可以选择，只能进行全表扫描。最终的加锁情况，如下图所示：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561015.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250071.jpeg)
 
 如图，这是一个很恐怖的现象。首先，聚簇索引上的所有记录，都被加上了**写锁**。其次，聚簇索引每条记录间的间隙，也同时被加上了间隙锁。这个示例表，只有6条记录，一共需要6个记录锁，7个间隙锁。试想，如果表上有1000万条记录呢？
 
@@ -694,7 +694,7 @@ delete from t1 where pubtime > 1 and pubtime < 20 and userid='hero' and commit i
 
 假定在RR隔离级别下，同时，假设SQL走的是idx_t1_pu（pubtime，userid）索引
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561016.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250227.jpeg)
 
 在详细分析这条SQL的加锁情况前，还需要有一个知识储备，那就是一个SQL中的where条件如何拆分？
 
@@ -708,7 +708,7 @@ delete from t1 where pubtime > 1 and pubtime < 20 and userid='hero' and commit i
 
 如下图所示：
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561017.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250630.jpeg)
 
 从图中可以看出，在RR隔离级别下，由Index Key所确定的范围，被加上了间隙锁；Index Filter锁给定的条件视MySQL的版本而定【图中，用红色箭头标出的写锁是否要加，与ICP有关】
 
@@ -766,7 +766,7 @@ Insert into t1_deadlock(id,name,age,address) values (6,'曹孟德',32,'魏国');
 | T5   | 死锁                                                 | delete from t1_deadlock where<br/>id=1; |
 | T6   | commit;                                              | commit;                                 |
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561018.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250569.jpeg)
 
 ```mysql
 -- Session01
@@ -784,7 +784,7 @@ commit;
 
 #### 情况02
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561019.jpg)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250050.jpeg)
 
 ```mysql
 CREATE TABLE `t1_deadlock03` (

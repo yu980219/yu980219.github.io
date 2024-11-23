@@ -66,16 +66,16 @@ Redis（Remote Dictionary Server）远程字典服务，由C语言去编写，�
 
 <font size=5 color=orange>RedisDesktopManager</font>
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233000439.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240223404.png)
 
 
 ### 2.2 为Redis赋值
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233023172.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240224063.png)
 
 
 ### 2.3 在Redis中查看
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233047923.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240248957.png)
 
 
 
@@ -108,7 +108,7 @@ Redis（Remote Dictionary Server）远程字典服务，由C语言去编写，�
   
   BIT：一般存储的也是一个字符串，存储的是一个byte[]
 
-![](https://gitee.com/haktiong/picture-warehouse/raw/master/images/redis/20201006233124892.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240248212.png)
 
 应用：
 
@@ -786,17 +786,17 @@ dbfilename redis.rdb
 ----
 
 > 	AOF持久化机制默认是关闭的，Redis官方推荐同时开启RDB和AOF持久化，更安全，避免数据丢失。
->			
+>				
 > 	1. AOF持久化的速度，相对RDB是较慢的，存储的是一个文本文件，到了后期文件会比较大，传输困难。
->			
+>				
 > 	2. AOF的持久化时机。
->			
+>				
 > 	  appendfsync always：每执行一个写操作，立即持久化到AOF文件中，性能比较低。
->			
+>				
 > 	  appendfsync everysec：每秒执行一次持久化。
->			
+>				
 > 	  appendfsync no：会根据你的操作系统不同，环境的不同，在一定时间内执行一次持久化。
->			
+>				
 > 	3. AOF相对RDB更安全，推荐同时开启AOF和RDB。
 
 ```sh

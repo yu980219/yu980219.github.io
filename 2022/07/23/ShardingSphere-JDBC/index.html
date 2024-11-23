@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/default.jpeg">
 <meta property="article:published_time" content="2022-07-23T04:48:19.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.482Z">
+<meta property="article:modified_time" content="2024-11-23T17:50:18.413Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="分库分表">
 <meta name="twitter:card" content="summary_large_image">
@@ -311,16 +311,16 @@
 <li>支持任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, HikariCP 等；</li>
 <li>支持任意实现 JDBC 规范的数据库，目前支持 MySQL，PostgreSQL，Oracle，SQLServer 以及任何可使用 JDBC 访问的数据库。</li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230517235839013.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230517235839013.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="3-ShardingSphere-Proxy"><a href="#3-ShardingSphere-Proxy" class="headerlink" title="3.ShardingSphere-Proxy"></a>3.ShardingSphere-Proxy</h3><p>定位为透明化的数据库代理端，提供封装了数据库⼆进制协议的服务端版本，用于完成对异构语⾔的支持。 目前提供 MySQL 和 PostgreSQL（兼容 openGauss 等基于 PostgreSQL 的数据库）版本，它可以使用任何兼容MySQL&#x2F;PostgreSQL 协议的访问客户端（如：MySQLCommand Client, MySQL Workbench, Navicat 等）操作数据，对 DBA 更加友好。</p>
 <ul>
 <li>向应用程序完全透明，可直接当做 MySQL&#x2F;PostgreSQL 使用；</li>
 <li>适用于任何兼容 MySQL&#x2F;PostgreSQL 协议的的客户端。</li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518000240949.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000240949.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="4-ShardingSphere-Sidecar（TODO）"><a href="#4-ShardingSphere-Sidecar（TODO）" class="headerlink" title="4.ShardingSphere-Sidecar（TODO）"></a>4.ShardingSphere-Sidecar（TODO）</h3><p>定位为 Kubernetes 的云原生数据库代理，以 Sidecar 的形式代理所有对数据库的访问。 通过无中心、零侵入的方案提供与数据库交互的啮合层，即 <code>Database Mesh </code>，又可称数据库网格。</p>
 <p>Database Mesh 的关注重点在于如何将分布式的数据访问应用与数据库有机串联起来，它更加关注的是交互，是将杂乱无章的应用与数据库之间的交互进行有效地梳理。 使⽤Database Mesh，访问数据库的应用和数据库终将形成一个巨大的网格体系，应用和数据库只需在网格体系中对号入座即可，它们都是被啮合层所治理的对象。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518000358776.png" srcset="/img/loading.gif" lazyload alt="image-20230518000358776"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000358776.png" srcset="/img/loading.gif" lazyload alt="image-20230518000358776"></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +591,7 @@
 <p>再次查询，不再出现笛卡尔积：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2022-03-28 21:10:48.549 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776753684482, <span class="hljs-attribute">deviceId</span>=0, <span class="hljs-attribute">deviceIntro</span>=0)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776938233858, <span class="hljs-attribute">deviceId</span>=2, <span class="hljs-attribute">deviceIntro</span>=2)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777097617410, <span class="hljs-attribute">deviceId</span>=4, <span class="hljs-attribute">deviceIntro</span>=4)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777210863618, <span class="hljs-attribute">deviceId</span>=6, <span class="hljs-attribute">deviceIntro</span>=6)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777328304130, <span class="hljs-attribute">deviceId</span>=8, <span class="hljs-attribute">deviceIntro</span>=8)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776858542081, <span class="hljs-attribute">deviceId</span>=1, <span class="hljs-attribute">deviceIntro</span>=1)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777030508546, <span class="hljs-attribute">deviceId</span>=3, <span class="hljs-attribute">deviceIntro</span>=3)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777152143362, <span class="hljs-attribute">deviceId</span>=5, <span class="hljs-attribute">deviceIntro</span>=5)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777273778177, <span class="hljs-attribute">deviceId</span>=7, <span class="hljs-attribute">deviceIntro</span>=7)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777378635778, <span class="hljs-attribute">deviceId</span>=9, <span class="hljs-attribute">deviceIntro</span>=9)<br></code></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="5-广播表"><a href="#5-广播表" class="headerlink" title="5.广播表"></a>5.广播表</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518004837728.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="5-广播表"><a href="#5-广播表" class="headerlink" title="5.广播表"></a>5.广播表</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518004837728.png" srcset="/img/loading.gif" lazyload></p>
 <p>现在有这么一个场景，device_type列对应的tb_device_type表中的数据，不应该被分表，两个库中都应该有全量的该表的数据。</p>
 <ul>
 <li><p>在两个数据库中创建 tb_device_type 表</p>
@@ -607,7 +607,7 @@
 <li>主从同步原理</li>
 </ul>
 <p>Master将数据写入到binlog⽇志中。Slave读取主节点的Binlog数据到本地的relaylog⽇志⽂件中。此时，Slave持续不断的与Master同步，且数据存在于relaylog中，而并非落在数据库。于是Slave开启一条线程，专门讲relaylog中的数据写入到数据库中。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005118415.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005118415.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li><p>准备Master主库</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7.25</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">TZ:</span> <span class="hljs-string">Asia/Shanghai</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>      <span class="hljs-string">--max_allowed_packet=128M</span><br>      <span class="hljs-string">--server-id=47</span><br>      <span class="hljs-string">--log_bin=master-bin</span><br>      <span class="hljs-string">--log_bin-index=master-bin.index</span><br>      <span class="hljs-string">--skip-name-resolve</span><br>      <span class="hljs-string">--sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mysql-data:/var/lib/mysql</span><br>      <br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">mysql-data:</span><br></code></pre></td></tr></table></figure>
@@ -616,7 +616,7 @@
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">服务id：<span class="hljs-attribute">server-id</span>=47<br>开启binlog：<span class="hljs-attribute">log_bin</span>=master-bin<br>binlog索引：<span class="hljs-attribute">log_bin-index</span>=master-bin.index<br></code></pre></td></tr></table></figure>
 
 <p>通过 <code>show master status</code> 命令查看并记录⽂件名和偏移量。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005437414.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005437414.png" srcset="/img/loading.gif" lazyload></p>
 </li>
 <li><p>准备Slave从库：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7.25</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">TZ:</span> <span class="hljs-string">Asia/Shanghai</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>      <span class="hljs-string">--max_allowed_packet=128M</span><br>      <span class="hljs-string">--server-id=48</span><br>      <span class="hljs-string">--relay-log-index=slave-relay-bin.index</span><br>      <span class="hljs-string">--relay-log=slave-relay-bin</span><br>      <span class="hljs-string">--log-bin=mysql-bin</span><br>      <span class="hljs-string">--log-slave-updates=1</span><br>      <span class="hljs-string">--sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mysql-data:/var/lib/mysql</span><br>      <br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">mysql-data:</span><br></code></pre></td></tr></table></figure>
@@ -652,7 +652,7 @@
 <p>以结果集游标下移进行结果归并的方式，称之为流式归并，它无需将结果数据全数加载至内存，可以有效的节省内存资源，进而减少垃圾回收的频次。 当无法保证每个分片查询持有一个独立数据库连接时，则需要在复用该数据库连接获取下一张分表的查询结果集之前，将当前的查询结果集全数加载至内存。 因此，即使可以采用流式归并，在此场景下也将退化为内存归并。</p>
 <p>一方⾯是对数据库连接资源的控制保护，一方⾯是采用更优的归并模式达到对中间件内存资源的节省，如何处理好两者之间的关系，是 ShardingSphere 执行引擎需要解决的问题。 具体来说，如果一条 SQL 在经过 ShardingSphere 的分片后，需要操作某数据库实例下的 200张表。 那么，是选择创建 200 个连接并行执行，还是选择创建一个连接串行执行呢？效率与资源控制又应该如何抉择呢？</p>
 <p>针对上述场景，ShardingSphere 提供了一种解决思路。 它提出了连接模式（ConnectionMode）的概念，将其划分为内存限制模式（MEMORY_STRICTLY）和连接限制模式（CONNECTION_STRICTLY）这两种类型。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518005933107.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005933107.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="1）内存限制模式"><a href="#1）内存限制模式" class="headerlink" title="1）内存限制模式"></a>1）内存限制模式</h4><p>使用此模式的前提是，ShardingSphere 对一次操作所耗费的数据库连接数量不做限制。 如果实际执行的 SQL 需要对某数据库实例中的 200 张表做操作，则对每张表创建一个新的数据库连接，并通过多线程的方式并发处理，以达成执行效率最大化。 并且在 SQL 满⾜条件情况下，优先选择流式归并，以防⽌出现内存溢出或避免频繁垃圾回收情况。</p>
 <h4 id="2）连接限制模式"><a href="#2）连接限制模式" class="headerlink" title="2）连接限制模式"></a>2）连接限制模式</h4><p>使用此模式的前提是，ShardingSphere 严格控制对一次操作所耗费的数据库连接数量。 如果实际执行的 SQL 需要对某数据库实例中的 200 张表做操作，那么只会创建唯一的数据库连接，并对其 200 张表串行处理。 如果一次操作中的分片散落在不同的数据库，仍然采用多线程处理对不同库的操作，但每个库的每次操作仍然只创建一个唯一的数据库连接。 这样即可以防⽌对一次请求对数据库连接占用过多所带来的问题。该模式始终选择内存归并。</p>
 <p>内存限制模式适用于 OLAP 操作，可以通过放宽对数据库连接的限制提升系统吞吐量； 连接限制模式适用于 OLTP 操作，OLTP 通常带有分片键，会路由到单一的分片，因此严格控制数据库连接，以保证在线系统数据库资源能够被更多的应用所使用，是明智的选择。</p>
@@ -668,7 +668,7 @@
 <li><p>将 SQL 的路由结果按照数据源的名称进行分组。</p>
 </li>
 <li><p>通过下图的公式，可以获得每个数据库实例在 <code>maxConnectionSizePerQuery</code> 的允许范围内，每个连接需要执行的 SQL 路由结果组，并计算出本次请求的最优连接模式。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010213578.png" srcset="/img/loading.gif" lazyload alt="image-20230518010213578"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010213578.png" srcset="/img/loading.gif" lazyload alt="image-20230518010213578"></p>
 <p>在 maxConnectionSizePerQuery 允许的范围内，当一个连接需要执行的请求数量大于 1时，意味着当前的数据库连接无法持有相应的数据结果集，则必须采用内存归并； 反之，当一个连接需要执行的请求数量等于 1 时，意味着当前的数据库连接可以持有相应的数据结果集，则可以采用流式归并。</p>
 <p>每一次的连接模式的选择，是针对每一个物理数据库的。也就是说，在同一次查询中，如果路由至一个以上的数据库，每个数据库的连接模式不一定一样，它们可能是混合存在的形态。</p>
 </li>
@@ -683,10 +683,10 @@
 <h3 id="2-排序归并"><a href="#2-排序归并" class="headerlink" title="2.排序归并"></a>2.排序归并</h3><p>由于在 SQL 中存在 <code>ORDER BY</code> 语句，因此每个数据结果集自身是有序的，因此只需要将数据结果集当前游标指向的数据值进行排序即可。 这相当于对多个有序的数组进行排序，归并排序是最适合此场景的排序算法。</p>
 <p>ShardingSphere 在对排序的查询进行归并时，将每个结果集的当前数据值进行比较（通过实现 Java 的 Comparable 接口完成），并将其放入优先级队列。 每次获取下一条数据时，只需将队列顶端结果集的游标下移，并根据新游标重新进入优先级排序队列找到自己的位置即可。</p>
 <p>通过一个例子来说明 ShardingSphere 的排序归并，下图是一个通过分数进行排序的示例图。 图中展示了 3 张表返回的数据结果集，每个数据结果集已经根据分数排序完毕，但是 3个数据结果集之间是无序的。 将 3 个数据结果集的当前游标指向的数据值进行排序，并放入优先级队列，t_score_0 的第一个数据值最大，t_score_2 的第一个数据值次之，t_score_1的第一个数据值最小，因此优先级队列根据 t_score_0，t_score_2 和 t_score_1 的方式排序队列。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010426647.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010426647.png" srcset="/img/loading.gif" lazyload></p>
 <p>下图则展现了进行 next 调用的时候，排序归并是如何进行的。 通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_0 将会被弹出队列，并且将当前游标指向的数据值（也就是 100）返回至查询客户端，并且将游标下移一位之后，重新放入优先级队列。 而优先级队列也会根据 t_score_0 的当前数据结果集指向游标的数据值（这⾥是 90）进行排序，根据当前数值，t_score_0 排列在队列的最后一位。 之前队列中排名第⼆的t_score_2 的数据结果集则自动排在了队列⾸位。</p>
 <p>在进行第⼆次 next 时，只需要将目前排列在队列⾸位的 t_score_2 弹出队列，并且将其数据结果集游标指向的值返回至客户端，并下移游标，继续加入队列排队，以此类推。 当一个结果集中已经没有数据了，则无需再次加入队列。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010459607.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010459607.png" srcset="/img/loading.gif" lazyload></p>
 <p>可以看到，对于每个数据结果集中的数据有序，而多数据结果集整体无序的情况下，ShardingSphere 无需将所有的数据都加载至内存即可排序。 它使用的是流式归并的方式，每次 next 仅获取唯一正确的一条数据，极大的节省了内存的消耗。</p>
 <p>从另一个⻆度来说，ShardingSphere 的排序归并，是在维护数据结果集的纵轴和横轴这两个维度的有序性。 纵轴是指每个数据结果集本身，它是天然有序的，它通过包含 ORDER BY 的SQL 所获取。 横轴是指每个数据结果集当前游标所指向的值，它需要通过优先级队列来维护其正确顺序。 每一次数据结果集当前游标的下移，都需要将该数据结果集重新放入优先级队列排序，而只有排列在队列⾸位的数据结果集才可能发生游标下移的操作。</p>
 <h3 id="3-分组归并"><a href="#3-分组归并" class="headerlink" title="3.分组归并"></a>3.分组归并</h3><p>分组归并的情况最为复杂，它分为流式分组归并和内存分组归并。 流式分组归并要求 SQL 的排序项与分组项的字段以及排序类型（ASC 或 DESC）必须保持一致，否则只能通过内存归并才能保证其数据的正确性。</p>
@@ -694,9 +694,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT name, SUM(score) FROM t_score GROUP BY name ORDER BY name;<br></code></pre></td></tr></table></figure>
 
 <p>在分组项与排序项完全一致的情况下，取得的数据是连续的，分组所需的数据全数存在于各个数据结果集的当前游标所指向的数据值，因此可以采用流式归并。如下图所示。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010609103.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010609103.png" srcset="/img/loading.gif" lazyload></p>
 <p>进行归并时，逻辑与排序归并类似。 下图展现了进行 next 调用的时候，流式分组归并是如何进行的。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010634421.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010634421.png" srcset="/img/loading.gif" lazyload></p>
 <p>通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_java 将会被弹出队列，并且将分组值同为 “Jerry” 的其他结果集中的数据一同弹出队列。 在获取了所有的姓名为 “Jerry” 的同学的分数之后，进行累加操作，那么，在第一次 next 调用结束后，取出的结果集是 “Jerry” 的分数总和。 与此同时，所有的数据结果集中的游标都将下移至数据值“Jerry” 的下一个不同的数据值，并且根据数据结果集当前游标指向的值进行重排序。 因此，包含名字顺着第⼆位的 “John” 的相关数据结果集则排在的队列的前列。</p>
 <p>流式分组归并与排序归并的区别仅仅在于两点：</p>
 <ul>
@@ -721,7 +721,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT * FROM t_order WHERE id &gt; 10000000 LIMIT 10;<br></code></pre></td></tr></table></figure>
 
 <p>归并引擎的整体结构划分如下图。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/shardingSphere-JDBC/image-20230518010917074.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010917074.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>文献来源：</strong></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1CL4y157ie">Sharding-JDBC+Mycat，从原理到配置</a></p>
 

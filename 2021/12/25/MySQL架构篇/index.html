@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
 <meta property="article:published_time" content="2021-12-24T20:59:22.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.481Z">
+<meta property="article:modified_time" content="2024-11-23T18:55:08.635Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -308,7 +308,7 @@
 <li><p>MySQL：MySQL 5.7.30</p>
 </li>
 </ul>
-<h2 id="二、MySQL架构图"><a href="#二、MySQL架构图" class="headerlink" title="二、MySQL架构图"></a><strong>二、MySQL架构图</strong></h2><h3 id="2-1-逻辑架构图"><a href="#2-1-逻辑架构图" class="headerlink" title="2.1 逻辑架构图"></a><strong>2.1 逻辑架构图</strong></h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%873.png" srcset="/img/loading.gif" lazyload alt="逻辑架构图"></p>
+<h2 id="二、MySQL架构图"><a href="#二、MySQL架构图" class="headerlink" title="二、MySQL架构图"></a><strong>二、MySQL架构图</strong></h2><h3 id="2-1-逻辑架构图"><a href="#2-1-逻辑架构图" class="headerlink" title="2.1 逻辑架构图"></a><strong>2.1 逻辑架构图</strong></h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254857.png" srcset="/img/loading.gif" lazyload alt="逻辑架构图"></p>
 <ul>
 <li><strong>Connectors连接器：</strong>负责跟客户端建立连接</li>
 <li><strong>Management Serveices &amp; Utilities系统管理和控制工具</strong></li>
@@ -340,7 +340,7 @@
 <p>可以通过命令查看当前数据库中的日志使用信息：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; show variables like &#x27;log_%&#x27;;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%872.png" srcset="/img/loading.gif" lazyload alt="日志信息"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254751.png" srcset="/img/loading.gif" lazyload alt="日志信息"></p>
 <h4 id="错误日志：error-log"><a href="#错误日志：error-log" class="headerlink" title="错误日志：error log"></a><strong>错误日志：error log</strong></h4><p>默认开启，错误日志记录了运行过程中<strong>遇到的所有严重的错误信息</strong>，以及 MySQL<strong>每次启动和关闭的详细信息</strong>。错误日志所记录的信息是可以通过<strong>log_error和log_warnings配置</strong>来定义的。从5.5.7以后无法关闭错误日志。</p>
 <ul>
 <li><p>log_error：指定错误日志存储位置</p>
@@ -451,14 +451,14 @@
 </ul>
 </li>
 </ol>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%871.png" srcset="/img/loading.gif" lazyload alt="执行流程"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254732.png" srcset="/img/loading.gif" lazyload alt="执行流程"></p>
 <h4 id="第一步：连接到数据库"><a href="#第一步：连接到数据库" class="headerlink" title="第一步：连接到数据库"></a><strong>第一步：连接到数据库</strong></h4><p><strong>首先会连接到这个数据库上，这时候接待你的就是连接器。</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">-- 连接命令<br>mysql -h127.0.0.1 -P3306 -uroot -p<br></code></pre></td></tr></table></figure>
 
 <p>连接完成后，如果你没有后续的动作，这个连接就处于空闲状态。客户端如果太长时间没动静，连接器就会自动将它断开。这个时间是由参数 wait_timeout 控制的默认值是 8 小时。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; show processlist;<br># 其中的 Command 列显示为“Sleep”的这一行，就表示现在系统里面有一个空闲连接。<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%874.png" srcset="/img/loading.gif" lazyload alt="show processlist"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254103.png" srcset="/img/loading.gif" lazyload alt="show processlist"></p>
 <h4 id="第二步：查缓存"><a href="#第二步：查缓存" class="headerlink" title="第二步：查缓存"></a><strong>第二步：查缓存</strong></h4><p>MySQL 拿到一个查询请求后，会先到查询缓存看看，之前是不是执行过这条语句。之前执行过的语句及其结果可能会以 key-value 对的形式，被直接缓存在内存中。key 是查询的语句hash之后的值，value是查询的结果。</p>
 <ul>
 <li><p>如果你的查询语句在缓存中，会被直接返回给客户端。</p>
@@ -515,7 +515,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; select c_id,first_name,last_name form customer where c_id=14;<br><br>[Err] 1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;customer where c_id=14&#x27; at line 1<br># 错误原因：from 写为 form<br></code></pre></td></tr></table></figure>
 
 <p>解析树举例：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%875.png" srcset="/img/loading.gif" lazyload alt="解析树"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254514.png" srcset="/img/loading.gif" lazyload alt="解析树"></p>
 <h5 id="3）预处理器："><a href="#3）预处理器：" class="headerlink" title="3）预处理器："></a><strong>3）预处理器：</strong></h5><p>预处理器则会进一步去检查<strong>解析树</strong>是否合法，比如表名是否存在，语句中表的列是否存在等等，在这一步MySQL会检验用户是否有表的操作权限。</p>
 <p>预处理之后会得到一个新的解析树，然后调用对应执行模块</p>
 <h4 id="第四步：优化SQL语句"><a href="#第四步：优化SQL语句" class="headerlink" title="第四步：优化SQL语句"></a><strong>第四步：优化SQL语句</strong></h4><p><strong>优化器顾名思义就是对查询进行优化。作用是根据解析树生成不同的执行计划，然后选择最优的执行计划。</strong></p>
@@ -539,7 +539,7 @@
 </ul>
 <p>两种执行计划的结果是一样的，但是执行效率会有所不同，<strong>而优化器的作用就是决定选择使用哪一个方案</strong>。</p>
 <p>使用explain工具可以查看优化器的执行计划</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%876.png" srcset="/img/loading.gif" lazyload alt="explain"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254396.png" srcset="/img/loading.gif" lazyload alt="explain"></p>
 <p>注意：优化器最多就是辅助，作用很有限，我们的SQL语句不能依赖于MySQL的优化器去调优！如果SQL语句垃圾，则没有可优化的空间。优化SQL的根本在于掌握MySQL分析与调优知识。</p>
 <h4 id="第五步：执行SQL语句"><a href="#第五步：执行SQL语句" class="headerlink" title="第五步：执行SQL语句"></a><strong>第五步：执行SQL语句</strong></h4><h5 id="1）判断执行权限"><a href="#1）判断执行权限" class="headerlink" title="1）判断执行权限"></a><strong>1）判断执行权限</strong></h5><p>开始执行的时候，要先判断一下你对这个表customer有没有执行查询的权限，如果没有，就会返回没有权限的错误。</p>
 <h5 id="2）调用存储引擎接口查询"><a href="#2）调用存储引擎接口查询" class="headerlink" title="2）调用存储引擎接口查询"></a><strong>2）调用存储引擎接口查询</strong></h5><p>如果有权限，就使用指定的存储引擎打开表开始查询。执行器会根据表的引擎定义，去使用这个引擎提供的查询接口提取数据。</p>
@@ -573,11 +573,11 @@
 <p>使用这个用户mysql_user连接mysql，执行下面的查询语句，就会返回没有权限的错误。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql -umysql_user -p123456@heroA<br>mysql&gt; select * from customer where c_id=14;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%877.png" srcset="/img/loading.gif" lazyload alt="无权限错误"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254034.png" srcset="/img/loading.gif" lazyload alt="无权限错误"></p>
 <h5 id="3）案例：存储引擎查看与设置"><a href="#3）案例：存储引擎查看与设置" class="headerlink" title="3）案例：存储引擎查看与设置"></a><strong>3）案例：存储引擎查看与设置</strong></h5><p>在MySQL中可以使用不同的存储引擎</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 查看支持的存储引擎<br>&gt; show engines<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%878.png" srcset="/img/loading.gif" lazyload alt="show engines"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254735.png" srcset="/img/loading.gif" lazyload alt="show engines"></p>
 <p>只有InnoDB引擎支持事务、行锁、外键。</p>
 <p>在选择引擎时尽可能使用InnoDB引擎。</p>
 <ul>
@@ -663,7 +663,7 @@
 <td>B+ Tree</td>
 </tr>
 </tbody></table>
-<h3 id="3-2-InnoDB架构图"><a href="#3-2-InnoDB架构图" class="headerlink" title="3.2 InnoDB架构图"></a><strong>3.2 InnoDB架构图</strong></h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8725.jpg" srcset="/img/loading.gif" lazyload alt="innoDb架构图"></p>
+<h3 id="3-2-InnoDB架构图"><a href="#3-2-InnoDB架构图" class="headerlink" title="3.2 InnoDB架构图"></a><strong>3.2 InnoDB架构图</strong></h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254661.jpeg" srcset="/img/loading.gif" lazyload alt="innoDb架构图"></p>
 <p>上图详细展示了InnoDB存储引擎的体系架构，从图中可见，InnoDB存储引擎由<strong>内存结构、磁盘结构</strong>两部分组成。</p>
 <h3 id="3-3-内存结构"><a href="#3-3-内存结构" class="headerlink" title="3.3 内存结构"></a><strong>3.3 内存结构</strong></h3><p>InnoDB 内存结构主要分为如下四个区域：</p>
 <ol>
@@ -689,35 +689,35 @@
 <li><p>对于 Buffer Pool 中数据的修改，InnoDB 直接在 Buffer Pool 中修改，并将修改写入 redo Log 中，当数据页被 LRU 算法淘汰时写入磁盘，若持久化前系统崩溃，则在重启后使用 redo Log 进行恢复。</p>
 </li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8726.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254407.jpeg" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 查看innodb存储引擎状态，包含缓冲池、修改缓冲、自适应哈希状态信息、日志缓冲等信息...<br>mysql&gt; show engine innodb status;<br># 查看InnoDB的Buffer Pool大小<br>mysql&gt; show variables like &#x27;innodb_buffer_pool_size&#x27;;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8729.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254394.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="2）修改缓冲-Change-Buffer"><a href="#2）修改缓冲-Change-Buffer" class="headerlink" title="2）修改缓冲(Change Buffer)"></a><strong>2）修改缓冲(Change Buffer)</strong></h4><p>Change Buffer（在 MySQL 5.6 之前叫 insert buffer，简称 ibuf ）是 InnoDB 5.5 引入的一种优化策略。<strong>Change Buffer 用于加速非热点数据中二级索引的写入操作。</strong>由于二级索引数据的不连续性，导致修改二级索引时需要进行频繁的磁盘 IO 消耗大量性能，Change Buffer 缓冲对二级索引的修改操作，同时将写操作录入 redo log 中，在缓冲到一定量或系统较空闲时进行<code>merge</code>操作将修改写入磁盘中。 Change Buffer 在系统表空间中有相应的持久化区域。</p>
 <p>Change Buffer 大小默认占 Buffer Pool 的 25%，最大50%，在引擎启动时便初始化完成。<strong>其物理结构为一棵名为</strong><code>ibuf</code><strong>的 B Tree。</strong></p>
 <blockquote>
 <p><strong>二级索引</strong>就是辅助索引，除了聚簇索引之外的所有索引都是二级索引。</p>
 <p><strong>聚簇索引</strong>也叫聚集索引，索引组织表，指的<strong>是一种数据存储方式，指数据与索引的数据结构存储在一起</strong>。如 InnoDB 的主键索引中所有叶子节点都存储了对应行的数据。因为数据肯定只是存储在一个地方，所以一个表只能有一个聚集索引。</p>
 </blockquote>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8730.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254060.jpeg" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li><p>周期性合并二级索引页</p>
 </li>
 <li><p>周期性净化磁盘中二级索引页</p>
 </li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8727.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254523.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="3）自适应哈希索引-AHI"><a href="#3）自适应哈希索引-AHI" class="headerlink" title="3）自适应哈希索引(AHI)"></a><strong>3）自适应哈希索引(AHI)</strong></h4><p><strong>自适应哈希索引</strong>（Adaptive Hash Index，<strong>AHI</strong>）<strong>用于实现对于热数据页的一次查询。</strong>是建立在索引之上的索引！使用聚簇索引进行数据页定位的时候需要根据索引树的高度从根节点走到叶子节点，通常需要 3 到 4 次查询才能定位到数据。InnoDB 根据对索引使用情况的分析和索引字段的分析，通过自调优Self-tuning的方式为索引页建立或者删除哈希索引。</p>
 <p>AHI 的大小为 Buffer Pool 的 1&#x2F;64，在 MySql 5.7 之后支持分区，以减少对于全局 AHI 锁的竞争，默认分区数为 8。</p>
 <p>AHI 所作用的目标是频繁查询的数据页和索引页，而由于数据页是聚簇索引的一部分，因此 AHI 是建立在索引之上的索引，<strong>对于二级索引，若命中 AHI，则将直接从 AHI 获取二级索引页的记录指针，再根据主键沿着聚簇索引查找数据；若聚簇索引查询同样命中 AHI，则直接返回目标数据页的记录指针，此时就可以根据记录指针直接定位数据页</strong>。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B61/%E5%9B%BE%E7%89%8728.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254594.jpeg" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 查看innodb存储引擎状态，包含自适应哈希状态信息<br>mysql&gt; show engine innodb status;<br># 查看是否开启自适应哈希配置，默认是开启的<br>mysql&gt; show variables like &#x27;innodb_adaptive_hash_index&#x27;;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8718.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254248.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="4）日志缓冲-Log-Buffer"><a href="#4）日志缓冲-Log-Buffer" class="headerlink" title="4）日志缓冲(Log Buffer)"></a><strong>4）日志缓冲(Log Buffer)</strong></h4><p><strong>InnoDB 使用 Log Buffer 来缓冲日志文件的写入操作。</strong>内存写入加上日志文件顺序写的特点，使得 InnoDB 日志写入性能极高。</p>
 <p>对于任何修改操作，都将录入诸如 redo log 与 undo log 这样的日志文件中，因此日志文件的写入操作非常频繁，却又十分零散。这些文件都存储在磁盘中，因此日志记录将引发大量的磁盘 IO。Log Buffer 将分散的写入操作放在内存中，通过定期批量写入磁盘的方式提高日志写入效率和减少磁盘 IO。</p>
 <p> 注意：这种将分散操作 改为 批量操作的优化方式将增加数据丢失的风险！</p>
-<h3 id="3-4-磁盘文件之表空间"><a href="#3-4-磁盘文件之表空间" class="headerlink" title="3.4 磁盘文件之表空间"></a><strong>3.4 磁盘文件之表空间</strong></h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8719.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-4-磁盘文件之表空间"><a href="#3-4-磁盘文件之表空间" class="headerlink" title="3.4 磁盘文件之表空间"></a><strong>3.4 磁盘文件之表空间</strong></h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254519.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>在磁盘中，InnoDB 将所有数据都逻辑地存放在一个空间中，称为表空间（Tablespace）。表空间由段（Segment）、区（extent）、页（Page）组成。</strong></p>
 <ul>
 <li>开启独立表空间innodb_file_per_table&#x3D;1，每张表的数据都会存储到一个<strong>独立表空间</strong>，即 表名.ibd 文件</li>
@@ -736,7 +736,7 @@
 <li><p>临时表空间（The Temporary Tablespace）</p>
 </li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8720.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254003.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="1）系统表空间"><a href="#1）系统表空间" class="headerlink" title="1）系统表空间"></a><strong>1）系统表空间</strong></h4><p><strong>系统表空间是 InnoDB 数据字典、双写缓冲、修改缓冲和回滚日志的存储位置</strong>，如果关闭独立表空间，它也将存储所有表数据和索引。</p>
 <p>它默认下是一个初始大小 12MB、名为 ibdata1 的文件，系统表空间所对应的文件由<code>innodb_data_file_path</code>定义。</p>
 <p><strong>指定系统表空间文件自动增长后，其增长大小由</strong><code>innodb_autoextend_increment</code><strong>设置（默认为64MB）且不可缩减，即使删除系统表空间中存储的表和索引，此过程释放的空间仅仅是在表空间文件中标记为已释放而已，并不会缩减其在磁盘中的大小</strong>。</p>
@@ -751,10 +751,10 @@
 <p>每个独立表空间的初始大小是 96KB。</p>
 <h4 id="3）其他"><a href="#3）其他" class="headerlink" title="3）其他"></a><strong>3）其他</strong></h4><h5 id="1-通用表空间"><a href="#1-通用表空间" class="headerlink" title="1. 通用表空间"></a>1. <strong>通用表空间</strong></h5><p>通用表空间（General Tablespace）是一个由 CREATE TABLESPACE 命令创建的共享表空间，创建时必须指定该表空间名称和 ibd 文件位置，ibd 文件可以放置于任何 MySQL 有权限的地方。该表空间内可以容纳多张数据表，同时在创建时可以指定该表空间所使用的默认引擎。</p>
 <p><strong>通用表空间存在的目的是为了在系统表空间与独立表空间之间作出平衡</strong>。系统表空间与独立表空间中的表可以向通用表空间移动，反之亦可，但系统表空间中的表无法直接与独立表空间中的表相互转化。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8721.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254528.png" srcset="/img/loading.gif" lazyload></p>
 <h5 id="2-Undo-表空间"><a href="#2-Undo-表空间" class="headerlink" title="2. Undo 表空间"></a><strong>2. Undo 表空间</strong></h5><p>Undo TableSpace 用于存放一个或多个 undo log 文件。<strong>默认</strong> <strong>undo log</strong> <strong>存储与系统表空间中，MySql5.6 以后支持自定义 Undo log 表空间并存储所有 undo log</strong>。一旦用户定义了 Undo Tablespace，则系统表空间中的 Undo log 区域将失效。对于 Undo Tablespace 的启用必须在 MySQL 初始化前设置， Undo Tablespace 默认大小为 10MB。Undo Tablespace 中的 Undo log 表可以进行 truncate 操作。</p>
 <h5 id="3-临时表空间"><a href="#3-临时表空间" class="headerlink" title="3. 临时表空间"></a><strong>3. 临时表空间</strong></h5><p>MySQL 5.7 之前临时表存储在系统表空间中，这样会导致 ibdata 在使用临时表的场景下疯狂增长。<strong>5.7版本之后 InnoDB 引擎从系统表空间中抽离出临时表空间（Temporary Tablespace），用于独立保存临时表数据及其回滚信息</strong>。该表空间文件路径由<code>innodb_temp_data_file_path</code> 指定，但必须继承<code>innodb_data_home_dir</code>。</p>
-<h3 id="3-5-磁盘文件之存储结构"><a href="#3-5-磁盘文件之存储结构" class="headerlink" title="3.5 磁盘文件之存储结构"></a><strong>3.5 磁盘文件之存储结构</strong></h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8722.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-5-磁盘文件之存储结构"><a href="#3-5-磁盘文件之存储结构" class="headerlink" title="3.5 磁盘文件之存储结构"></a><strong>3.5 磁盘文件之存储结构</strong></h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240254539.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="1）段【Segment】"><a href="#1）段【Segment】" class="headerlink" title="1）段【Segment】"></a><strong>1）段【Segment】</strong></h4><p><strong>表空间由各个段（Segment）组成，创建的段类型分为数据段、索引段、回滚段等</strong>。由于 InnoDB 采用聚簇索引与 B+ 树的结构存储数据，所以事实上数据页和二级索引页仅仅只是 B+ 树的叶子节点，因此数据段称为 Leaf node segment，<strong>索引段其实指的是</strong> <strong>B+</strong> <strong>树的非叶子节点，称为</strong> <strong>Non-Leaf node segment</strong>。一个段会包含多个区，至少会有一个区，段扩展的最小单位是区。【在索引篇会详细讲解B+数据结构】</p>
 <ul>
 <li><p><strong>数据段</strong>称为 Leaf node segment</p>
@@ -771,7 +771,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">默认 4096 4K</span><br>getconf PAGE_SIZE<br></code></pre></td></tr></table></figure>
 
 <p>所以InnoDB从磁盘中读取一个数据页时，操作系统会分4次从磁盘文件中读取数据到内存。写入也是一样的，需要分4次从内存写入到磁盘中。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MYSQL%E8%BF%9B%E9%98%B6/%E5%9B%BE%E7%89%8723.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240255376.png" srcset="/img/loading.gif" lazyload></p>
 <h4 id="4）行【Row】"><a href="#4）行【Row】" class="headerlink" title="4）行【Row】"></a><strong>4）行【Row】</strong></h4><p>InnoDB的数据是以行为单位存储的，1个页中包含多个行。在MySQL5.7中，InnoDB提供了4种行格式：Compact、Redundant、Dynamic和Compressed行格式，Dynamic为MySQL5.7默认的行格式。</p>
 <p>创建表时可以指定行格式：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE t1 (c1 INT) ROW_FORMAT=DYNAMIC;<br>#修改表的行格式<br>ALTER TABLE tablename ROW_FORMAT=行格式名称;<br>#修改默认行格式<br>SET GLOBAL innodb_default_row_format=DYNAMIC;<br>#查看表行格式<br>SHOW TABLE STATUS LIKE &#x27;t1&#x27;;<br></code></pre></td></tr></table></figure>

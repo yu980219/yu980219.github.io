@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
 <meta property="article:published_time" content="2021-12-28T15:41:00.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.480Z">
+<meta property="article:modified_time" content="2024-11-23T18:57:01.444Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -371,7 +371,7 @@
 <p>此时，这棵树的深度由节点的度（一个节点中可以存放多少个数据节点）来决定。</p>
 <p>如果节点的度比较大，那么节点中存放的数据节点的个数就比较多。那么整棵树的深度就比较浅，那么整棵树的查询性能就更好。</p>
 <p>MYSQL中一个节点中可以存放多少个数据是怎么规划的。</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211215233004931.png" srcset="/img/loading.gif" lazyload alt="image-20211215233004931"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211215233004931.png" srcset="/img/loading.gif" lazyload alt="image-20211215233004931"></p>
 <blockquote>
 <ol>
 <li>根节点也可以存放数据。</li>
@@ -410,15 +410,15 @@
 <h2 id="1、MyISAM–非聚集索引"><a href="#1、MyISAM–非聚集索引" class="headerlink" title="1、MyISAM–非聚集索引"></a>1、MyISAM–非聚集索引</h2><ul>
 <li>MyISAM支持全文检索，支持表锁。在互联网应用里，因为追求查询性能，且全文检索会使用比较主流的全文检索中间件（es&#x2F;solr）来做，所以MyISAM存储引擎用得比较少。</li>
 </ul>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216001617342.png" srcset="/img/loading.gif" lazyload alt="image-20211216001617342"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216001617342.png" srcset="/img/loading.gif" lazyload alt="image-20211216001617342"></p>
 <h2 id="2、InnoDB–聚集索引"><a href="#2、InnoDB–聚集索引" class="headerlink" title="2、InnoDB–聚集索引"></a>2、InnoDB–聚集索引</h2><p>InnoDB会把索引和数据绑定在一起，那么通过找到索引后，就能快速的找到数据，所以查询性能是比MyISAM强很多。</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216002628770.png" srcset="/img/loading.gif" lazyload alt="image-20211216002628770"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216002628770.png" srcset="/img/loading.gif" lazyload alt="image-20211216002628770"></p>
 <blockquote>
 <p>非聚集索引：就是MyISAM。</p>
 <p>聚集索引：索引和数据在一起，也就是InnoDB的索引。</p>
 </blockquote>
 <h1 id="四、索引的面试题"><a href="#四、索引的面试题" class="headerlink" title="四、索引的面试题"></a>四、索引的面试题</h1><ul>
-<li><h3 id="问题1：为什么非主键索引的叶子节点存放的是数据是主键值？"><a href="#问题1：为什么非主键索引的叶子节点存放的是数据是主键值？" class="headerlink" title="问题1：为什么非主键索引的叶子节点存放的是数据是主键值？"></a>问题1：为什么非主键索引的叶子节点存放的是数据是主键值？</h3><p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211216004518942.png" srcset="/img/loading.gif" lazyload alt="image-20211216004518942"></p>
+<li><h3 id="问题1：为什么非主键索引的叶子节点存放的是数据是主键值？"><a href="#问题1：为什么非主键索引的叶子节点存放的是数据是主键值？" class="headerlink" title="问题1：为什么非主键索引的叶子节点存放的是数据是主键值？"></a>问题1：为什么非主键索引的叶子节点存放的是数据是主键值？</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211216004518942.png" srcset="/img/loading.gif" lazyload alt="image-20211216004518942"></p>
 <p>两个原因：</p>
 <ul>
 <li>节约空间：冗余存放相同的数据在多个索引树会造成空间的浪费</li>
@@ -580,7 +580,7 @@
 <p>通过在SQL语句前面加上Explain关键字来执行，于是就能看出当前SQL语句的执行性能。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> weixin_article_weixiao <span class="hljs-keyword">where</span> title <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;医%&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211222230315179.png" srcset="/img/loading.gif" lazyload alt="image-20211222230315179"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211222230315179.png" srcset="/img/loading.gif" lazyload alt="image-20211222230315179"></p>
 <h2 id="2-MySQL的内部优化器"><a href="#2-MySQL的内部优化器" class="headerlink" title="2. MySQL的内部优化器"></a>2. MySQL的内部优化器</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">explain <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tb_book <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><span class="hljs-keyword">show</span> warnings;<br></code></pre></td></tr></table></figure>
 
 <p>在执行上面这条SQL语句的时候，MySQL内部优化器会把语句转换成下面这条SQL，因为这样性能更好（直接通过索引里获取数据）。</p>
@@ -600,7 +600,7 @@
 <p>来自于复杂的查询：除simple外的其它类型</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">explain <span class="hljs-keyword">select</span> (<span class="hljs-keyword">select</span> <span class="hljs-number">1</span> <span class="hljs-keyword">from</span> tb_author <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>) <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tb_book <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>) der;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/image-20211222233206508.png" srcset="/img/loading.gif" lazyload alt="image-20211222233206508"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20211222233206508.png" srcset="/img/loading.gif" lazyload alt="image-20211222233206508"></p>
 <h5 id="2-table列"><a href="#2-table列" class="headerlink" title="2. table列"></a>2. table列</h5><p>这一列表示该sql正在访问哪一张表。也可以看出正在访问的衍生表<derivedN></p>
 <h5 id="3-type列"><a href="#3-type列" class="headerlink" title="3. type列"></a>3. type列</h5><p>通过type列，可以直接的看出SQL语句的查询性能，性能从大到小的排列：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">null</span>&gt;<span class="hljs-keyword">system</span>&gt;const&gt;eq_ref&gt;<span class="hljs-keyword">ref</span>&gt;range&gt;<span class="hljs-keyword">index</span>&gt;<span class="hljs-keyword">ALL</span><br></code></pre></td></tr></table></figure>
@@ -794,7 +794,7 @@
 <p>1、事务回滚时，保证原子性和一致性。<br>2、如果当前记录行不可见，可以顺着undo log链找到满足其可见性条件的记录行版本(用于MVCC快照读)。</p>
 </blockquote>
 <h5 id="4、版本链"><a href="#4、版本链" class="headerlink" title="4、版本链"></a>4、版本链</h5><p>多个事务并行操作某一行数据时，不同事务对该行数据的修改会产生多个版本，然后通过回滚指针（roll_pointer），连成一个链表，这个链表就称为<strong>版本链</strong>。如下：</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222653290-1858853701.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256260.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h5 id="5、快照读和当前读"><a href="#5、快照读和当前读" class="headerlink" title="5、快照读和当前读"></a>5、快照读和当前读</h5><p><strong>快照读</strong>： 读取的是记录数据的可见版本（有旧的版本）。不加锁,普通的select语句都是快照读,如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
 
@@ -820,7 +820,7 @@
 <li>如果被访问版本的 <code>事务ID在 up_limit_id和m_low_limit_id</code> 之间，那就需要判断一下版本的事务ID是不是在 trx_ids 列表中，如果在，说明创建 ReadView 时生成该版本的事务还是活跃的，该版本不可以被访问；<br>如果不在，说明创建 ReadView 时生成该版本的事务已经被提交，该版本可以被访问。</li>
 </ul>
 <p>画张图来理解下</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222718140-1599553574.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256514.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>这里需要思考的一个问题就是 <code>何时创建ReadView？</code></p>
 <p>上面说过,ReadView是来解决一个事务需要读取哪个版本的行记录的问题的。那么说明什么？只有在select的时候才会创建ReadView。但在不同的隔离级别是有区别的:</p>
 <blockquote>
@@ -837,7 +837,7 @@
 <p>InnoDB 实现MVCC，是通过<code>ReadView + Undo Log</code> 实现的，Undo Log 保存了历史快照，ReadView可见性规则帮助判断当前版本的数据是否可见。</p>
 <h5 id="2、MVCC是如何实现读已提交和可重复读的呢？"><a href="#2、MVCC是如何实现读已提交和可重复读的呢？" class="headerlink" title="2、MVCC是如何实现读已提交和可重复读的呢？"></a>2、MVCC是如何实现读已提交和可重复读的呢？</h5><p>其实其它流程都是一样的，读已提交和可重复读唯一的区别在于：在RC隔离级别下，是每个select都会创建最新的ReadView；而在RR隔离级别下，则是当事务中的第一个select请求才创建ReadView。</p>
 <p>看完下面这个例子你应该就明白了。</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222741858-1594110121.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256604.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h4 id="8-4-经典面试题-MVCC能否解决了幻读问题呢？"><a href="#8-4-经典面试题-MVCC能否解决了幻读问题呢？" class="headerlink" title="8.4 经典面试题:MVCC能否解决了幻读问题呢？"></a>8.4 经典面试题:MVCC能否解决了幻读问题呢？</h4><p>有关这个问题查了很多资料,有的说能解决，有的说不能解决，也有人说能解决部分幻读场景。这里部分解决指的是能解决快照读的幻读问题，不能解决当前读的幻读问题。</p>
 <p>具体可以看下面这篇文章</p>
 <p>面试题之：MVCC能否解决幻读？<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35590091/article/details/107734005">https://blog.csdn.net/qq_35590091/article/details/107734005</a></p>
@@ -847,9 +847,9 @@
 </blockquote>
 <p>既然网上那么多人说，MVCC解决能解决快照读下的幻读问题， 那这里通过举示例来说明,MVCC解决不了快照读的幻读问题。</p>
 <p>假设有张用户表,这张表的 id 是主键。表中一开始有4条数据。</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230222957860-1748872228.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256040.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>这里是在RR级别下研究(可重复读)。</p>
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230223019433-210214288.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256564.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>1、事务A,查询是否存在 id&#x3D;5 的记录，没有则插入，这是我们期望的正常业务逻辑。</p>
 <p>2、这个时候 事务B 新增的一条 id&#x3D;5 的记录，并提交事务。</p>
 <p>3、事务A,再去查询 id&#x3D;5 的时候,发现还是没有记录。</p>
@@ -857,7 +857,7 @@
 <p>解决幻读了吗？显然没有，因为这个时候如果事务A执行一条插入操作</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `<span class="hljs-keyword">user</span>` (`id`, `name`, `pwd`) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;田七&#x27;</span>, <span class="hljs-string">&#x27;fff&#x27;</span>);<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/yu980219/picture-warehouse/raw/master/images/mysql/1090617-20211230223042875-1554341866.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240256986.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>最终 事务A 提交事务，发现报错了。这就很奇怪，查的时候明明没有这条记录，但插入的时候 却告诉我 主键冲突，这就好像幻觉一样。这才是幻读问题。</p>
 <p>所以说MVCC是不能解决的，要想解决还是需要锁。</p>
 <p>这里事务A能正常的插入的前提就是其它事务不能插入id&#x3D;5并提交成功。要解决这个问题也很简单，就是事务A先获得id&#x3D;5这个排它锁。</p>

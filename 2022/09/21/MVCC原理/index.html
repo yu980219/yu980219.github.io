@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
 <meta property="article:published_time" content="2022-09-21T02:48:00.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.480Z">
+<meta property="article:modified_time" content="2024-11-23T18:57:43.200Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="MVCC">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
                 <h1 id="MVCC原理"><a href="#MVCC原理" class="headerlink" title="MVCC原理"></a>MVCC原理</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hL411479T/?spm_id_from=333.999.0.0&vd_source=b1d026ff22cbf6f06b334c7d53529a2a">【IT老齐030】这可能是最直白的MySQL MVCC机制讲解啦!</a></p>
 <p>在MySQL InnoDB存储引擎下，RC（读已提交）、RR（可重复读）基于MVCC（多版本并发控制）进行并发事务控制。</p>
 <p>MVCC是基于“数据版本”对并发事务进行访问。</p>
-<h2 id="一、示例"><a href="#一、示例" class="headerlink" title="一、示例"></a>一、示例</h2><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206234203521.png" srcset="/img/loading.gif" lazyload alt="多个事务执行"></p>
+<h2 id="一、示例"><a href="#一、示例" class="headerlink" title="一、示例"></a>一、示例</h2><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206234203521.png" srcset="/img/loading.gif" lazyload alt="多个事务执行"></p>
 <p>前面三个事务按照时间线依次执行，事务ID依次自增。</p>
 <p>而第4个事务相对比较特殊，它没做任何数据调整，直接进行了两次读取操作，然而两次读取的时机非常的微妙。</p>
 <p>第1次读取，在事务A提交后，事务B提交前执行的。</p>
@@ -318,10 +318,10 @@
 <blockquote>
 <p>RR级别：Select1 &#x3D; 张三，Select2 &#x3D; 张小三</p>
 </blockquote>
-<h2 id="二、基本知识"><a href="#二、基本知识" class="headerlink" title="二、基本知识"></a>二、基本知识</h2><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206234827436.png" srcset="/img/loading.gif" lazyload alt="UNDO_LOG版本链"></p>
+<h2 id="二、基本知识"><a href="#二、基本知识" class="headerlink" title="二、基本知识"></a>二、基本知识</h2><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206234827436.png" srcset="/img/loading.gif" lazyload alt="UNDO_LOG版本链"></p>
 <h3 id="1-什么是UNDO-LOG？"><a href="#1-什么是UNDO-LOG？" class="headerlink" title="1. 什么是UNDO_LOG？"></a>1. 什么是UNDO_LOG？</h3><p>undo_log就是回滚日志的意思，在我们进行事务处理中，如果我们进行回滚操作，能够进行还原，在innoDB存储引擎中，采用UNDO_LOG链的方式来保存一个一个的数据变化。</p>
 <h3 id="2-版本链是如何组织的？"><a href="#2-版本链是如何组织的？" class="headerlink" title="2. 版本链是如何组织的？"></a>2. 版本链是如何组织的？</h3><p>以示例为例，最上面一行保存了当前表中的数据，因为事务执行完以后，最后的结果为“张老三”。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230206235419152.png" srcset="/img/loading.gif" lazyload alt="最后的结果"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230206235419152.png" srcset="/img/loading.gif" lazyload alt="最后的结果"></p>
 <p>当前的事务编号 trx_id为3，“张老三”的记录下，作为innoDB会额外的附加两个字段，<code>trx_id</code>和<code>DB_ROLL_PTR</code>。</p>
 <blockquote>
 <p>trx_id 代表最后一次更新的时候的事务编号</p>
@@ -331,10 +331,10 @@
 <p>所以第二行保存了由2号事务处理时所产生的镜像。</p>
 <p>在2号id之前还有1号事务的更新操作，name更新为“张三”。</p>
 <p>无论1号事务是否提交，都会被记到版本链中。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207000040876.png" srcset="/img/loading.gif" lazyload alt="事务操作时的版本链"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207000040876.png" srcset="/img/loading.gif" lazyload alt="事务操作时的版本链"></p>
 <p>还有一个最原始的数据。</p>
 <p>因为“张三丰”是最原始的数据，所以最后一行没有事务编号，指针也是空的。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207000142491.png" srcset="/img/loading.gif" lazyload alt="原始数据"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207000142491.png" srcset="/img/loading.gif" lazyload alt="原始数据"></p>
 <p>到这里就明白了，原始数据为“张三丰”，经过了三次更新，更新为了“张老三”，每一次数据都采用事务编号作为版本来进行标识，这样就能有效的标识出每一个版本。</p>
 <h3 id="3-UNDO-LOG不是会被删除吗？"><a href="#3-UNDO-LOG不是会被删除吗？" class="headerlink" title="3. UNDO_LOG不是会被删除吗？"></a>3. UNDO_LOG不是会被删除吗？</h3><p><strong>Q：中间数据万一被删了版本链不就断了吗？</strong></p>
 <p>A：UNDO_LOG版本链并不是用完了立即删除的，而是MySQL确保版本链数据不再被“引用”后再进行删除。</p>
@@ -354,7 +354,7 @@
 <li><strong>creator_trx_id</strong>：ReadView创建者的事务编号</li>
 </ul>
 <h2 id="三、MVCC分析"><a href="#三、MVCC分析" class="headerlink" title="三、MVCC分析"></a>三、MVCC分析</h2><h3 id="1-读已提交（RC）"><a href="#1-读已提交（RC）" class="headerlink" title="1. 读已提交（RC）"></a>1. 读已提交（RC）</h3><p>在每一次执行快照读的时候生成一次ReadView</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207001231486.png" srcset="/img/loading.gif" lazyload alt="RC级别ReadView分析"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207001231486.png" srcset="/img/loading.gif" lazyload alt="RC级别ReadView分析"></p>
 <p>第一次Select，当前活跃的事务id为2、3、4</p>
 <p>最小的事务id&#x3D;2</p>
 <p>预生成的事务编号&#x3D;5</p>
@@ -363,7 +363,7 @@
 <p>最小的事务id&#x3D;3</p>
 <p>预生成的事务编号&#x3D;5</p>
 <p>创建者编号&#x3D;4</p>
-<h4 id="数据提取的过程"><a href="#数据提取的过程" class="headerlink" title="数据提取的过程"></a>数据提取的过程</h4><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207001544237.png" srcset="/img/loading.gif" lazyload alt="RC级别数据提取的过程-第一次Select"></p>
+<h4 id="数据提取的过程"><a href="#数据提取的过程" class="headerlink" title="数据提取的过程"></a>数据提取的过程</h4><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207001544237.png" srcset="/img/loading.gif" lazyload alt="RC级别数据提取的过程-第一次Select"></p>
 <p>将每一个版本的数据代入到右侧的判断规则来，如果在右侧有符合条件的，直接把当前版本的数据返回。如果右侧的条件都不满足，按照版本链向下依次尝试，知道获得满足条件的结果。</p>
 <ol>
 <li><p>张老三</p>
@@ -383,7 +383,7 @@
 <p>(2) 1&lt;2 成立，说明数据已经被提交了，返回结果<strong>张三</strong>。</p>
 </li>
 </ol>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207002728887.png" srcset="/img/loading.gif" lazyload alt="RC级别数据提取的过程-第二次Select"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207002728887.png" srcset="/img/loading.gif" lazyload alt="RC级别数据提取的过程-第二次Select"></p>
 <ol>
 <li><p>张老三</p>
 <p>(1) 3&#x3D;4 不成立，向下判断</p>
@@ -398,13 +398,13 @@
 </ol>
 <p>总结：读已提交的隔离级别下，第一次读的是“张三”，第二次读的是“张小三”，显然出现了不可重复读的现象。所以在RC的级别下是不能解决不可重复读的。</p>
 <h3 id="2-可重复读（RR）"><a href="#2-可重复读（RR）" class="headerlink" title="2. 可重复读（RR）"></a>2. 可重复读（RR）</h3><p>仅在第一次执行快照读的时候生成ReadView，后续快照读会复用第一次的ReadView。（有例外）</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207003055059.png" srcset="/img/loading.gif" lazyload alt="第二次Select复用了第一次的ReadView"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207003055059.png" srcset="/img/loading.gif" lazyload alt="第二次Select复用了第一次的ReadView"></p>
 <p>总结：所以第一次执行得到的是“张三”，第二次执行得到的也是“张三”，ReadView复用的方式解决了不可重复读的情况。</p>
 <h3 id="3-RR级别下使用MVCC能避免幻读吗？"><a href="#3-RR级别下使用MVCC能避免幻读吗？" class="headerlink" title="3. RR级别下使用MVCC能避免幻读吗？"></a>3. RR级别下使用MVCC能避免幻读吗？</h3><p>能，但不完全能！</p>
 <p>因为作为MVCC并不是采用锁的方式完全的对事务数据进行的隔离，而是通过版本控制的方式变相的实现了解决幻读的功能。</p>
 <p>在连续多次读的情况下，ReadView会产生复用，没有幻读问题。</p>
 <p><em>特例：当两次<strong>快照读</strong>之间存在<strong>当前读</strong>，ReadView会重新生成，导致幻读。</em></p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/MVCC/image-20230207003711816.png" srcset="/img/loading.gif" lazyload alt="前后两个事务加入了当前读"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230207003711816.png" srcset="/img/loading.gif" lazyload alt="前后两个事务加入了当前读"></p>
 
                 
               </div>

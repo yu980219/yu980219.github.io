@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
 <meta property="article:published_time" content="2022-05-27T15:45:00.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.482Z">
+<meta property="article:modified_time" content="2024-11-23T18:50:27.532Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
                 <h1 id="MySQL锁篇"><a href="#MySQL锁篇" class="headerlink" title="MySQL锁篇"></a><strong>MySQL锁篇</strong></h1><h2 id="1-一条update语句"><a href="#1-一条update语句" class="headerlink" title="1. 一条update语句"></a>1. 一条update语句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">update tab_user set name=&#x27;曹操&#x27; where id = 1;<br></code></pre></td></tr></table></figure>
 
 <p>执行流程：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561001.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249289.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="2-MySQL锁介绍"><a href="#2-MySQL锁介绍" class="headerlink" title="2. MySQL锁介绍"></a>2. MySQL锁介绍</h2><p>在实际的数据库系统中，每时每刻都在发生锁定，当某个用户在修改一部分数据时，MySQL会通过锁定防止其他用户读取同一数据。</p>
 <p>在处理并发读或者写时，通过实现一个由两种类型的锁组成的锁系统来解决问题。两种锁通常被称为**共享锁(shared lock)<strong>和</strong>排他锁(exclusive lock)<strong>，也叫</strong>读锁(read lock)<strong>和</strong>写锁(write lock)**。</p>
 <p>读锁是共享的，是互相不阻塞的。多个客户端在同一时刻可以同时读取同一个资源，而不互相干扰。写锁则是排他的，也就是说一个写锁会阻塞其他的写锁和读锁，这是出于安全策略的考虑，只有这样才能确保在给定的时间里，只有一个用户能执行写入，并防止其他用户读取正在写入的同一资源。</p>
@@ -315,7 +315,7 @@
 <li>表级锁：锁某Table，由MySQL的SQL layer层实现</li>
 <li>行级锁：锁某Row的索引，也可锁定行索引之间的间隙，由存储引擎实现【InnoDB】</li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249062.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p><strong>按锁功能分：</strong></p>
 <ul>
 <li><strong>共享锁Shared Locks（S锁，也叫读锁）</strong>： 为了方便理解，下文我们全部使用<strong>读锁</strong>来称呼<ul>
@@ -352,7 +352,7 @@
 <h3 id="3-2-表读锁、写锁"><a href="#3-2-表读锁、写锁" class="headerlink" title="3.2 表读锁、写锁"></a>3.2 表读锁、写锁</h3><h4 id="1）表锁相关命令"><a href="#1）表锁相关命令" class="headerlink" title="1）表锁相关命令"></a>1）表锁相关命令</h4><p>MySQL 实现的表级锁定的争用状态变量：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 查看表锁定状态<br>mysql&gt; show status like &#x27;table%&#x27;;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561003.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249659.jpeg" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>table_locks_immediate：产生表级锁定的次数；</li>
 <li>table_locks_waited：出现表级锁定争用而发生等待的次数；</li>
@@ -531,7 +531,7 @@
 <p>（2）在索引记录之间的间隙中加锁，或者是在某一条索引记录之前或者之后加锁，并不包括该索引记录本身。</p>
 <p>（3）间隙锁可用于防止幻读，保证索引间隙不会被插入数据</p>
 <p><strong>主键id索引的行锁区间划分图：</strong></p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561004.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249338.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>session1执行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">begin;<br>select * from t1_simple where id &gt; 4 for update;<br>commit;<br></code></pre></td></tr></table></figure>
 
@@ -542,7 +542,7 @@
 <p>（2）默认情况下，innodb使用临键锁来锁定记录，但在不同的场景中会退化</p>
 <p>（3）当查询的索引含有唯一属性的时候，临键锁会进行优化，将其降级为记录锁，即仅锁住索引本身，不是范围。</p>
 <p><strong>普通索引index(pubtime)行锁的区间划分图：</strong></p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561005.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249263.jpeg" srcset="/img/loading.gif" lazyload></p>
 <table>
 <thead>
 <tr>
@@ -566,7 +566,7 @@
 <p>当前数据库中的记录信息：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; select * from t1_simple;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561006.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249956.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>session1执行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">begin;<br>select * from t1_simple where pubtime = 20 for update;<br>-- 临键锁区间(10,20],(20,100]<br></code></pre></td></tr></table></figure>
 
@@ -577,7 +577,7 @@
 <p>（2）在多事务同时写入不同数据至同一索引间隙的时候，并不需要等待其他事务完成，不会发生锁等待。</p>
 <p>（3）假设有一个记录索引包含键值10和100，不同的事务分别插入60和70，每个事务都会产生一个加在10-100之间的插入意向锁，获取在插入行上的写锁，但是不会被互相锁住，因为数据行并不冲突。</p>
 <p>（4）插入意向锁不会阻止任何锁，对于插入的记录会持有一个记录锁。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561007.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249334.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h3 id="4-3-加锁规则【非常重要】"><a href="#4-3-加锁规则【非常重要】" class="headerlink" title="4.3 加锁规则【非常重要】"></a>4.3 加锁规则【非常重要】</h3><p><strong>主键索引</strong></p>
 <ul>
 <li>等值条件，命中，加记录锁</li>
@@ -602,7 +602,7 @@
 <li>表明：“某个事务正在某些行持有了锁、或该事务准备去持有锁”</li>
 <li>意向锁的存在是为了协调行锁和表锁的关系，支持多粒度（表锁与行锁）的锁并存</li>
 </ul>
-<h4 id="3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系"><a href="#3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系" class="headerlink" title="3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系"></a>3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系</h4><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561008.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系"><a href="#3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系" class="headerlink" title="3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系"></a>3）意向锁和读锁【S锁】、写锁【X锁】的兼容关系</h4><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249554.jpeg" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>意向锁相互兼容：因为IX、IS只是表明申请更低层次级别元素（比如 page、记录）的X、S操作。</li>
 <li>表级S锁和X、IX锁不兼容：因为上了表级S锁后，不允许其他事务再加X锁。</li>
@@ -614,7 +614,7 @@
 <h3 id="4-5-锁相关参数"><a href="#4-5-锁相关参数" class="headerlink" title="4.5 锁相关参数"></a>4.5 锁相关参数</h3><p>InnoDB所使用的<strong>行级锁定</strong>争用状态查看：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql&gt; show status like &#x27;innodb_row_lock%&#x27;;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561009.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249968.jpeg" srcset="/img/loading.gif" lazyload></p>
 <ul>
 <li>Innodb_row_lock_current_waits：当前正在等待锁定的数量；</li>
 <li>Innodb_row_lock_time：从系统启动到现在锁定总时间长度；</li>
@@ -673,25 +673,25 @@
 <p>事实上，要分析加锁，就是需要这么复杂。但是从另一个角度来说，只要你选定了一种组合，SQL需要加哪些锁，其实也就确定了。接下来，就让我们来逐个分析这9种组合下的SQL加锁策略。</p>
 <h3 id="5-1-读已提交RC"><a href="#5-1-读已提交RC" class="headerlink" title="5.1 读已提交RC"></a>5.1 读已提交RC</h3><p>注：在前面八种组合下，也就是RC，RR隔离级别下SQL1：<strong>select操作均不加锁，采用的是快照读</strong>，因此在下面的讨论中就忽略了，<strong>主要讨论SQL2：delete操作的加锁。</strong></p>
 <h4 id="1）组合一：id主键"><a href="#1）组合一：id主键" class="headerlink" title="1）组合一：id主键"></a>1）组合一：id主键</h4><p>这个组合，是最简单，最容易分析的组合。<strong>id是主键，RC隔离级别</strong>，给定SQL： <code>delete from t1 where id = 10</code> ; 只需要将主键上id &#x3D; 10的记录加上写锁即可。如下图所示：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561010.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249139.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p><strong>结论</strong>：id是主键时，此SQL只需要在id&#x3D;10这条记录上加写锁即可。</p>
 <h4 id="2）组合二：id唯一索引"><a href="#2）组合二：id唯一索引" class="headerlink" title="2）组合二：id唯一索引"></a>2）组合二：id唯一索引</h4><p>这个组合，<strong>id不是主键，而是一个Unique的二级索引键值</strong>。那么在RC隔离级别下，<code>delete from t1where id = 10</code>; 需要加什么锁呢？</p>
 <p>见下图：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561011.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249318.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>此组合中，id是unique索引，而主键是name列。此时，加锁的情况由于组合一有所不同。由于id是unique索引，因此delete语句会选择走id列的索引进行where条件的过滤，在找到id&#x3D;10的记录后，首先会将unique索引上的id&#x3D;10索引记录加上<strong>写锁</strong>，同时，会根据读取到的name列，回主键索引(聚簇索引)，然后将聚簇索引上的name &#x3D; ‘d’ 对应的主键索引项加<strong>写锁</strong>。</p>
 <p><strong>为什么聚簇索引上的记录也要加锁？</strong></p>
 <p>试想一下，如果并发的一个SQL，是通过主键索引来更新：update t1 set id &#x3D; 100 where name &#x3D; ‘a’; 此时，如果delete语句没有将主键索引上的记录加锁，那么并发的update就会感知不到delete语句的存在，违背了同一记录上的更新&#x2F;删除需要串行执行的约束。</p>
 <p><strong>结论</strong>：若id列是unique列，其上有unique索引。那么SQL需要加两个<strong>写锁</strong>，一个对应于id unique索引上的id &#x3D; 10的记录，另一把锁对应于聚簇索引上的【name&#x3D;’d’,id&#x3D;10】的记录。</p>
 <h4 id="3）组合三：id非唯一索引"><a href="#3）组合三：id非唯一索引" class="headerlink" title="3）组合三：id非唯一索引"></a>3）组合三：id非唯一索引</h4><p>相对于组合一、二，组合三又发生了变化，隔离级别仍旧是RC不变，但是id列上的约束又降低了，id列不再唯一，只有一个普通的索引。假设delete from t1 where id &#x3D; 10; 语句，仍旧选择id列上的索引进行过滤where条件，那么此时会持有哪些锁？</p>
 <p>同样见下图：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561012.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240249132.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>根据此图，可以看到，首先，id列索引上，满足id &#x3D; 10查询条件的记录，均已加锁。同时，这些记录对应的主键索引上的记录也都加上了锁。与组合二唯一的区别在于，组合二最多只有一个满足等值查询的记录，而组合三会将所有满足查询条件的记录都加锁。</p>
 <p><strong>结论</strong>：若id列上有非唯一索引，那么对应的所有满足SQL查询条件的记录，都会被加锁。同时，这些记录在主键索引上的记录，也会被加锁。</p>
 <h4 id="4）组合四：id无索引"><a href="#4）组合四：id无索引" class="headerlink" title="4）组合四：id无索引"></a>4）组合四：id无索引</h4><p>相对于前面三个组合，这是一个比较特殊的情况。id列上没有索引，where id &#x3D; 10;这个过滤条件，没法通过索引进行过滤，那么只能走全表扫描做过滤。</p>
 <p>对应于这个组合，SQL会加什么锁？或者是换句话说，全表扫描时，会加什么锁？</p>
 <p>这个答案也有很多：有人说会在表上加<strong>写锁</strong>；有人说会将聚簇索引上，选择出来的id &#x3D; 10;的记录加上<strong>写锁</strong>。那么实际情况呢？</p>
 <p>请看下图：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561013.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250399.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>由于id列上没有索引，因此只能走聚簇索引，进行全部扫描。从图中可以看到，满足删除条件的记录有两条，但是，聚簇索引上所有的记录，都被加上了<strong>写锁</strong>。无论记录是否满足条件，全部被加上<strong>写锁</strong>。既不是加表锁，也不是在满足条件的记录上加行锁。</p>
 <p>有人可能会问？为什么不是只在满足条件的记录上加锁呢？</p>
 <p>这是由于MySQL的实现决定的。如果一个条件无法通过索引快速过滤，那么存储引擎层面就会将所有记录加锁后返回，然后由MySQL Server层进行过滤。因此也就把所有的记录，都锁上了。</p>
@@ -708,14 +708,14 @@
 </ul>
 <p><strong>那么RR隔离级别下，如何防止幻读呢？</strong></p>
 <p>看下面这幅图：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561014.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250577.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>相对于组合三最大的区别在于，组合七中多了一个间隙锁。<strong>其实这个多出来的间隙锁，就是RR隔离级别，相对于RC隔离级别，不会出现幻读的关键。</strong></p>
 <p>所谓幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id &#x3D; 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第一次返回更多的记录 (幻象)。记录本身的一致性是可重复性，使用MVCC来解决。</p>
 <p><strong>如何保证两次当前读返回一致的记录？</strong>那就需要在第一次当前读与第二次当前读之间，其他的事务不会插入新的满足条件的记录并提交。为了实现这个功能，间隙锁应运而生。</p>
 <p><strong>结论：</strong></p>
 <p>RR隔离级别下，id列上有一个非唯一索引，对应SQL：delete from t1 where id &#x3D; 10; 首先，通过id索引定位到第一条满足查询条件的记录，加记录上的写锁，加GAP上的间隙锁，然后加主键聚簇索引上的记录写锁，然后返回；然后读取下一条，重复进行。直至进行到第一条不满足条件的记录[11,f]，此时，不需要加记录写锁，但是仍旧需要加间隙锁，最后返回结束。</p>
 <h4 id="4）组合八：id无索引"><a href="#4）组合八：id无索引" class="headerlink" title="4）组合八：id无索引"></a>4）组合八：id无索引</h4><p>组合八，RR隔离级别下的最后一种情况，<strong>id列上没有索引</strong>。此时**SQL：delete from t1 where id &#x3D; 10;**没有其他的路径可以选择，只能进行全表扫描。最终的加锁情况，如下图所示：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561015.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250071.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>如图，这是一个很恐怖的现象。首先，聚簇索引上的所有记录，都被加上了<strong>写锁</strong>。其次，聚簇索引每条记录间的间隙，也同时被加上了间隙锁。这个示例表，只有6条记录，一共需要6个记录锁，7个间隙锁。试想，如果表上有1000万条记录呢？</p>
 <p>在这种情况下，这个表上，除了不加锁的快照度，其他任何加锁的并发SQL，均不能执行，不能更新，不能删除，不能插入，全表被锁死。</p>
 <p>当然，跟组合四类似，这个情况下，MySQL也做了一些优化，就是所谓的semi-consistent read。semiconsistent read开启的情况下，对于不满足查询条件的记录，MySQL会提前放锁。针对上面的这个用例，就是除了记录[d,10]，[g,10]之外，所有的记录锁都会被释放，同时不加间隙锁。</p>
@@ -736,7 +736,7 @@
 
 <p><strong>如图中的SQL，会加什么锁？</strong></p>
 <p>假定在RR隔离级别下，同时，假设SQL走的是idx_t1_pu（pubtime，userid）索引</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561016.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250227.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>在详细分析这条SQL的加锁情况前，还需要有一个知识储备，那就是一个SQL中的where条件如何拆分？</p>
 <p>在这里，我直接给出分析后的结果：</p>
 <ul>
@@ -746,7 +746,7 @@
 </ul>
 <p>在分析出SQL where条件的构成之后，再来看看这条SQL的加锁情况 （默认隔离级别RR）</p>
 <p>如下图所示：</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561017.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250630.jpeg" srcset="/img/loading.gif" lazyload></p>
 <p>从图中可以看出，在RR隔离级别下，由Index Key所确定的范围，被加上了间隙锁；Index Filter锁给定的条件视MySQL的版本而定【图中，用红色箭头标出的写锁是否要加，与ICP有关】</p>
 <ul>
 <li>不支持ICP，因此Index Filter在MySQL Server层过滤，不满足Index Filter的记录，也需要加上记录写锁；</li>
@@ -808,10 +808,10 @@
 <td>commit;</td>
 </tr>
 </tbody></table>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561018.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250569.jpeg" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs mysql">-- Session01<br>begin;<br>select * from t1_deadlock where id=1 for update;<br>update t1_deadlock set name=&#x27;qqq&#x27; where id=5;<br>commit;<br>-- Session02<br>begin;<br>delete from t1_deadlock where id=5;<br>delete from t1_deadlock where id=1;<br>-- 死锁<br>commit;<br></code></pre></td></tr></table></figure>
 
-<h4 id="情况02"><a href="#情况02" class="headerlink" title="情况02"></a>情况02</h4><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/mysql_lock/062723392561019.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="情况02"><a href="#情况02" class="headerlink" title="情况02"></a>情况02</h4><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240250050.jpeg" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `t1_deadlock03` (<br>`id` int(11) NOT NULL AUTO_INCREMENT,<br>`cnt` varchar(32) DEFAULT NULL,<br>PRIMARY KEY (`id`),<br>UNIQUE index `idx_cnt` (`cnt`) USING BTREE<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;<br>insert into t1_deadlock03(id,cnt) values (1,&#x27;abc-130-sz&#x27;);<br>select * from t1_deadlock03<br>-- Session01<br>begin;<br>delete from t1_deadlock03 where cnt=&#x27;abc-130-sz&#x27;;<br>insert into t1_deadlock03(cnt) values (&#x27;abc-130-sz&#x27;);<br>commit;<br>-- Session01<br>begin;<br>delete from t1_deadlock03 where cnt=&#x27;abc-130-sz&#x27;;<br>commit;<br></code></pre></td></tr></table></figure>
 
 <p><strong>结论：</strong></p>

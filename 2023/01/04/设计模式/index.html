@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://haktiong.gitee.io/img/default.jpeg">
 <meta property="article:published_time" content="2023-01-04T14:49:00.000Z">
-<meta property="article:modified_time" content="2024-11-23T16:10:26.486Z">
+<meta property="article:modified_time" content="2024-11-23T17:49:42.803Z">
 <meta property="article:author" content="Haktiong">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
                 <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>文章摘自《设计模式之禅 第2版》- 秦小波</p>
 <h2 id="一、单例模式"><a href="#一、单例模式" class="headerlink" title="一、单例模式"></a>一、单例模式</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>Ensure a class has only one instance, and provide a global point of access to it.</p>
 <p>（确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。）</p>
-<h3 id="通用类图"><a href="#通用类图" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216004046292.png" srcset="/img/loading.gif" lazyload alt="单例模式通用类图"></p>
+<h3 id="通用类图"><a href="#通用类图" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216004046292.png" srcset="/img/loading.gif" lazyload alt="单例模式通用类图"></p>
 <h3 id="通用代码"><a href="#通用代码" class="headerlink" title="通用代码"></a>通用代码</h3><p>Singleton类称为单例类，通过使用private的构造函数确保了在一个应用中只产生一个实例，并且是自行实例化的（在Singleton中自己使用<code>new Singleton()</code>）。</p>
 <p><strong>单例模式通用代码：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Singleton</span> <span class="hljs-variable">singleton</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Singleton</span>();<br>    <span class="hljs-comment">//限制产生多个对象</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">Singleton</span><span class="hljs-params">()</span>&#123;<br>    &#125;<br>    <span class="hljs-comment">//通过该方法获得实例对象</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title function_">getSingleton</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> singleton;<br>    &#125;<br>    <span class="hljs-comment">//类中其他方法，尽量是static</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSomething</span><span class="hljs-params">()</span>&#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -337,7 +337,7 @@
 <h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>单例模式是23个模式中比较简单的模式，应用也非常广泛，如在Spring中，每个Bean默认就是单例的，这样做的优点是Spring容器可以管理这些Bean的生命期，决定什么时候创建出来，什么时候销毁，销毁的时候要如何处理，等等。如果采用非单例模式（Prototype类型），则Bean初始化后的管理交由J2EE容器，Spring容器不再跟踪管理Bean的生命周期。</p>
 <h2 id="二、工厂模式"><a href="#二、工厂模式" class="headerlink" title="二、工厂模式"></a>二、工厂模式</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>Define an interface for creating an object,but let subclasses decide which class to instantiate.Factory Method lets a class defer instantiation to subclasses.</p>
 <p>（定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。）</p>
-<h3 id="通用类图-1"><a href="#通用类图-1" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216010642484.png" srcset="/img/loading.gif" lazyload alt="工厂方法模式通用类图"></p>
+<h3 id="通用类图-1"><a href="#通用类图-1" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216010642484.png" srcset="/img/loading.gif" lazyload alt="工厂方法模式通用类图"></p>
 <p>在工厂方法模式中，抽象产品类Product负责定义产品的共性，实现对事物最抽象的定义；</p>
 <p>Creator为抽象创建类，也就是抽象工厂，具体如何创建产品类是由具体的实现工厂ConcreteCreator完成的。</p>
 <h3 id="通用代码-1"><a href="#通用代码-1" class="headerlink" title="通用代码"></a>通用代码</h3><p><strong>抽象产品类：</strong></p>
@@ -372,9 +372,9 @@
 <h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><h4 id="缩小为简单工厂模式"><a href="#缩小为简单工厂模式" class="headerlink" title="缩小为简单工厂模式"></a>缩小为简单工厂模式</h4><p>我们这样考虑一个问题：一个模块仅需要一个工厂类，没有必要把它产生出来，使用静态的方法就可以了。</p>
 <p>女娲造人的示例：</p>
 <p><strong>原类图：</strong></p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216011736097.png" srcset="/img/loading.gif" lazyload alt="女娲造人类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216011736097.png" srcset="/img/loading.gif" lazyload alt="女娲造人类图"></p>
 <p><strong>简单工厂模式类图：</strong></p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216011648864.png" srcset="/img/loading.gif" lazyload alt="简单工厂模式类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216011648864.png" srcset="/img/loading.gif" lazyload alt="简单工厂模式类图"></p>
 <p>我们在类图中去掉了AbstractHumanFactory抽象类，同时把createHuman方法设置为静态类型，简化了类的创建过程，变更的源码仅仅是HumanFactory和NvWa类。</p>
 <p><strong>简单工厂模式中的工厂类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HumanFactory</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Human</span>&gt; T <span class="hljs-title function_">createHuman</span><span class="hljs-params">(Class&lt;T&gt; c)</span>&#123;<br>        <span class="hljs-comment">//定义一个生产出的人种</span><br>        Human human=<span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//产生一个人种</span><br>            human = (Human)Class.forName(c.getName()).newInstance();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            System.out.println(<span class="hljs-string">&quot;人种生成错误！&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> (T)human;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -389,7 +389,7 @@
 </blockquote>
 <h4 id="升级为多个工厂类"><a href="#升级为多个工厂类" class="headerlink" title="升级为多个工厂类"></a>升级为多个工厂类</h4><p>当我们在做一个比较复杂的项目时，经常会遇到初始化一个对象很耗费精力的情况，所有的产品类都放到一个工厂方法中进行初始化会使代码结构不清晰。例如，一个产品类有5个具体实现，每个实现类的初始化（不仅仅是new，初始化包括new一个对象，并对对象设置一定的初始值）方法都不相同，如果写在一个工厂方法中，势必会导致该方法巨大无比，那该怎么办？</p>
 <p>考虑到需要结构清晰，我们就为每个产品定义一个创造者，然后由调用者自己去选择与哪个工厂方法关联。我们还是以女娲造人为例，每个人种都有一个固定的八卦炉，分别造出黑色人种、白色人种、黄色人种。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216012159441.png" srcset="/img/loading.gif" lazyload alt="多个工厂类的类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216012159441.png" srcset="/img/loading.gif" lazyload alt="多个工厂类的类图"></p>
 <p>每个人种（具体的产品类）都对应了一个创建者，每个创建者都独立负责创建对应的产品对象，非常符合单一职责原则，按照这种模式我们来看看代码变化。</p>
 <p><strong>多工厂模式的抽象工厂类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractHumanFactory</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> Human <span class="hljs-title function_">createHuman</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -409,7 +409,7 @@
 <p>运行结果还是相同。我们回顾一下，每一个产品类都对应了一个创建类，好处就是创建类的职责清晰，而且结构简单，但是给可扩展性和可维护性带来了一定的影响。为什么这么说呢？如果要扩展一个产品类，就需要建立一个相应的工厂类，这样就增加了扩展的难度。因为工厂类和产品类的数量相同，维护时需要考虑两个对象之间的关系。</p>
 <p>当然，在复杂的应用中一般采用多工厂的方法，然后再增加一个协调类，避免调用者与各个子工厂交流，协调类的作用是封装子工厂类，对高层模块提供统一的访问接口。</p>
 <h4 id="替代单例模式"><a href="#替代单例模式" class="headerlink" title="替代单例模式"></a>替代单例模式</h4><p>我们是不是可以采用工厂方法模式实现单例模式的功能呢？单例模式的核心要求就是在内存中只有一个对象，通过工厂方法模式也可以只在内存中生产一个对象。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216012622141.png" srcset="/img/loading.gif" lazyload alt="工厂方法模式替代单例模式类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216012622141.png" srcset="/img/loading.gif" lazyload alt="工厂方法模式替代单例模式类图"></p>
 <p>非常简单的类图，Singleton定义了一个private的无参构造函数，目的是不允许通过new的方式创建一个对象。</p>
 <p><strong>单例类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span> &#123;<br>    <span class="hljs-comment">//不允许通过new产生一个对象</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">Singleton</span><span class="hljs-params">()</span>&#123;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSomething</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//业务处理</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -421,7 +421,7 @@
 <p>通过获得类构造器，然后设置访问权限，生成一个对象，然后提供外部访问，保证内存中的对象唯一。当然，其他类也可以通过反射的方式建立一个单例对象，确实如此，但是一个项目或团队是有章程和规范的，何况已经提供了一个获得单例对象的方法，为什么还要重新创建一个新对象呢？除非是有人作恶。</p>
 <p>以上通过工厂方法模式创建了一个单例对象，该框架可以继续扩展，在一个项目中可以产生一个单例构造器，所有需要产生单例的类都遵循一定的规则（构造方法是private），然后通过扩展该框架，只要输入一个类型就可以获得唯一的一个实例。</p>
 <h4 id="延迟初始化"><a href="#延迟初始化" class="headerlink" title="延迟初始化"></a>延迟初始化</h4><p>何为延迟初始化（Lazy initialization）？一个对象被消费完毕后，并不立刻释放，工厂类保持其初始状态，等待再次被使用。延迟初始化是工厂方法模式的一个扩展应用。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221216012915758.png" srcset="/img/loading.gif" lazyload alt="延迟初始化的通用类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221216012915758.png" srcset="/img/loading.gif" lazyload alt="延迟初始化的通用类图"></p>
 <p>ProductFactory负责产品类对象的创建工作，并且通过prMap变量产生一个缓存，对需要再次被重用的对象保留。</p>
 <p><strong>延迟加载的工厂类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductFactory</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Map&lt;String,Product&gt; prMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>();<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> Product <span class="hljs-title function_">createProduct</span><span class="hljs-params">(String type)</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">Product</span> <span class="hljs-variable">product</span> <span class="hljs-operator">=</span><span class="hljs-literal">null</span>;<br>        <span class="hljs-comment">//如果Map中已经有这个对象</span><br>        <span class="hljs-keyword">if</span>(prMap.containsKey(type))&#123;<br>            product = prMap.get(type);<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">if</span>(type.equals(<span class="hljs-string">&quot;Product1&quot;</span>))&#123;<br>            product = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteProduct1</span>();<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            product = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteProduct2</span>();<br>        &#125;<br>        <span class="hljs-comment">//同时把对象放到缓存容器中</span><br>        prMap.put(type,product);<br>        &#125;<br>        <span class="hljs-keyword">return</span> product;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -433,7 +433,7 @@
 <h3 id="通用类图-2"><a href="#通用类图-2" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221220001204117.png" srcset="/img/loading.gif" lazyload alt="抽象工厂模式的通用类图"></p>
 <p>抽象工厂模式是工厂方法模式的升级版本，在有多个业务品种、业务分类时，通过抽象工厂模式产生需要的对象是一种非常好的解决方式。</p>
 <p>两个抽象的产品类可以有关系，例如共同继承或实现一个抽象类或接口。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221220001355303.png" srcset="/img/loading.gif" lazyload alt="抽象工厂模式的通用源码类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221220001355303.png" srcset="/img/loading.gif" lazyload alt="抽象工厂模式的通用源码类图"></p>
 <h3 id="通用代码-2"><a href="#通用代码-2" class="headerlink" title="通用代码"></a>通用代码</h3><p><strong>抽象产品类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractProductA</span> &#123;<br>    <span class="hljs-comment">//每个产品共有的方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">shareMethod</span><span class="hljs-params">()</span>&#123;<br>    &#125;<br>    <span class="hljs-comment">//每个产品相同方法，不同实现</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSomething</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -470,7 +470,7 @@
 <h3 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h3><p>在抽象工厂模式的缺点中，我们提到抽象工厂模式的产品族扩展比较困难，但是一定要清楚，是产品族扩展困难，而不是产品等级。在该模式下，产品等级是非常容易扩展的，增加一个产品等级，只要增加一个工厂类负责新增加出来的产品生产任务即可。也就是说横向扩展容易，纵向扩展困难。以人类为例子，产品等级中只有男、女两个性别，现实世界还有一种性别：双性人，既是男人也是女人（俗语就是阴阳人），那我们要扩展这个产品等级也是非常容易的，增加三个产品类，分别对应不同的肤色，然后再创建一个工厂类，专门负责不同肤色人的双性人的创建任务，完全通过扩展来实现需求的变更，从这一点上看，抽象工厂模式是符合开闭原则的。</p>
 <h2 id="四、模板方法模式"><a href="#四、模板方法模式" class="headerlink" title="四、模板方法模式"></a>四、模板方法模式</h2><h3 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h3><p>Define the skeleton of an algorithm in an operation,deferring some steps to subclasses.Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm’s structure.</p>
 <p>（定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。）</p>
-<h3 id="通用类图-3"><a href="#通用类图-3" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221220002838297.png" srcset="/img/loading.gif" lazyload alt="模板方法模式的通用类图"></p>
+<h3 id="通用类图-3"><a href="#通用类图-3" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221220002838297.png" srcset="/img/loading.gif" lazyload alt="模板方法模式的通用类图"></p>
 <p>模板方法模式确实非常简单，仅仅使用了Java的继承机制，但它是一个应用非常广泛的模式。其中，AbstractClass叫做抽象模板，它的方法分为两类：</p>
 <ul>
 <li>基本方法：基本方法也叫做基本操作，是由子类实现的方法，并且在模板方法被调用。</li>
@@ -507,7 +507,7 @@
 </ul>
 <h3 id="扩展-1"><a href="#扩展-1" class="headerlink" title="扩展"></a>扩展</h3><p>以悍马车模型为例：</p>
 <p>客户提出H1型号的悍马喇叭想让它响就响，H2型号的喇叭不要有声音。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221220003502027.png" srcset="/img/loading.gif" lazyload alt="扩展悍马车模类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221220003502027.png" srcset="/img/loading.gif" lazyload alt="扩展悍马车模类图"></p>
 <p>在抽象类HummerModel中增加了一个实现方法isAlarm，确定各个型号的悍马是否需要声音，由各个实现类覆写该方法，同时其他的基本方法由于不需要对外提供访问，因此也设计为protected类型。</p>
 <p><strong>扩展后的抽象模板类：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HummerModel</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    * 首先，这个模型要能够被发动起来，别管是手摇发动，还是电力发动，反正</span><br><span class="hljs-comment">    * 是要能够发动起来，那这个实现要在实现类里了</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">start</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">//能发动，还要能停下来，那才是真本事</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">//喇叭会出声音，是滴滴叫，还是哔哔叫</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">alarm</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">//引擎会轰隆隆的响，不响那是假的</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">engineBoom</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">//那模型应该会跑吧，别管是人推的，还是电力驱动，总之要会跑</span><br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">//先发动汽车</span><br>        <span class="hljs-built_in">this</span>.start();<br>        <span class="hljs-comment">//引擎开始轰鸣</span><br>        <span class="hljs-built_in">this</span>.engineBoom();<br>        <span class="hljs-comment">//要让它叫的就是就叫，喇嘛不想让它响就不响</span><br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.isAlarm())&#123;<br>            <span class="hljs-built_in">this</span>.alarm();<br>        &#125;<br>        <span class="hljs-comment">//到达目的地就停车</span><br>        <span class="hljs-built_in">this</span>.stop();<br>    &#125;<br>    <span class="hljs-comment">//钩子方法，默认喇叭是会响的</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isAlarm</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -528,7 +528,7 @@
 <p>果，该方法就叫做钩子方法（Hook Method）。</p>
 <h2 id="五、建造者模式"><a href="#五、建造者模式" class="headerlink" title="五、建造者模式"></a>五、建造者模式</h2><h3 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h3><p>Separate the construction of a complex object from its representation so that the same construction process can create different representations.</p>
 <p>（将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。）</p>
-<h3 id="通用类图-4"><a href="#通用类图-4" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221220004404110.png" srcset="/img/loading.gif" lazyload alt="建造者模式通用类图"></p>
+<h3 id="通用类图-4"><a href="#通用类图-4" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221220004404110.png" srcset="/img/loading.gif" lazyload alt="建造者模式通用类图"></p>
 <p>在建造者模式中，有如下4个角色：</p>
 <ul>
 <li>Product产品类：通常是实现了模板方法模式，也就是有模板方法和基本方法。</li>
@@ -567,7 +567,7 @@
 <h2 id="六、代理模式"><a href="#六、代理模式" class="headerlink" title="六、代理模式"></a>六、代理模式</h2><p>略</p>
 <h2 id="七、原型模式"><a href="#七、原型模式" class="headerlink" title="七、原型模式"></a>七、原型模式</h2><h3 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h3><p>Specify the kinds of objects to create using a prototypical instance,and create new objects by copying this prototype.</p>
 <p>（用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。）</p>
-<h3 id="通用类图-5"><a href="#通用类图-5" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221221000351265.png" srcset="/img/loading.gif" lazyload alt="原型模式的通用类图"></p>
+<h3 id="通用类图-5"><a href="#通用类图-5" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221221000351265.png" srcset="/img/loading.gif" lazyload alt="原型模式的通用类图"></p>
 <p>简单，太简单了！原型模式的核心是一个clone方法，通过该方法进行对象的拷贝，Java提供了一个Cloneable接口来标示这个对象是可拷贝的，为什么说是“标示”呢？翻开JDK的帮助看看Cloneable是一个方法都没有的，这个接口只是一个标记作用，在JVM中具有这个标记的对象才有可能被拷贝。那怎么才能从“有可能被拷贝”转换为“可以被拷贝”呢？方法是覆盖clone()方法，是的，你没有看错是重写clone()方法。</p>
 <h3 id="通用代码-5"><a href="#通用代码-5" class="headerlink" title="通用代码"></a>通用代码</h3><p><strong>原型模式通用源码：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PrototypeClass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Cloneable</span>&#123;<br>    <span class="hljs-comment">//覆写父类Object方法</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> PrototypeClass <span class="hljs-title function_">clone</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">PrototypeClass</span> <span class="hljs-variable">prototypeClass</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            prototypeClass = (PrototypeClass)<span class="hljs-built_in">super</span>.clone();<br>        &#125; <span class="hljs-keyword">catch</span> (CloneNotSupportedException e) &#123;<br>            <span class="hljs-comment">//异常处理</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> prototypeClass;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -599,7 +599,7 @@
 <p>要使用clone方法，类的成员变量上不要增加final关键字。</p>
 <h2 id="八、中介者模式"><a href="#八、中介者模式" class="headerlink" title="八、中介者模式"></a>八、中介者模式</h2><h3 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h3><p>Define an object that encapsulates how a set of objects interact.Mediator promotes loose coupling by keeping objects from referring to each other explicitly,and it lets you vary their interaction independently.</p>
 <p>（用一个中介对象封装一系列的对象交互，中介者使各对象不需要显示地相互作用，从而使其耦合松散，而且可以独立地改变它们之间的交互。）</p>
-<h3 id="通用类图-6"><a href="#通用类图-6" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221221002422842.png" srcset="/img/loading.gif" lazyload alt="中介者模式通用类图"></p>
+<h3 id="通用类图-6"><a href="#通用类图-6" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221221002422842.png" srcset="/img/loading.gif" lazyload alt="中介者模式通用类图"></p>
 <p>从类图中看，中介者模式由以下几部分组成：</p>
 <ul>
 <li>Mediator 抽象中介者角色：抽象中介者角色定义统一的接口，用于各同事角色之间的通信。</li>
@@ -637,7 +637,7 @@
 <h2 id="九、命令模式"><a href="#九、命令模式" class="headerlink" title="九、命令模式"></a>九、命令模式</h2><p>命令模式是一个高内聚的模式</p>
 <h3 id="定义-7"><a href="#定义-7" class="headerlink" title="定义"></a>定义</h3><p>Encapsulate a request as an object,thereby letting you parameterize clients with different requests,queue or log requests,and support undoable operations.</p>
 <p>（将一个请求封装成一个对象，从而让你使用不同的请求把客户端参数化，对请求排队或者记录请求日志，可以提供命令的撤销和恢复功能。）</p>
-<h3 id="通用类图-7"><a href="#通用类图-7" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221221004118713.png" srcset="/img/loading.gif" lazyload alt="命令模式的通用类图"></p>
+<h3 id="通用类图-7"><a href="#通用类图-7" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221221004118713.png" srcset="/img/loading.gif" lazyload alt="命令模式的通用类图"></p>
 <p>在该类图中，我们看到三个角色：</p>
 <ul>
 <li>Receive接收者角色：该角色就是干活的角色，命令传递到这里是应该被执行的。</li>
@@ -686,7 +686,7 @@
 <h2 id="十、责任链模式"><a href="#十、责任链模式" class="headerlink" title="十、责任链模式"></a>十、责任链模式</h2><h3 id="定义-8"><a href="#定义-8" class="headerlink" title="定义"></a>定义</h3><p>Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.Chain the receiving objects and pass the request along the chain until an object handles it.</p>
 <p>（使多个对象都有机会处理请求，从而避免了请求的发送者和接受者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。）</p>
 <h3 id="通用类图-8"><a href="#通用类图-8" class="headerlink" title="通用类图"></a>通用类图</h3><p>责任链模式的重点是在“链”上，由一条链去处理相似的请求在链中决定谁来处理这个请求，并返回相应的结果。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221229231223157.png" srcset="/img/loading.gif" lazyload alt="责任链模式通用类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221229231223157.png" srcset="/img/loading.gif" lazyload alt="责任链模式通用类图"></p>
 <h3 id="通用代码-8"><a href="#通用代码-8" class="headerlink" title="通用代码"></a>通用代码</h3><p>责任链模式的核心在“链”上，“链”是由多个处理者ConcreteHandler组成的，我们先来看抽象Handler类。</p>
 <p><strong>抽象处理者：</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Handler</span> &#123;<br>    <span class="hljs-keyword">private</span> Handler nextHandler;<br>    <span class="hljs-comment">//每个处理者都必须对请求做出处理</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Response <span class="hljs-title function_">handleMessage</span><span class="hljs-params">(Request request)</span>&#123;<br>        <span class="hljs-type">Response</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-comment">//判断是否是自己的处理级别</span><br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.getHandlerLevel().equals(request.getRequestLevel()))&#123;<br>            response = <span class="hljs-built_in">this</span>.echo(request);<br>        &#125;<span class="hljs-keyword">else</span>&#123; <span class="hljs-comment">//不属于自己的处理级别</span><br>            <span class="hljs-comment">//判断是否有下一个处理者</span><br>            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">this</span>.nextHandler != <span class="hljs-literal">null</span>)&#123;<br>            response = <span class="hljs-built_in">this</span>.nextHandler.handleMessage(request);<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>            	<span class="hljs-comment">//没有适当的处理者，业务自行处理</span><br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> response;<br>    &#125;<br>    <span class="hljs-comment">//设置下一个处理者是谁</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setNext</span><span class="hljs-params">(Handler _handler)</span>&#123;<br>        <span class="hljs-built_in">this</span>.nextHandler = _handler;<br>    &#125;<br>    <span class="hljs-comment">//每个处理者都有一个处理级别</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> Level <span class="hljs-title function_">getHandlerLevel</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">//每个处理者都必须实现处理任务</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> Response <span class="hljs-title function_">echo</span><span class="hljs-params">(Request request)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -714,7 +714,7 @@
 <h2 id="十一、装饰模式"><a href="#十一、装饰模式" class="headerlink" title="十一、装饰模式"></a>十一、装饰模式</h2><h3 id="定义-9"><a href="#定义-9" class="headerlink" title="定义"></a>定义</h3><p>装饰模式（Decorator Pattern）是一种比较常见的模式，其定义如下：</p>
 <p>Attach additional responsibilities to an object dynamically keeping the same interface.Decorators provide a flexible alternative to subclassing for extending functionality.</p>
 <p>（动态地给一个对象添加一些额外的职责。就增加功能来说，装饰模式相比生成子类更为灵活。）</p>
-<h3 id="通用类图-9"><a href="#通用类图-9" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221229231253498.png" srcset="/img/loading.gif" lazyload alt="装饰模式的通用类图"></p>
+<h3 id="通用类图-9"><a href="#通用类图-9" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221229231253498.png" srcset="/img/loading.gif" lazyload alt="装饰模式的通用类图"></p>
 <h3 id="通用代码-9"><a href="#通用代码-9" class="headerlink" title="通用代码"></a>通用代码</h3><p>在类图中，有四个角色需要说明：</p>
 <ul>
 <li><strong>Component抽象构件</strong></li>
@@ -766,7 +766,7 @@
 </ul>
 <h2 id="十二、策略模式"><a href="#十二、策略模式" class="headerlink" title="十二、策略模式"></a>十二、策略模式</h2><h3 id="定义-10"><a href="#定义-10" class="headerlink" title="定义"></a>定义</h3><p>Define a family of algorithms,encapsulate each one,and make them interchangeable.</p>
 <p>（定义一组算法，将每个算法都封装起来，并且使它们之间可以互换。）</p>
-<h3 id="通用类图-10"><a href="#通用类图-10" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221229231320982.png" srcset="/img/loading.gif" lazyload alt="策略模式通用类图"></p>
+<h3 id="通用类图-10"><a href="#通用类图-10" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221229231320982.png" srcset="/img/loading.gif" lazyload alt="策略模式通用类图"></p>
 <h3 id="通用代码-10"><a href="#通用代码-10" class="headerlink" title="通用代码"></a>通用代码</h3><p>策略模式使用的就是面向对象的继承和多态机制，非常容易理解和掌握，我们再来看看策略模式的三个角色：</p>
 <ul>
 <li><strong>Context封装角色</strong></li>
@@ -823,7 +823,7 @@
 <h3 id="注意事项-5"><a href="#注意事项-5" class="headerlink" title="注意事项"></a>注意事项</h3><p>如果系统中的一个策略家族的具体策略数量超过4个，则需要考虑使用混合模式，解决策略类膨胀和对外暴露的问题，否则日后的系统维护就会成为一个烫手山芋，谁都不想接。</p>
 <h2 id="十三、适配器模式"><a href="#十三、适配器模式" class="headerlink" title="十三、适配器模式"></a>十三、适配器模式</h2><h3 id="定义-11"><a href="#定义-11" class="headerlink" title="定义"></a>定义</h3><p>Convert the interface of a class into another interface clients expect.Adapter lets classes work together that couldn’t otherwise because of incompatible interfaces.</p>
 <p>（将一个类的接口变换成客户端所期待的另一种接口，从而使原本因接口不匹配而无法在一起工作的两个类能够在一起工作。）</p>
-<h3 id="通用类图-11"><a href="#通用类图-11" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20221229231345209.png" srcset="/img/loading.gif" lazyload alt="适配器模式通用类图"></p>
+<h3 id="通用类图-11"><a href="#通用类图-11" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221229231345209.png" srcset="/img/loading.gif" lazyload alt="适配器模式通用类图"></p>
 <h3 id="通用代码-11"><a href="#通用代码-11" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p><strong>Target目标角色</strong></p>
 <p>该角色定义把其他类转换为何种接口，也就是我们的期望接口</p>
@@ -873,7 +873,7 @@
 <p>Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.</p>
 <p>（它提供一种方法访问一个容器对象中各个元素，而又不需暴露该对象的内部细节。）</p>
 <h3 id="通用类图-12"><a href="#通用类图-12" class="headerlink" title="通用类图"></a>通用类图</h3><p>迭代器是为容器服务的，那什么是容器呢？ 能容纳对象的所有类型都可以称之为容器，例如Collection集合类型、Set类型等，迭代器模式就是为解决遍历这些容器中的元素而诞生的。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230103234005229.png" srcset="/img/loading.gif" lazyload alt="迭代器模式的通用类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230103234005229.png" srcset="/img/loading.gif" lazyload alt="迭代器模式的通用类图"></p>
 <h3 id="通用代码-12"><a href="#通用代码-12" class="headerlink" title="通用代码"></a>通用代码</h3><p>迭代器模式提供了遍历容器的方便性，容器只要管理增减元素就可以了，需要遍历时交由迭代器进行。迭代器模式正是由于使用得太频繁，所以大家才会忽略，我们来看看迭代器模式中的各个角色：</p>
 <ul>
 <li><p><strong>Iterator抽象迭代器</strong></p>
@@ -909,7 +909,7 @@
 <h2 id="十五、组合模式"><a href="#十五、组合模式" class="headerlink" title="十五、组合模式"></a>十五、组合模式</h2><h3 id="定义-13"><a href="#定义-13" class="headerlink" title="定义"></a>定义</h3><p>组合模式(Composite Pattern)也叫合成模式，有时又叫做部分-整体模式（Part-Whole），主要是用来描述部分与整体的关系，其定义如下：</p>
 <p>Compose objects into tree structures to represent part-whole hierarchies.Composite lets clients treat individual objects and compositions of objects uniformly.</p>
 <p>（将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。）</p>
-<h3 id="通用类图-13"><a href="#通用类图-13" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104223915648.png" srcset="/img/loading.gif" lazyload alt="组合模式通用类图"></p>
+<h3 id="通用类图-13"><a href="#通用类图-13" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104223915648.png" srcset="/img/loading.gif" lazyload alt="组合模式通用类图"></p>
 <h3 id="通用代码-13"><a href="#通用代码-13" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p>Component抽象构件角色</p>
 <p>定义参加组合对象的共有方法和属性，可以定义一些默认的行为或属性</p>
@@ -952,7 +952,7 @@
 <h2 id="十六、观察者模式"><a href="#十六、观察者模式" class="headerlink" title="十六、观察者模式"></a>十六、观察者模式</h2><h3 id="定义-14"><a href="#定义-14" class="headerlink" title="定义"></a>定义</h3><p>观察者模式（Observer Pattern）也叫做发布订阅模式（Publish&#x2F;subscribe）,它是一个在项目中经常使用的模式，其定义如下：</p>
 <p>Define a one-to-many dependency between objects so that when one object changes state,all its dependents are notified and updated automatically.</p>
 <p>（定义对象间一种一对多的依赖关系，使得每当一个对象改变状态，则所有依赖于它的对象都会得到通知并被自动更新。）</p>
-<h3 id="通用类图-14"><a href="#通用类图-14" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104223930048.png" srcset="/img/loading.gif" lazyload alt="观察者模式通用类图"></p>
+<h3 id="通用类图-14"><a href="#通用类图-14" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104223930048.png" srcset="/img/loading.gif" lazyload alt="观察者模式通用类图"></p>
 <h3 id="通用代码-14"><a href="#通用代码-14" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p><strong>Subject被观察者</strong></p>
 <p>定义被观察者必须实现的职责，它必须能够动态地增加、取消观察者。它一般是抽象类或者是实现类，仅仅完成作为被观察者必须实现的职责：管理观察者并通知观察者。</p>
@@ -1016,9 +1016,9 @@
 <h2 id="十七、门面模式"><a href="#十七、门面模式" class="headerlink" title="十七、门面模式"></a>十七、门面模式</h2><h3 id="定义-15"><a href="#定义-15" class="headerlink" title="定义"></a>定义</h3><p>门面模式（Facade Pattern）也叫做外观模式，是一种比较常用的封装模式，其定义如下：</p>
 <p>Provide a unified interface to a set of interfaces in a subsystem.Facade defines a higher-level interface that makes the subsystem easier to use.</p>
 <p>（要求一个子系统的外部与其内部的通信必须通过一个统一的对象进行。门面模式提供一个高层次的接口，使得子系统更易于使用。）</p>
-<h3 id="通用类图-15"><a href="#通用类图-15" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104223942696.png" srcset="/img/loading.gif" lazyload alt="扩展后的系统类图"></p>
+<h3 id="通用类图-15"><a href="#通用类图-15" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104223942696.png" srcset="/img/loading.gif" lazyload alt="扩展后的系统类图"></p>
 <p>是的，类图就这么简单，但是它代表的意义可是异常复杂，Subsystem Classes是子系统所有类的简称，它可能代表一个类，也可能代表几十个对象的集合。甭管多少对象，我们把这些对象全部圈入子系统的范畴。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104223953076.png" srcset="/img/loading.gif" lazyload alt="门面模式示意图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104223953076.png" srcset="/img/loading.gif" lazyload alt="门面模式示意图"></p>
 <h3 id="通用代码-15"><a href="#通用代码-15" class="headerlink" title="通用代码"></a>通用代码</h3><p>再简单地说，门面对象是外界访问子系统内部的唯一通道，不管子系统内部是多么杂乱无章，只要有门面对象在，就可以做到“金玉其外，败絮其中”。</p>
 <ul>
 <li><p><strong>Facade门面角色</strong></p>
@@ -1055,7 +1055,7 @@
 </ul>
 <h2 id="十八、备忘录模式"><a href="#十八、备忘录模式" class="headerlink" title="十八、备忘录模式"></a>十八、备忘录模式</h2><h3 id="定义-16"><a href="#定义-16" class="headerlink" title="定义"></a>定义</h3><p>Without violating encapsulation,capture and externalize an object’s internal state so that the object can be restored to this state later.</p>
 <p>（在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。）</p>
-<h3 id="通用类图-16"><a href="#通用类图-16" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104224005668.png" srcset="/img/loading.gif" lazyload alt="备忘录模式的通用类图"></p>
+<h3 id="通用类图-16"><a href="#通用类图-16" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104224005668.png" srcset="/img/loading.gif" lazyload alt="备忘录模式的通用类图"></p>
 <h3 id="通用代码-16"><a href="#通用代码-16" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p>Originator发起人角色</p>
 <p>记录当前时刻的内部状态，负责定义哪些属于备份范围的状态，负责创建和恢复备忘录数据。</p>
@@ -1101,7 +1101,7 @@
 </ul>
 <h2 id="十九、访问者模式"><a href="#十九、访问者模式" class="headerlink" title="十九、访问者模式"></a>十九、访问者模式</h2><h3 id="定义-17"><a href="#定义-17" class="headerlink" title="定义"></a>定义</h3><p>Represent an operation to be performed on the elements of an object structure. Visitor lets you define a new operation without changing the classes of the elements on which it operates. </p>
 <p>（封装一些作用于某种数据结构中的各元素的操作，它可以在不改变数据结构的前提下定义作用于这些元素的新的操作。）</p>
-<h3 id="通用类图-17"><a href="#通用类图-17" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104224030770.png" srcset="/img/loading.gif" lazyload alt="访问者模式的通用类图"></p>
+<h3 id="通用类图-17"><a href="#通用类图-17" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104224030770.png" srcset="/img/loading.gif" lazyload alt="访问者模式的通用类图"></p>
 <h3 id="通用代码-17"><a href="#通用代码-17" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p><strong>Visitor——抽象访问者</strong></p>
 <p>抽象类或者接口，声明访问者可以访问哪些元素，具体到程序中就是visit方法的参数定义哪些对象是可以被访问的。</p>
@@ -1172,7 +1172,7 @@
 <h2 id="二十、状态模式"><a href="#二十、状态模式" class="headerlink" title="二十、状态模式"></a>二十、状态模式</h2><h3 id="定义-18"><a href="#定义-18" class="headerlink" title="定义"></a>定义</h3><p>Allow an object to alter its behavior when its internal state changes.The object will appear to change its class.</p>
 <p>（当一个对象内在状态改变时允许其改变行为，这个对象看起来像改变了其类。）</p>
 <h3 id="通用类图-18"><a href="#通用类图-18" class="headerlink" title="通用类图"></a>通用类图</h3><p>状态模式的核心是封装，状态的变更引起了行为的变更，从外部看起来就好像这个对象对应的类发生了改变一样。</p>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104224048504.png" srcset="/img/loading.gif" lazyload alt="状态模式通用类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104224048504.png" srcset="/img/loading.gif" lazyload alt="状态模式通用类图"></p>
 <h3 id="通用代码-18"><a href="#通用代码-18" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p>State——抽象状态角色</p>
 <p>接口或抽象类，负责对象状态定义，并且封装环境角色以实现状态切换。</p>
@@ -1229,7 +1229,7 @@
 <h2 id="二十一、解释器模式"><a href="#二十一、解释器模式" class="headerlink" title="二十一、解释器模式"></a>二十一、解释器模式</h2><h3 id="定义-19"><a href="#定义-19" class="headerlink" title="定义"></a>定义</h3><p>解释器模式（Interpreter Pattern）是一种按照规定语法进行解析的方案，在现在项目中使用较少，其定义如下：</p>
 <p>Given a language, define a representation for its grammar along with an interpreter that uses the representation to interpret sentences in the language.</p>
 <p>（给定一门语言，定义它的文法的一种表示，并定义一个解释器，该解释器使用该表示来解释语言中的句子。）</p>
-<h3 id="通用类图-19"><a href="#通用类图-19" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104000335235.png" srcset="/img/loading.gif" lazyload alt="解释器模式通用类图"></p>
+<h3 id="通用类图-19"><a href="#通用类图-19" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104000335235.png" srcset="/img/loading.gif" lazyload alt="解释器模式通用类图"></p>
 <h3 id="通用代码-19"><a href="#通用代码-19" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p>AbstractExpression——抽象解释器</p>
 <p>具体的解释任务由各个实现类完成，具体的解释器分别由TerminalExpression和NonterminalExpression完成。</p>
@@ -1293,7 +1293,7 @@
 <p>外部状态是对象得以依赖的一个标记，是随环境改变而改变的、不可以共享的状态，如我们例子中的考试科目+考试地点复合字符串，它是一批对象的统一标识，是唯一的一个索引值。</p>
 </li>
 </ul>
-<p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104001755286.png" srcset="/img/loading.gif" lazyload alt="享元模式的通用类图"></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104001755286.png" srcset="/img/loading.gif" lazyload alt="享元模式的通用类图"></p>
 <h3 id="通用代码-20"><a href="#通用代码-20" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p><strong>Flyweight——抽象享元角色</strong></p>
 <p>它简单地说就是一个产品的抽象类，同时定义出对象的外部状态和内部状态的接口或实现。</p>
@@ -1333,7 +1333,7 @@
 <h2 id="二十三、桥梁模式"><a href="#二十三、桥梁模式" class="headerlink" title="二十三、桥梁模式"></a>二十三、桥梁模式</h2><h3 id="定义-21"><a href="#定义-21" class="headerlink" title="定义"></a>定义</h3><p>桥梁模式（Bridge Pattern）也叫做桥接模式，是一个比较简单的模式，其定义如下：</p>
 <p>Decouple an abstraction from its implementation so that the two can vary independently.</p>
 <p>（将抽象和实现解耦，使得两者可以独立地变化。）</p>
-<h3 id="通用类图-21"><a href="#通用类图-21" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://gitee.com/haktiong/picture-warehouse/raw/master/images/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/image-20230104224114123.png" srcset="/img/loading.gif" lazyload alt="桥梁模式通用类图"></p>
+<h3 id="通用类图-21"><a href="#通用类图-21" class="headerlink" title="通用类图"></a>通用类图</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230104224114123.png" srcset="/img/loading.gif" lazyload alt="桥梁模式通用类图"></p>
 <h3 id="通用代码-21"><a href="#通用代码-21" class="headerlink" title="通用代码"></a>通用代码</h3><ul>
 <li><p><strong>Abstraction——抽象化角色</strong></p>
 <p>它的主要职责是定义出该角色的行为，同时保存一个对实现化角色的引用，该角色一般是抽象类。</p>

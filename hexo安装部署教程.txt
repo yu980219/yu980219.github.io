@@ -5,6 +5,7 @@ fastgithub安装包在百度网盘中
 查看hexo版本：hexo -version
 hexo init # 初始化hexo
 npm install # 安装组件
+npm install --save hexo-pdf # 安装pdf组件
 生成页面：hexo g
 预览：hexo s
 上传页面到git：hexo d

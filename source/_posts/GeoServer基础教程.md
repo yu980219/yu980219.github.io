@@ -558,4 +558,6 @@ geoserver生成的瓦片都是默认在内存中
 
 ----
 
-转自：[GeoServer中文版软件使用教程](https://www.bilibili.com/video/BV1co4y1C7NJ/)
+## 内容来源
+
+[GeoServer中文版软件使用教程](https://www.bilibili.com/video/BV1co4y1C7NJ/)

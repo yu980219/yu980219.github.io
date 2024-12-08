@@ -1,5 +1,7 @@
 fastgithub安装包在百度网盘中
 
+修改fluid配置在根目录下：_config.fluid.yml，可参考官网修改：https://fluid-dev.github.io/hexo-fluid-docs/
+
 新电脑
 安装hexo：npm install -g hexo-cli
 查看hexo版本：hexo -version

@@ -4,7 +4,7 @@ tags: [GIS]
 categories:
   - 其他
   - GIS
-index_img: /img/ArcGIS.png
+index_img: /img/arcgis.png
 date: 2024/12/01 18:13:00
 ---
 

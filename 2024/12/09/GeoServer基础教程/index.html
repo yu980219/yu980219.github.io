@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="GeoServer基础教程一、GeoServer介绍及安装GeoServer是一个用Java编写的开源软件服务器，允许用户共享和编辑地理空间数据。它为互操作性而设计，使用开放标准发布来自任何主要空问数据源的数据。 官网：https:&#x2F;&#x2F;geoserver.org&#x2F; 介绍作为一个社区驱动的项目，GeoServer由来自世界各地的不同个人和组织开发、测试和支持。 GeoServer实现了行业标准的OG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GeoServer基础教程">
+<meta property="og:url" content="https://haktiong.gitee.io/2024/12/09/GeoServer%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="GeoServer基础教程一、GeoServer介绍及安装GeoServer是一个用Java编写的开源软件服务器，允许用户共享和编辑地理空间数据。它为互操作性而设计，使用开放标准发布来自任何主要空问数据源的数据。 官网：https:&#x2F;&#x2F;geoserver.org&#x2F; 介绍作为一个社区驱动的项目，GeoServer由来自世界各地的不同个人和组织开发、测试和支持。 GeoServer实现了行业标准的OG">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/geoserver.png">
+<meta property="article:published_time" content="2024-12-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.629Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="geoserver">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/geoserver.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>GeoServer基础教程 - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GeoServer基础教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-09 00:00" pubdate>
+          2024年12月9日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          79 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">GeoServer基础教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="GeoServer基础教程"><a href="#GeoServer基础教程" class="headerlink" title="GeoServer基础教程"></a>GeoServer基础教程</h1><h2 id="一、GeoServer介绍及安装"><a href="#一、GeoServer介绍及安装" class="headerlink" title="一、GeoServer介绍及安装"></a>一、GeoServer介绍及安装</h2><p>GeoServer是一个用Java编写的开源软件服务器，允许用户共享和编辑地理空间数据。它为互操作性而设计，使用开放标准发布来自任何主要空问数据源的数据。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://geoserver.org/">https://geoserver.org/</a></p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>作为一个社区驱动的项目，GeoServer由来自世界各地的不同个人和组织开发、测试和支持。</p>
+<p>GeoServer实现了行业标准的OGC协议，如Web要素服务(WFS)、Web地图服务(WMS)和Web覆盖服务(WCS)。其他格式和发布选项作为扩展提供，包括Web处理服务(WPS)和Web地图瓦片服务(WMTS)</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412032344487.png" srcset="/img/loading.gif" lazyload></p>
+<p>GeoServer作为一款优秀的开源GIS服务器，在开源方案越来越流行的今天成为企事业单位从事GIS相关项目活动必须考虑的一个选择。</p>
+<p>相较于商业GIS软件如ArcGIS Server、SuperMap iServer等地图服务器软件，GeoServer能实现绝大多数场景下项目对GIS功能的要求，而且有活跃的社区支持，在实际生产中也越来越受到决策者和开发者的青睐。</p>
+<p>最重要的可能是它的开源性质了，任何个人和单位都可以免费下载使用它。这恐怕是他相较于商业软件受欢迎的重要因素了。作为GIS开发人员，能够使用GeoServer进行开源GIS项目的研发，也成为一名合格GIS从业者的基本要求。GeoServer作为一款优秀的开源GIS服务器软件，也成为GIS初学者了解开源GIS方案最佳的实践方案。</p>
+<h3 id="GeoServer的诞生历史"><a href="#GeoServer的诞生历史" class="headerlink" title="GeoServer的诞生历史"></a>GeoServer的诞生历史</h3><p>GeoServer于2001年由总部位于纽约的非盈利技术孵化器open planning project(TOPP)启动。TOPP正在创建一套工具，以实现开放民主，并帮助政府更加透明。第一个是GeoServer，这是因为人们认识到，共享空问数据的能力将(成为)大大增强公民参与政府和城市规划的一套。</p>
+<p>GeoServer的创始人设想了一个类似于万维网的地理空间网。通过万维网，人们可以搜索和下载文本。通过地理空问网，人们可以搜索和下载空问数据。数据提供者将能够直接将他们的数据发布到这个网站上，用户可以直接访问它，而不是现在存在的问接和繁琐的数据共享方法。</p>
+<p>GeoServer的相关人员创建了GeoTools项目，这是一个开源的GIS Java工具包。通过GeoTools，增加了对shapefile、Oracle数据库、ArcSDE集成等的支持。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412032347381.png" srcset="/img/loading.gif" lazyload></p>
+<p>大约在GeoServer成立的同时，OpenGIS联合会(现在的open geospatial联合会)正在开发Web要素服务标准。它使用GML(地理标记语言)，一种互操作的数据格式，指定了一种协议，使空问数据直接在web上可用。还创建了一个Web地图服务，一个用于创建和显示从空问数据创建的地图图像的协议。</p>
+<p>其他项目变得相互关联。Refractions Research创建了一个免费开放的空问数据库PostGIS，使GeoServer能够连接到一个免费的数据库。另外，MetaCarta最初创建了OpenLayers,一个基于开源浏览器的地图查看工具。这些工具一起增强了GeoServer的功能。</p>
+<p>这使得使用开源技术路线构建GIS工作流成为可能，数据可以从PostGIS流入GeoServer、再应用OpenLayers将GeoServer发布的地图服务在前端进行展现和互操作。</p>
+<p>GeoServer现在可以从十几个空间数据源读取数据，并以多种不同的格式输出。现在已经是第二个十年了，GeoServer正在继续它的使命，让所有人都能更容易地访问空问数据。</p>
+<h3 id="Geoserver在不同平台上的安装"><a href="#Geoserver在不同平台上的安装" class="headerlink" title="Geoserver在不同平台上的安装"></a>Geoserver在不同平台上的安装</h3><p>GeoServer可以安装在不同的操作系统平台上:</p>
+<ul>
+<li>Windows</li>
+<li>Mac OS</li>
+<li>Linux</li>
+</ul>
+<p>同时，GeoServer也有两种安装方式：</p>
+<ul>
+<li><p>二进制文件安装</p>
+</li>
+<li><p>web 存档文件安装(webarchive)即war包安装。</p>
+</li>
+</ul>
+<p>需要注意的是，不同于桌面软件.exe形式的安装，GeoServer只需要下载后在安装目录中执行&#x2F;bin&#x2F;startup.bat或&#x2F;bin&#x2F;startup.sh命令即可。</p>
+<h3 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h3><p>在讲下一节GeoServer两种安装方式之前，请确保你的操作系统已经安装了JAVA环境:</p>
+<p>确保您的系统上安装了Java运行时环境(JRE)。GeoServer需要java8或java11环境，正如open jdk windows安装程序所提供的那样。</p>
+<p>选择版本下载：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/geoserver/files/GeoServer/">https://sourceforge.net/projects/geoserver/files/GeoServer/</a></p>
+<ul>
+<li><strong>tomcat11</strong>必须保证<strong>jdk11</strong>，否则启动会报错</li>
+<li>如果我们使用Java8环境，那么GeoServer的适配版本在2.9.x到2.22.x之间。关于这一点一定要注意，理论上总是说可以向下兼容，但进行实践的时候似乎总是很难做到。</li>
+<li>亲测：geoserver选择<strong>2.22.5</strong>，tomcat使用<strong>8.0.50</strong>，可以使用<strong>jdk8</strong>，其他版本未知</li>
+</ul>
+<ol>
+<li>二进制文件下载:(与平台无关，下载即可)</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://geoserver.org/release/stable/">http://geoserver.org/release/stable/</a></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412032351569.png" srcset="/img/loading.gif" lazyload></p>
+<p>进入安装目录，在bin目录下找到startup.bat，启动GeoServer程序。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412040054745.png" srcset="/img/loading.gif" lazyload></p>
+<p>访问：<a target="_blank" rel="noopener" href="http://localhost:8080/geoserver">http://localhost:8080/geoserver</a></p>
+<ol start="2">
+<li>web 存档文件(war包)下载:(与平台无关，下载即可)</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://geoserver.org/release/stable/">http://geoserver.org/release/stable/</a></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412032357322.png" srcset="/img/loading.gif" lazyload></p>
+<p>解压后将war包放在tomcat安装目录webapps下，重新启动tomcat。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412040016947.png" srcset="/img/loading.gif" lazyload></p>
+<p>访问：<a target="_blank" rel="noopener" href="http://localhost:8080/geoserver">http://localhost:8080/geoserver</a></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412040052938.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p>GeoServer在不同的操作系统上安装并运行我们可以理解，下面我们主要讨论GeoServer的两种安装方式:</p>
+<p>二进制文件安装在Windows上安装GeoServer的一种方法是使用与平台无关的二进制文件。这个版本是捆绑在Jetty中的GeoServer web应用程序，Jetty是一个轻量级和可移植的应用服务器。它具有在所有操作系统中工作非常相似的优点，并且设置起来非常简单。(可以将jetty理解为tomcat，此处即为内嵌了GeoServerweb应用程序的tomcat)</p>
+<p>web 存档文件安装(web archive)即war包安装。GeoServer应用程序被打包为独立servlet，用于现有应用程序服务器，如ApacheTomcat和Jetty。这里是将GeoServer作为现有servlet容器(如Tomcat)的一部分运行。</p>
+<p>另外一种常用的部署是将GeoServer部署在Linux平台上，这也是我平时常用的部署方式其方式方法和在Windows上部署类似，不同之处是你需要部署Liunx版本(tar.gz)的tomcat,且执行的命令是 &#x2F;sh startup.sh</p>
+<h2 id="二、GeoServer-Web管理界面"><a href="#二、GeoServer-Web管理界面" class="headerlink" title="二、GeoServer Web管理界面"></a>二、GeoServer Web管理界面</h2><h3 id="GeoServer首次登录"><a href="#GeoServer首次登录" class="headerlink" title="GeoServer首次登录"></a>GeoServer首次登录</h3><p>GeoServer有一个基于浏览器的web管理界面应用程序，用于配置GeoServer的所有方面，从添加和发布数据到更改服务设置。</p>
+<ul>
+<li>可通过web浏览器访问web管理界面</li>
+</ul>
+<p>网址为:http:&#x2F;&#x2F;<host>:<port>&#x2F;geoserver</p>
+<ul>
+<li>如果是默认安装</li>
+</ul>
+<p>则访问地址为:<a target="_blank" rel="noopener" href="http://localhost:8080/geoserver">http://localhost:8080/geoserver</a></p>
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>要更改任何服务器设置或配置数据，必须首先对用户进行身份验证。导航到web界面的右上角以登录到GeoServer。默认管理凭据为:</p>
+<p>User name: admin</p>
+<p>Password: geoserver</p>
+<p>很多新手或者长时间不用GeoServer的人会不清楚或忘记默认用户名和密码，一定要牢记。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412040935910.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="三、使用GeoServer发布shapefile文件"><a href="#三、使用GeoServer发布shapefile文件" class="headerlink" title="三、使用GeoServer发布shapefile文件"></a>三、使用GeoServer发布shapefile文件</h2><p>实验数据下载地址：<br><a target="_blank" rel="noopener" href="https://docs.geoserver.org/stable/en/user/_downloads/30e405b790e068c43354367cb08e71bc/nyc_roads.zip">https://docs.geoserver.org/stable/en/user/_downloads/30e405b790e068c43354367cb08e71bc/nyc_roads.zip</a></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041023777.png" srcset="/img/loading.gif" lazyload></p>
+<p>shapefile实际上是文件的集合(扩展名:.shp、.dbf、.shx、.pj，有时还有其他文件)。所有这些文件都需要存在于同一目录中，以便GeoServer能够准确读取它们。</p>
+<p>在使用GeoServer时，强烈建议使用.prj文件(虽然不是必需的)，因为它包含有价值的投影信息。如果没有它，GeoServer可能无法加载shapefile。</p>
+<ol>
+<li>创建一个工作区</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041026098.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li>创建新的数据存储</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041028164.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041031419.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="3">
+<li>新建一个图层</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041036827.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041040604.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041041378.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041042802.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="4">
+<li>查看图层</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041043168.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041045239.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="四、使用GeoServer发布GeoTIFF影像"><a href="#四、使用GeoServer发布GeoTIFF影像" class="headerlink" title="四、使用GeoServer发布GeoTIFF影像"></a>四、使用GeoServer发布GeoTIFF影像</h2><h3 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h3><p>TIFF (Tag Image File Format)图像文件是图形图像处理中常用的格式之一,其图像格式很复杂,但由于它对图像信息的存放灵活多变,可以支持很多色彩系统,而且独立于操作系统.</p>
+<p>因此得到了广泛应用。在各种地理信息系统、摄影测量与遥感等应用中,要求图像具有地理编码信息,例如图像所在的坐标系、比例尺、图像上点的坐标、经纬度、长度单位及角度单位等等。对于存储和读取这些信息,纯TEF 格式的图像文件是很难做到的,而GeOTIFF 作为TIFF 的一种扩展,在TIFF 的基础上定义了一些GeoTag(地理标签),来对各种坐标系统、椭球基准、投影信息等进行定义和存储,使图像数据和地理数据存储在同一图像文件中,这样就为广大用户制作和使用带有地理信息的图像提供了方便的途径。</p>
+<hr>
+<p>步骤同上</p>
+<ol>
+<li>添加新的数据存储-GeoTIFF</li>
+<li>发布图层</li>
+</ol>
+<h2 id="五、安装postgreSQL和postgis"><a href="#五、安装postgreSQL和postgis" class="headerlink" title="五、安装postgreSQL和postgis"></a>五、安装postgreSQL和postgis</h2><blockquote>
+<p>安装时，须保证pgsql和postgis版本对应，我这里选择的是</p>
+<p>pgsql：13.18.1</p>
+<p>postgis：pg13x64-3.5.0-1</p>
+<p>而且postgis必须安装在postgreSQL文件夹下，不能安装在pgsql文件夹下的任何子文件夹内，否则会报错。</p>
+<p>如果pgsql的版本大于等于15，navicat是打不开的。</p>
+</blockquote>
+<p><strong>安装postgreSQL</strong>：<a target="_blank" rel="noopener" href="https://www.postgresql.org/">https://www.postgresql.org/</a></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041515423.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041517235.png" srcset="/img/loading.gif" lazyload></p>
+<p>测试服务是否已经启动</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041526193.png" srcset="/img/loading.gif" lazyload></p>
+<p>随着pgSQL安装会自动安装一个manager管理软件</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041527947.png" srcset="/img/loading.gif" lazyload></p>
+<p>本地的pgSQL</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041529598.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><strong>安装postgis插件</strong></p>
+<p><a target="_blank" rel="noopener" href="https://download.osgeo.org/postgis/windows/">https://download.osgeo.org/postgis/windows/</a></p>
+<p>勾选创建一个空间数据库</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041652394.png" srcset="/img/loading.gif" lazyload></p>
+<p>postgis库和普通的库区别就在于，在扩展里，多了postgis的扩展</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412041739152.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="六、使用GeoServer发布Postgis数据表"><a href="#六、使用GeoServer发布Postgis数据表" class="headerlink" title="六、使用GeoServer发布Postgis数据表"></a>六、使用GeoServer发布Postgis数据表</h2><h3 id="1-创建postgis数据库"><a href="#1-创建postgis数据库" class="headerlink" title="1.创建postgis数据库"></a>1.创建postgis数据库</h3><p>打开pgAdmin，先进行汉化</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061624052.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061625432.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><strong>在前几章已经创建了postgis数据库，那如何新建一个postgis数据库？</strong></p>
+<ol>
+<li>模板方式</li>
+</ol>
+<p>在数据库上右键 - 创建 -数据库</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061627624.png" srcset="/img/loading.gif" lazyload></p>
+<p>选择之间创建好的postgis模板的数据库，使用它的模板</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061633534.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li>使用命令</li>
+</ol>
+<p>在创建好的空白数据库上 -  右键 - 查询工具</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061634838.png" srcset="/img/loading.gif" lazyload></p>
+<p>使用下方命令，点击执行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> EXTENSION postgis;<br><span class="hljs-keyword">CREATE</span> EXTENSION postgis_topology;<br><span class="hljs-keyword">CREATE</span> EXTENSION postgis_sfcgal;<br><span class="hljs-keyword">CREATE</span> EXTENSION fuzzystrmatch;<br><span class="hljs-keyword">CREATE</span> EXTENSION address_standardizer;<br><span class="hljs-keyword">CREATE</span> EXTENSION address_standardizer_data_us;<br><span class="hljs-keyword">CREATE</span> EXTENSION postgis_tiger_geocoder;<br></code></pre></td></tr></table></figure>
+
+<p>即可在扩展中看到</p>
+<h3 id="2-下载实验数据"><a href="#2-下载实验数据" class="headerlink" title="2.下载实验数据"></a>2.下载实验数据</h3><blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://docs.geoserver.org/stable/en/user/%20downloads/bbd4b941ceb36074c9d19feab3f57609/nyc%20b%20uildings.zip">https://docs.geoserver.org/stable/en/user/%20downloads/bbd4b941ceb36074c9d19feab3f57609/nyc%20b%20uildings.zip</a></p>
+</blockquote>
+<p>导入数据到pgsql中</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061644427.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-启动geoserver"><a href="#3-启动geoserver" class="headerlink" title="3.启动geoserver"></a>3.启动geoserver</h3><p>启动geoserver，使用test工作区</p>
+<p>点击【存储仓库】，添加新的数据存储，选择postgis</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061649224.png" srcset="/img/loading.gif" lazyload></p>
+<p>填写pg数据库的连接参数，其他保持默认：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061654723.png" srcset="/img/loading.gif" lazyload></p>
+<p>选择nyc_buildings，点击发布</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061653058.png" srcset="/img/loading.gif" lazyload></p>
+<p>其他保持默认，但需要计算一下边框</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061655054.png" srcset="/img/loading.gif" lazyload></p>
+<p>点击保存，发布图层</p>
+<p>点击图层预览，搜索nyc，可以预览</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061658353.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412061658461.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="七、使用openLayers调用geoserver发布的wms服务"><a href="#七、使用openLayers调用geoserver发布的wms服务" class="headerlink" title="七、使用openLayers调用geoserver发布的wms服务"></a>七、使用openLayers调用geoserver发布的wms服务</h2><blockquote>
+<p>openlayers官网：<a target="_blank" rel="noopener" href="https://openlayers.org/">https://openlayers.org/</a></p>
+</blockquote>
+<p>点击QuickStart，复制代码下来</p>
+<p>现在官网已经使用npm方式，没有html静态代码了</p>
+<p>注意：</p>
+<ol>
+<li>实例中本来是用cdn，但现在貌似访问不到了</li>
+<li>请求地图png需要科学上网</li>
+<li>shape样例用的北京市中心的shape，下载网址：<a target="_blank" rel="noopener" href="https://gitcode.com/open-source-toolkit/d07f9/blob/main/geoserver%E7%BB%83%E4%B9%A0%E6%95%B0%E6%8D%AE.rar%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%A5%BD%E5%90%8E%E5%8F%91%E5%B8%83%E5%9B%BE%E5%B1%82">https://gitcode.com/open-source-toolkit/d07f9/blob/main/geoserver%E7%BB%83%E4%B9%A0%E6%95%B0%E6%8D%AE.rar，下载好后发布图层</a></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--注意：openlayers 原版的比较慢，这里引起自己服务器版--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;http://openlayers.vip/examples/css/ol.css&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css">       <span class="hljs-comment">/* 注意：这里必须给高度，否则地图初始化之后不显示；一般是计算得到高度，然后才初始化地图 */</span></span><br><span class="language-css">      <span class="hljs-selector-class">.map</span> &#123;</span><br><span class="language-css">        <span class="hljs-attribute">height</span>: <span class="hljs-number">400px</span>;</span><br><span class="language-css">        <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">      &#125;</span><br><span class="language-css">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--注意：openlayers 原版的比较慢，这里引起自己服务器版--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://openlayers.vip/examples/resources/ol.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>OpenLayers example<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>My Map<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--地图容器，需要指定 id --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;map&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;map&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">      <span class="hljs-keyword">var</span> map = <span class="hljs-keyword">new</span> ol.<span class="hljs-title class_">Map</span>(&#123;</span><br><span class="language-javascript">        <span class="hljs-comment">// 地图容器</span></span><br><span class="language-javascript">        <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;map&#x27;</span>,</span><br><span class="language-javascript">        <span class="hljs-comment">// 地图图层，比如底图、矢量图等</span></span><br><span class="language-javascript">        <span class="hljs-attr">layers</span>: [</span><br><span class="language-javascript">          <span class="hljs-keyword">new</span> ol.<span class="hljs-property">layer</span>.<span class="hljs-title class_">Tile</span>(&#123;</span><br><span class="language-javascript">            <span class="hljs-comment">// 谷歌底图</span></span><br><span class="language-javascript">            <span class="hljs-attr">source</span>: <span class="hljs-keyword">new</span> ol.<span class="hljs-property">source</span>.<span class="hljs-title function_">OSM</span>()</span><br><span class="language-javascript">          &#125;)</span><br><span class="language-javascript">        ],</span><br><span class="language-javascript">        <span class="hljs-comment">// 地图视野</span></span><br><span class="language-javascript">        <span class="hljs-attr">view</span>: <span class="hljs-keyword">new</span> ol.<span class="hljs-title class_">View</span>(&#123;</span><br><span class="language-javascript">          <span class="hljs-comment">// 定位</span></span><br><span class="language-javascript">          <span class="hljs-attr">center</span>: ol.<span class="hljs-property">proj</span>.<span class="hljs-title function_">fromLonLat</span>([<span class="hljs-number">37.41</span>, <span class="hljs-number">8.82</span>]),</span><br><span class="language-javascript">          <span class="hljs-comment">// 缩放</span></span><br><span class="language-javascript">          <span class="hljs-attr">zoom</span>: <span class="hljs-number">4</span></span><br><span class="language-javascript">        &#125;)</span><br><span class="language-javascript">      &#125;);</span><br><span class="language-javascript">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>新建一个html，把上述代码粘贴到里面</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412070331342.png" srcset="/img/loading.gif" lazyload></p>
+<p>在上面的基础上，再添加geoserver WMS资源，添加到ol.Map中的layers下和 ol.layer.Tile同级</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">new</span> ol.<span class="hljs-property">layer</span>.<span class="hljs-title class_">Image</span>(&#123;<br>          <span class="hljs-attr">source</span>: <span class="hljs-keyword">new</span> ol.<span class="hljs-property">source</span>.<span class="hljs-title class_">ImageWMS</span>(&#123;<br>            <span class="hljs-attr">ratio</span>: <span class="hljs-number">1</span>,<br>            <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;http://localhost:8080/geoserver/test/wms&quot;</span>,<br>            <span class="hljs-attr">crossOrigin</span>: <span class="hljs-string">&#x27;anonymous&#x27;</span>, <span class="hljs-comment">//跨域声明</span><br>            <span class="hljs-attr">params</span>: &#123;<br>              <span class="hljs-string">&#x27;FORMAT&#x27;</span>: <span class="hljs-string">&#x27;image/png&#x27;</span>,<br>              <span class="hljs-string">&quot;VERSION&quot;</span>: <span class="hljs-string">&#x27;1.1.1&#x27;</span>,<br>              <span class="hljs-string">&quot;exceptions&quot;</span>: <span class="hljs-string">&#x27;application/vnd.oge.se_inimage&#x27;</span>,<br>              <span class="hljs-string">&quot;LAYERS&quot;</span>: <span class="hljs-string">&#x27;test:community_price&#x27;</span><br>            &#125;<br>          &#125;)<br>        &#125;)<br></code></pre></td></tr></table></figure>
+
+<p>url：地图服务的url地址，在F12的请求url中找</p>
+<p>params：在请求参数中都能找到</p>
+<p>接下来找定位：</p>
+<p>在图层预览这里鼠标移动到正中心，查看它的经纬度坐标，填入</p>
+<p><strong>ol.proj.fromLonLat</strong>方法中</p>
+<p><strong>解决tomcat跨域问题：</strong></p>
+<p>tomcat安装目录下 conf - web.xml，589左右</p>
+<p>添加下面代码，重启tomcat：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>CorsFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>org.apache.catalina.filters.CorsFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cors.allowed.origins<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cors.allowed.methods<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>GET,POST,HEAD,OPTIONS,PUT<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cors.allowed.headers<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cors.exposed.headers<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>Access-Control-Allow-Origin,Access-Control-Allow-Credentials<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cors.support.credentials<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>CorsFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>全部配置好后，打开网页</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412070444909.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="八、使用geoserver生产wmts瓦片"><a href="#八、使用geoserver生产wmts瓦片" class="headerlink" title="八、使用geoserver生产wmts瓦片"></a>八、使用geoserver生产wmts瓦片</h2><p>确定要生成瓦片这两个选项打勾</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082314716.png" srcset="/img/loading.gif" lazyload></p>
+<p>生成过的图层在下方都会生成瓦片服务</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082320791.png" srcset="/img/loading.gif" lazyload></p>
+<p>点击按钮生成瓦片，（后面的是清空瓦片的意思）</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082321253.png" srcset="/img/loading.gif" lazyload></p>
+<p>create new task就是生成瓦片的任务，它把遥感影响切分成小块任务，当你在浏览器访问时，访问对应的瓦片回来，不用浏览器实时用wms去渲染，提高它的访问速度，用的是空间和时间的概念。</p>
+<ol>
+<li>Type of operation: 可以选择，生成全部，生成缺失的瓦片，移除瓦片。</li>
+<li>Grid Set:生成瓦片时，用什么坐标系，用什么策略。</li>
+<li>Zoom start + Zoom stop: 起始缩放级别和最终缩放级别</li>
+<li>Modifiable Parameters: 默认即可</li>
+<li>Bounding box: 指定切片范围</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082322451.png" srcset="/img/loading.gif" lazyload></p>
+<p>提交之后会给出切片的进程信息，如果再次刷新没有了，就是进程结束了。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082326421.png" srcset="/img/loading.gif" lazyload alt="image-20241208232641388"></p>
+<hr>
+<p>geoserver生成的瓦片都是默认在内存中</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082332806.png" srcset="/img/loading.gif" lazyload></p>
+<p>如何让他生成在磁盘上？官网介绍，需要配置web.xml并重启项目</p>
+<blockquote>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://docs.geoserver.org/latest/en/user/geowebcache/config.html#changing-the-cache-directory">https://docs.geoserver.org/latest/en/user/geowebcache/config.html#changing-the-cache-directory</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082332071.png" srcset="/img/loading.gif" lazyload></p>
+<p>先清空掉内存中的瓦片，会提示从磁盘中清空0B的瓦片，也说明瓦片根本没有生成在磁盘上</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082337243.png" srcset="/img/loading.gif" lazyload></p>
+<p>停止geoserver，在tomcat中的geoserver找到web.xml</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082334060.png" srcset="/img/loading.gif" lazyload></p>
+<p>配置瓦片输出地址</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>GEOWEBCACHE_CACHE_DIR<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>C:\Users\yu\Desktop\cache<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>再次启动geoserver，重新生成瓦片</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082338957.png" srcset="/img/loading.gif" lazyload></p>
+<p>查看对应文件夹，已经生成到了对应的文件夹下</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082341565.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082341215.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p>在网络集下可以以某个为模板，创建新的瓦片策略。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082345485.png" srcset="/img/loading.gif" lazyload></p>
+<p>制作好后，要在图层 - Tile Caching 中增加瓦片策略</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082350404.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="九、WMTS瓦片的迁移使用"><a href="#九、WMTS瓦片的迁移使用" class="headerlink" title="九、WMTS瓦片的迁移使用"></a>九、WMTS瓦片的迁移使用</h2><p>核心思路：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412082352907.png" srcset="/img/loading.gif" lazyload></p>
+<p>上节课说，如果服务特别大，瓦片特别多，一个节点可能生成不过来，这时候就用其他几个子节点来帮忙。</p>
+<p>比如一共有15个瓦片，让节点1生成1-10，节点2生成11-13，节点3生成14-15</p>
+<ol>
+<li><p><strong>在目标GIS服务器上发布wms服务，不生产瓦片。(或者发布空服务，只是为了构建bbox)</strong></p>
+</li>
+<li><p><strong>在其他GeoServer服务器上创建wms服务，生产wmts瓦片。</strong></p>
+</li>
+<li><p><strong>将所有其他GeoServer服务器上生产的wmts瓦片复制到目标GeoServer服务器对应服务瓦片目录下。</strong></p>
+</li>
+</ol>
+<p>建立四个tomcat服务，server是负责对外提供服务，node负责生成瓦片</p>
+<p>四个tomcat服务，需要更改tomcat端口以及其他端口，geoserver中需要更改缓存生成的位置，依次启动服务</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412090009844.png" srcset="/img/loading.gif" lazyload></p>
+<p>在node1中生成0-10层的瓦片，node2生成11-13，node3生成14-15</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202412090009460.png" srcset="/img/loading.gif" lazyload></p>
+<p>为什么要生成空服务server，就是为了让它自动确定边界，边框正确，容器范围足够大，才能正常展示。</p>
+<p>复制其他节点cache文件夹下的所有瓦片，到server的cache文件夹下的瓦片目录下。</p>
+<hr>
+<h2 id="内容来源"><a href="#内容来源" class="headerlink" title="内容来源"></a>内容来源</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1co4y1C7NJ/">GeoServer中文版软件使用教程</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%B6%E4%BB%96/" class="category-chain-item">其他</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%B6%E4%BB%96/GIS/" class="category-chain-item">GIS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/geoserver/">#geoserver</a>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GeoServer基础教程</div>
+      <div>https://haktiong.gitee.io/2024/12/09/GeoServer基础教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/05/Fiddler/" title="Fiddler基础教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Fiddler基础教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/01/ArcGis%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" title="ArcGIS入门">
+                        <span class="hidden-mobile">ArcGIS入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="死锁哲学家就餐问题问题描述哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：  吃饭 思考  吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗米饭，每两个哲学家之间有一只筷子。因为用一只筷子很难吃到米饭，所以假设哲学家必须用两只筷子吃东西。他们只能使用自己左右手边的那两只筷子。  场景模拟来模拟一下就餐的情况  筷子分别用1-5编号代替，五">
+<meta property="og:type" content="article">
+<meta property="og:title" content="死锁">
+<meta property="og:url" content="https://haktiong.gitee.io/2021/10/26/%E6%AD%BB%E9%94%81/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="死锁哲学家就餐问题问题描述哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：  吃饭 思考  吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗米饭，每两个哲学家之间有一只筷子。因为用一只筷子很难吃到米饭，所以假设哲学家必须用两只筷子吃东西。他们只能使用自己左右手边的那两只筷子。  场景模拟来模拟一下就餐的情况  筷子分别用1-5编号代替，五">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/os.jpg">
+<meta property="article:published_time" content="2021-10-26T08:17:16.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.634Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/os.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>死锁 - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="死锁"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-10-26 16:17" pubdate>
+          2021年10月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">死锁</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h3 id="哲学家就餐问题"><a href="#哲学家就餐问题" class="headerlink" title="哲学家就餐问题"></a>哲学家就餐问题</h3><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>哲学家就餐问题可以这样表述，假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：</p>
+<ul>
+<li>吃饭</li>
+<li>思考</li>
+</ul>
+<p>吃东西的时候，他们就停止思考，思考的时候也停止吃东西。餐桌中间有一大碗米饭，每两个哲学家之间有一只筷子。因为用一只筷子很难吃到米饭，所以假设哲学家必须用两只筷子吃东西。他们只能使用自己左右手边的那两只筷子。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20241124014613268.png" srcset="/img/loading.gif" lazyload alt="image-20241124014613268"></p>
+<h4 id="场景模拟"><a href="#场景模拟" class="headerlink" title="场景模拟"></a>场景模拟</h4><p>来模拟一下就餐的情况</p>
+<blockquote>
+<p>筷子分别用1-5编号代替，五名哲学家的名字分别从A-E</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">2</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">3</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c4</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">4</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c5</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">5</span>);<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 根据图片的情况</span><br><span class="hljs-comment">         * A左右筷子分别是5和1</span><br><span class="hljs-comment">         * B左右筷子分别是1和2</span><br><span class="hljs-comment">         * ...</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;A&quot;</span>, c5, c1).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;B&quot;</span>, c1, c2).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;C&quot;</span>, c2, c3).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;D&quot;</span>, c3, c4).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;E&quot;</span>, c4, c5).start();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 哲学家</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Philosopher</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span> &#123;<br>    Chopstick left;<br>    Chopstick right;<br>    String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Philosopher</span><span class="hljs-params">(String name, Chopstick left, Chopstick right)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.left = left;<br>        <span class="hljs-built_in">this</span>.right = right;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>            <span class="hljs-comment">// 尝试拿左手边的筷子</span><br>            <span class="hljs-keyword">synchronized</span> (left) &#123;<br>                <span class="hljs-comment">// 尝试拿右手边的筷子</span><br>                <span class="hljs-keyword">synchronized</span> (right) &#123;<br>                    eat();<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(name + <span class="hljs-string">&quot; eat!&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 筷子类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Chopstick</span> &#123;<br>    <span class="hljs-comment">// 每只筷子的编号</span><br>    Integer id;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Chopstick</span><span class="hljs-params">(Integer id)</span> &#123;<br>        <span class="hljs-built_in">this</span>.id = id;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最开始程序还能进行，执行到最后发现，程序不动了。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20221021142734189.png" srcset="/img/loading.gif" lazyload alt="image-20221021142734189"></p>
+<p>如果5个哲学家同时拿起左边的筷子，并且等待右边的筷子的同时，又不放下左边的筷子。就会导致五个哲学家都吃不到米饭。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><h5 id="一、线程粗化"><a href="#一、线程粗化" class="headerlink" title="一、线程粗化"></a>一、线程粗化</h5><blockquote>
+<p>把5把锁合并成一把锁，只有抢到这一把锁，才可以执行。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo1</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">2</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">3</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c4</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">4</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c5</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">5</span>);<br><br>        <span class="hljs-comment">// 定义了一个大锁</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">mutex</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;大锁&quot;</span>;<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 根据图片的情况</span><br><span class="hljs-comment">         * A左右筷子分别是5和1</span><br><span class="hljs-comment">         * B左右筷子分别是1和2</span><br><span class="hljs-comment">         * ...</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;A&quot;</span>, c5, c1, mutex).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;B&quot;</span>, c1, c2, mutex).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;C&quot;</span>, c2, c3, mutex).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;D&quot;</span>, c3, c4, mutex).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;E&quot;</span>, c4, c5, mutex).start();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 哲学家</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Philosopher</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span> &#123;<br>    Chopstick left;<br>    Chopstick right;<br>    String name;<br>    String mutex;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Philosopher</span><span class="hljs-params">(String name, Chopstick left, Chopstick right, String mutex)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.left = left;<br>        <span class="hljs-built_in">this</span>.right = right;<br>        <span class="hljs-built_in">this</span>.mutex = mutex;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>            <span class="hljs-comment">// 拿到大锁，才可以吃饭</span><br>            <span class="hljs-keyword">synchronized</span> (mutex) &#123;<br>                eat();<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(name + <span class="hljs-string">&quot; eat!&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 筷子类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Chopstick</span> &#123;<br>    <span class="hljs-comment">// 每只筷子的编号</span><br>    Integer id;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Chopstick</span><span class="hljs-params">(Integer id)</span> &#123;<br>        <span class="hljs-built_in">this</span>.id = id;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>缺点：效率太低，明明大家拿到2个筷子就可以吃饭，却同一时刻只能一个人用餐。</li>
+</ul>
+<h5 id="二、最少保证"><a href="#二、最少保证" class="headerlink" title="二、最少保证"></a>二、最少保证</h5><blockquote>
+<p>代码里，每个哲学家都是先拿左筷子，再拿右筷子。我们让其中一个人，先拿右筷子，再拿左筷子。再次结合下面这张图，假设E是右撇子，A,B,C,D分别同时拿起了左手边的筷子5,1,2,3</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20241124014755524.png" srcset="/img/loading.gif" lazyload alt="image-20241124014755524"></p>
+<blockquote>
+<p>而E是右撇子，他要先拿5，但5被占用了，所以他不得不放弃争抢这次资源，而D顺利成章地拿到了4，这样D拥有了3和4，然后吃完释放，C又拿起了2和3，再释放…</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 这里就不贴所有的代码了，我们把样例中的E哲学家变成右撇子。让他先拿5再拿4</span><br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;A&quot;</span>, c5, c1).start();<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;B&quot;</span>, c1, c2).start();<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;C&quot;</span>, c2, c3).start();<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;D&quot;</span>, c3, c4).start();<br><span class="hljs-comment">// new Philosopher(&quot;E&quot;, c4, c5).start();</span><br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;E&quot;</span>, c5, c4).start();<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>缺点：这个效率同样不高，因为D要吃完C才能吃，C要吃完B才能吃，这样就形成了一条链，如果这条链上有500，5000人呢？</li>
+</ul>
+<h5 id="三、奇偶互反"><a href="#三、奇偶互反" class="headerlink" title="三、奇偶互反"></a>三、奇偶互反</h5><blockquote>
+<p>让奇数位置的哲学家先拿左筷子，偶数位置的哲学家先拿右筷子。</p>
+<p>如果A,C,E为奇数；B,D为偶数。</p>
+<p>如果A拿到了5，B只能拿2，AB之间的1，就被空了出来，保证A能拿到；</p>
+<p>同理B如果拿到了2，A只能拿5，AB之间的1，也被空了出来，B也能拿到。</p>
+<p>当他们用餐完毕，释放完以后，可以继续按这个规则，进餐。不会发生死锁。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">2</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">3</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c4</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">4</span>);<br>        <span class="hljs-type">Chopstick</span> <span class="hljs-variable">c5</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chopstick</span>(<span class="hljs-number">5</span>);<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 根据图片的情况</span><br><span class="hljs-comment">         * A左右筷子分别是5和1</span><br><span class="hljs-comment">         * B左右筷子分别是1和2</span><br><span class="hljs-comment">         * ...</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;A&quot;</span>, c5, c1).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;B&quot;</span>, c1, c2).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;C&quot;</span>, c2, c3).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;D&quot;</span>, c3, c4).start();<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Philosopher</span>(<span class="hljs-string">&quot;E&quot;</span>, c4, c5).start();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 哲学家</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Philosopher</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span> &#123;<br>    Chopstick left;<br>    Chopstick right;<br>    String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Philosopher</span><span class="hljs-params">(String name, Chopstick left, Chopstick right)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.left = left;<br>        <span class="hljs-built_in">this</span>.right = right;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 模拟 A C E是奇数，实际做的时候 可以用编号对2求余。</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;A&quot;</span>.equals(<span class="hljs-built_in">this</span>.name) || <span class="hljs-string">&quot;C&quot;</span>.equals(<span class="hljs-built_in">this</span>.name) || <span class="hljs-string">&quot;E&quot;</span>.equals(<span class="hljs-built_in">this</span>.name)) &#123;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>                <span class="hljs-comment">// 尝试拿左手边的筷子</span><br>                <span class="hljs-keyword">synchronized</span> (left) &#123;<br>                    <span class="hljs-comment">// 尝试拿右手边的筷子</span><br>                    <span class="hljs-keyword">synchronized</span> (right) &#123;<br>                        eat();<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>                <span class="hljs-comment">// 尝试拿右手边的筷子</span><br>                <span class="hljs-keyword">synchronized</span> (right) &#123;<br>                    <span class="hljs-comment">// 尝试拿左手边的筷子</span><br>                    <span class="hljs-keyword">synchronized</span> (left) &#123;<br>                        eat();<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br><br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(name + <span class="hljs-string">&quot; eat!&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 筷子类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Chopstick</span> &#123;<br>    <span class="hljs-comment">// 每只筷子的编号</span><br>    Integer id;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Chopstick</span><span class="hljs-params">(Integer id)</span> &#123;<br>        <span class="hljs-built_in">this</span>.id = id;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个是效率最高的方法</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+        <a href="/tags/OS/">#OS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>死锁</div>
+      <div>https://haktiong.gitee.io/2021/10/26/死锁/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年10月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/25/MySQL%E6%9E%B6%E6%9E%84%E7%AF%87/" title="MySQL架构篇">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL架构篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/12/%E5%88%86%E5%B8%83%E5%BC%8FRPC%E6%A1%86%E6%9E%B6Apache%20Dubbo+Zookeeper%E5%9F%BA%E6%9C%AC%E6%95%99%E7%A8%8B/" title="分布式RPC框架Apache Dubbo+Zookeeper基本教程">
+                        <span class="hidden-mobile">分布式RPC框架Apache Dubbo+Zookeeper基本教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

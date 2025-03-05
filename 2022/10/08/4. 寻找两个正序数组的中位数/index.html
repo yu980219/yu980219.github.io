@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="4. 寻找两个正序数组的中位数在分析这道题之前，先贴一个普通解法。 执行用时: 1 ms 内存消耗: 42.2 MB 普通解：解析：首先要了解中位数的定义，一个长度为sum的数组中，如果长度是奇数，则中位数所在的索引位置就是sum&#x2F;2+1，如果是偶数，为sum&#x2F;2+1和sum&#x2F;2的平均数。 其实我们不需要真正的全部遍历完，我们只需要找到中位数，遍历到中位数的位置停下即">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4. 寻找两个正序数组的中位数">
+<meta property="og:url" content="https://haktiong.gitee.io/2022/10/08/4.%20%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="4. 寻找两个正序数组的中位数在分析这道题之前，先贴一个普通解法。 执行用时: 1 ms 内存消耗: 42.2 MB 普通解：解析：首先要了解中位数的定义，一个长度为sum的数组中，如果长度是奇数，则中位数所在的索引位置就是sum&#x2F;2+1，如果是偶数，为sum&#x2F;2+1和sum&#x2F;2的平均数。 其实我们不需要真正的全部遍历完，我们只需要找到中位数，遍历到中位数的位置停下即">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/leetcode.jpeg">
+<meta property="article:published_time" content="2022-10-08T07:26:47.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.618Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="LeetCode">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/leetcode.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>4. 寻找两个正序数组的中位数 - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="4. 寻找两个正序数组的中位数"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-08 15:26" pubdate>
+          2022年10月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">4. 寻找两个正序数组的中位数</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="4-寻找两个正序数组的中位数"><a href="#4-寻找两个正序数组的中位数" class="headerlink" title="4. 寻找两个正序数组的中位数"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/median-of-two-sorted-arrays/">4. 寻找两个正序数组的中位数</a></h4><p>在分析这道题之前，先贴一个普通解法。</p>
+<p>执行用时: <strong>1 ms</strong></p>
+<p>内存消耗: <strong>42.2 MB</strong></p>
+<h4 id="普通解："><a href="#普通解：" class="headerlink" title="普通解："></a>普通解：</h4><h5 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h5><p>首先要了解中位数的定义，一个长度为sum的数组中，如果长度是奇数，则中位数所在的索引位置就是sum&#x2F;2+1，如果是偶数，为sum&#x2F;2+1和sum&#x2F;2的平均数。</p>
+<p>其实我们不需要真正的全部遍历完，我们只需要找到中位数，遍历到中位数的位置停下即可。</p>
+<h5 id="时间复杂度：O-m-n-1-x2F-2"><a href="#时间复杂度：O-m-n-1-x2F-2" class="headerlink" title="时间复杂度：O((m+n-1)&#x2F;2)"></a>时间复杂度：O((m+n-1)&#x2F;2)</h5><p>时间复杂度不用说了，遍历一半是肯定的要的。</p>
+<h5 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">findMedianSortedArrays</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums1, <span class="hljs-type">int</span>[] nums2)</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> nums1.length + nums2.length;<br>    <br>    <span class="hljs-comment">// n1,n2分别代表两个数组的指针，从0开始往后移动。</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">n1</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, n2 = <span class="hljs-number">0</span>, val1 = <span class="hljs-number">0</span>, val2 = <span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-comment">// 遍历到中位数，停止</span><br>    <span class="hljs-keyword">while</span> (n1 + n2 &lt;= sum / <span class="hljs-number">2</span>) &#123;<br>        <br>        <span class="hljs-comment">// 赋值阶段，两个数组指针开始移动对比</span><br>        <span class="hljs-comment">// 哪个指针指向的数小，哪个就赋值给val2，下次遍历，val2赋值给val1，相当于清空val2</span><br>        <span class="hljs-comment">// 如果一个数组全部遍历完毕，接下来在另一个数组里指针一个一个往后移动即可。</span><br>        val1 = val2;<br>        <span class="hljs-keyword">if</span> (n1 == nums1.length) &#123;<br>            val2 = nums2[n2++];<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n2 == nums2.length) &#123;<br>            val2 = nums1[n1++];<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums1[n1] &lt; nums2[n2]) &#123;<br>            val2 = nums1[n1++];<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            val2 = nums2[n2++];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> sum % <span class="hljs-number">2</span> != <span class="hljs-number">0</span> ? val2 : (val1 + val2) / <span class="hljs-number">2.0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="最优解："><a href="#最优解：" class="headerlink" title="最优解："></a>最优解：</h4><h5 id="解析：-1"><a href="#解析：-1" class="headerlink" title="解析："></a>解析：</h5><p>首先时间复杂度要求O(log(m+n))，自然想到二分法。</p>
+<hr>
+<ol>
+<li><p>设定一个k，k为第k小的数</p>
+<p>如果数组长度是奇数，直接求<strong>k&#x3D;(sum+1)&#x2F;2</strong>小的数，即中位数</p>
+<p>如果数组长度是偶数，不光要求上面的k，还要再求一个k，<strong>k&#x3D;(sum+2)&#x2F;2</strong>小的数，然后把他们平均。</p>
+<p>ex：</p>
+<p>假设两个数组和是7，奇数，k&#x3D;(7+1)&#x2F;2&#x3D;4，第4小的数就是中位数。</p>
+<p>假设两个数组和是10，偶数，第一个k&#x3D;(10+1)&#x2F;2&#x3D;5，第二个k&#x3D;(10+2)&#x2F;2&#x3D;6，索引位置5和6的和的平均值，即为中位数。</p>
+</li>
+<li><p>在第一个数组中取前<strong>k&#x2F;2</strong>个数，则第二个数组取前<strong>k-k&#x2F;2</strong>个数。</p>
+<p>设两个数组分别为A，B</p>
+<p><strong>① 如果 A[k&#x2F;2] &lt; B[k-k&#x2F;2]，那么第k个数一定不在A中前k&#x2F;2中，直接删掉，删掉了k&#x2F;2个数，一共还剩k-k&#x2F;2个数。</strong></p>
+<p><strong>② 如果 A[k&#x2F;2] &gt; B[k-k&#x2F;2]，那么第k个数一定不在B中前k-k&#x2F;2中，直接删掉，删掉了k&#x2F;2个数，一共还剩k-(k-k&#x2F;2)个数。</strong></p>
+<p><strong>③ 如果 k&#x3D;&#x3D;1，这里是递归的出口。</strong></p>
+<p>ex：</p>
+<p><strong>A : [1,3,6,9]</strong></p>
+<p><strong>B : [1,2,3,4,5,6,7]</strong></p>
+<blockquote>
+<ol>
+<li><p>一共11个数，奇数个，k&#x3D;(11+1)&#x2F;2&#x3D;6，找出第6小的数。</p>
+</li>
+<li><p>k&#x3D;6，k&#x2F;2&#x3D;3，k-k&#x2F;2&#x3D;3。</p>
+<p>A第3个数，6</p>
+<p>B第3个数，3</p>
+<p>A[k&#x2F;2] &gt; B[k-k&#x2F;2]，那么B中前k-k&#x2F;2，可以直接“删除”，指针移动到B中的4，A中不变。</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>A : [1,3,6,9]</strong></p>
+<p><strong>B : [4,5,6,7]</strong></p>
+<blockquote>
+<ol start="3">
+<li><p>一共还剩k&#x3D;k-(k-k&#x2F;2)&#x3D;3个数，找出第3小的数。</p>
+</li>
+<li><p>k&#x3D;3，k&#x2F;2&#x3D;1，k-k&#x2F;2&#x3D;2</p>
+<p>A第1个数，1</p>
+<p>B第2个数，5</p>
+<p>A[k&#x2F;2] &lt; B[k-k&#x2F;2]，A中前k&#x2F;2个数，可以直接“删除”，指针移动到A中的3，B中不变。</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>A : [3,6,9]</strong></p>
+<p><strong>B : [4,5,6,7]</strong></p>
+<blockquote>
+<ol start="5">
+<li><p>一共还剩k&#x3D;k-k&#x2F;2&#x3D;2个数，找出第2小的数。</p>
+</li>
+<li><p>k&#x3D;2，k&#x2F;2&#x3D;1，k-k&#x2F;2&#x3D;1</p>
+<p>A第1个数，3</p>
+<p>B第1个数，4</p>
+<p>A[k&#x2F;2] &lt; B[k-k&#x2F;2]，A中前k&#x2F;2个数，可以直接“删除”，指针移动到A中的6，B中不变。</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>A : [6,9]</strong></p>
+<p><strong>B : [4,5,6,7]</strong></p>
+<blockquote>
+<ol start="7">
+<li><p>一共还剩k&#x3D;k-k&#x2F;2&#x3D;1个数，找出第1小的数。</p>
+</li>
+<li><p>已经到了递归的出口，直接比较两个数组中，指针的位置，哪个更小，就是中位数。</p>
+<p>4和6比较，4更小，4是中位数。</p>
+</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h5 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码："></a>代码：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">findMedianSortedArrays</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums1, <span class="hljs-type">int</span>[] nums2)</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> nums1.length;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">m</span> <span class="hljs-operator">=</span> nums2.length;<br>    <span class="hljs-comment">// 中位数1</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> (n + m + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>;<br>    <span class="hljs-comment">// 中位数2</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">right</span> <span class="hljs-operator">=</span> (n + m + <span class="hljs-number">2</span>) / <span class="hljs-number">2</span>;<br>   <br>    <span class="hljs-keyword">return</span> (getKth(nums1, <span class="hljs-number">0</span>, n - <span class="hljs-number">1</span>, nums2, <span class="hljs-number">0</span>, m - <span class="hljs-number">1</span>, left) + getKth(nums1, <span class="hljs-number">0</span>, n - <span class="hljs-number">1</span>, nums2, <span class="hljs-number">0</span>, m - <span class="hljs-number">1</span>, right)) * <span class="hljs-number">0.5</span>;  <br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getKth</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums1, <span class="hljs-type">int</span> start1, <span class="hljs-type">int</span> end1, <span class="hljs-type">int</span>[] nums2, <span class="hljs-type">int</span> start2, <span class="hljs-type">int</span> end2, <span class="hljs-type">int</span> k)</span> &#123;<br>    <br>    <span class="hljs-comment">// 求两个数组的长度</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">len1</span> <span class="hljs-operator">=</span> end1 - start1 + <span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">len2</span> <span class="hljs-operator">=</span> end2 - start2 + <span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-comment">// 如果nums1比nums2长，两个数组交换，让nums1总是数少的那个。</span><br>    <span class="hljs-keyword">if</span> (len1 &gt; len2) <span class="hljs-keyword">return</span> getKth(nums2, start2, end2, nums1, start1, end1, k);<br>    <br>    <span class="hljs-comment">// 如果nums1用完了，直接找出中位数即可。</span><br>    <span class="hljs-keyword">if</span> (len1 == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> nums2[start2 + k - <span class="hljs-number">1</span>];<br><br>    <span class="hljs-comment">// 如果k==1，说明就在两个数组中的指针最开始的位置比较了，哪个小哪个就是中位数。</span><br>    <span class="hljs-keyword">if</span> (k == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> Math.min(nums1[start1], nums2[start2]);<br><br>    <span class="hljs-comment">// 设定两个数组起始位置</span><br>    <span class="hljs-comment">// 这里把数组长度和k/2比较，是为了防止k/2越界</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> start1 + Math.min(len1, k / <span class="hljs-number">2</span>) - <span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> start2 + Math.min(len2, k / <span class="hljs-number">2</span>) - <span class="hljs-number">1</span>;<br><br>    <span class="hljs-comment">// 如果较小的数在第二个数组中</span><br>    <span class="hljs-keyword">if</span> (nums1[i] &gt; nums2[j]) &#123;<br>        <span class="hljs-comment">// nums1的指针不动，nums2的指针移动j+1个距离，相当于把j+1前面的所有数都删掉了。</span><br>        <span class="hljs-keyword">return</span> getKth(nums1, start1, end1, nums2, j + <span class="hljs-number">1</span>, end2, k - (j - start2 + <span class="hljs-number">1</span>));<br>    &#125;<br>    <span class="hljs-comment">// 如果较小的数在第一个数组中</span><br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// nums2的指针不动，nums1的指针移动i+1个距离，相当于把i+1前面的所有数都删掉了。</span><br>        <span class="hljs-keyword">return</span> getKth(nums1, i + <span class="hljs-number">1</span>, end1, nums2, start2, end2, k - (i - start1 + <span class="hljs-number">1</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95/LeetCode%E5%8A%9B%E6%89%A3/" class="category-chain-item">LeetCode力扣</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95/LeetCode%E5%8A%9B%E6%89%A3/Hard/" class="category-chain-item">Hard</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/LeetCode/">#LeetCode</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>4. 寻找两个正序数组的中位数</div>
+      <div>https://haktiong.gitee.io/2022/10/08/4. 寻找两个正序数组的中位数/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/08/15.%20%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" title="15. 三数之和">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">15. 三数之和</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/21/MVCC%E5%8E%9F%E7%90%86/" title="MVCC原理">
+                        <span class="hidden-mobile">MVCC原理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

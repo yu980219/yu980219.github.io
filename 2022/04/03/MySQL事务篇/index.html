@@ -1,0 +1,1057 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MySQL事务篇一、一条Insert语句为了故事的顺利发展，我们需要创建一个表： 1234567CREATE TABLE &#96;tab_user&#96; (&#96;id&#96; int(11) NOT NULL,&#96;name&#96; varchar(100) DEFAULT NULL,&#96;age&#96; int(11) NOT NULL,&#96;address&#96; varchar(255) DEFAULT NULL,PRIMARY KEY (">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL事务篇">
+<meta property="og:url" content="https://haktiong.gitee.io/2022/04/03/MySQL%E4%BA%8B%E5%8A%A1%E7%AF%87/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="MySQL事务篇一、一条Insert语句为了故事的顺利发展，我们需要创建一个表： 1234567CREATE TABLE &#96;tab_user&#96; (&#96;id&#96; int(11) NOT NULL,&#96;name&#96; varchar(100) DEFAULT NULL,&#96;age&#96; int(11) NOT NULL,&#96;address&#96; varchar(255) DEFAULT NULL,PRIMARY KEY (">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
+<meta property="article:published_time" content="2022-04-03T08:01:38.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.630Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/mysql.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>MySQL事务篇 - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MySQL事务篇"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-03 16:01" pubdate>
+          2022年4月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          95 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL事务篇</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="MySQL事务篇"><a href="#MySQL事务篇" class="headerlink" title="MySQL事务篇"></a><strong>MySQL事务篇</strong></h1><h2 id="一、一条Insert语句"><a href="#一、一条Insert语句" class="headerlink" title="一、一条Insert语句"></a>一、一条Insert语句</h2><p>为了故事的顺利发展，我们需要创建一个表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tab_user` (<br>`id` int(11) NOT NULL,<br>`name` varchar(100) DEFAULT NULL,<br>`age` int(11) NOT NULL,<br>`address` varchar(255) DEFAULT NULL,<br>PRIMARY KEY (`id`)<br>) ENGINE=InnoDB;<br></code></pre></td></tr></table></figure>
+
+<p>然后向这个表里插入一条数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">Insert into tab_user(id,name,age,address) values (1,&#x27;刘备&#x27;,18,&#x27;蜀国&#x27;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、Insert语句执行流程"><a href="#二、Insert语句执行流程" class="headerlink" title="二、Insert语句执行流程"></a>二、Insert语句执行流程</h2><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253782.png" srcset="/img/loading.gif" lazyload alt="图片1"></p>
+<h2 id="三、事务回顾"><a href="#三、事务回顾" class="headerlink" title="三、事务回顾"></a>三、事务回顾</h2><p><strong>事务指的是逻辑上的一组操作，组成这组操作的各个单元要么全都成功，要么全都失败。</strong></p>
+<p><strong>事务作用：保证在一个事务中多次SQL操作要么全都成功，要么全都失败。</strong></p>
+<p><code>MySQL</code> 是一个服务器／客户端架构的软件，对于同一个服务器来说，可以有若干个客户端与之连接，每个客户端与服务器连接上之后，就可以称之为一个会话（ Session ）。我们可以同时在不同的会话里输入各种语句，这些语句可以作为事务的一部分进行处理。不同的会话可以同时发送请求，也就是说服务器可能同时在处理多个事务，这样子就会导致不同的事务可能同时访问到相同的记录。</p>
+<p>事务的<strong>隔离性</strong>在理论上是指，在某个事务对某个数据进行访问时，其他事务应该进行排队，当该事务提交之后，其他事务才可以继续访问这个数据。但是这样子的话对性能影响太大，所以才会出现各种<strong>隔离</strong>级别，来最大限度的提升系统并发处理事务的能力，牺牲部分<strong>隔离性</strong>来提升性能。</p>
+<p>事务是数据库最为重要的机制之一，凡是使用过数据库的人，都了解数据库的事务机制，也对ACID四个基本特性如数家珍。但是聊起事务或者ACID的底层实现原理，往往言之不详，不明所以。所以接下来我们深入分析事务的原理。</p>
+<p>由于在<strong>MySQL</strong>中的事务是由存储引擎实现，而且MySQL只有InnoDB支持事务。因此我们讲解<strong>InnoDB</strong>的事务。</p>
+<h3 id="3-1-事务四大特性ACID"><a href="#3-1-事务四大特性ACID" class="headerlink" title="3.1 事务四大特性ACID"></a>3.1 事务四大特性ACID</h3><p>数据库事务具有ACID四大特性。ACID是以下4个词的缩写：</p>
+<ul>
+<li><strong>原子性（Atomicity）</strong>：原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。</li>
+<li><strong>一致性（Consistency）</strong>：事务前后数据的完整性必须保持一致</li>
+<li><strong>隔离性（Isolation</strong>）：多个用户并发访问数据库时，一个用户的事务不能被其它用户的事务所干扰，多个并发事务之间数据要相互隔离。隔离性由隔离级别保障！</li>
+<li><strong>持久性（Durability）</strong>： 一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。</li>
+</ul>
+<h3 id="3-2-事务并发问题"><a href="#3-2-事务并发问题" class="headerlink" title="3.2 事务并发问题"></a>3.2 事务并发问题</h3><ol>
+<li><p>脏读：一个事务读到了另一个事务<strong>未提交</strong>的数据</p>
+</li>
+<li><p>不可重复读：一个事务读到了另一个事务<strong>已经提交</strong>(update)的数据。引发事务中的多次查询结果不一致</p>
+</li>
+<li><p>虚读 &#x2F;幻读：一个事务读到了另一个事务已经**插入(insert)**的数据。导致事务中多次查询的结果不一致</p>
+</li>
+<li><p><strong>丢失更新的问题！</strong></p>
+</li>
+</ol>
+<h3 id="3-3-隔离级别"><a href="#3-3-隔离级别" class="headerlink" title="3.3 隔离级别"></a>3.3 隔离级别</h3><ul>
+<li><p><strong>read uncommitted</strong> 读未提交【RU】，一个事务读到另一个事务没有提交的数据</p>
+<ul>
+<li>存在：3个问题（脏读、不可重复读、幻读）。</li>
+</ul>
+</li>
+<li><p><strong>read committed</strong> 读已提交【RC】，一个事务读到另一个事务已经提交的数据</p>
+<ul>
+<li>存在：2个问题（不可重复读、幻读）。</li>
+<li>解决：1个问题（脏读）</li>
+</ul>
+</li>
+<li><p><strong>repeatable read</strong>:可重复读【RR】，在一个事务中读到的数据始终保持一致，无论另一个事务是否提交</p>
+<ul>
+<li>解决：3个问题（脏读、不可重复读、幻读）</li>
+</ul>
+</li>
+<li><p><strong>serializable</strong> <strong>串行化</strong>，同时只能执行一个事务，相当于事务中的单线程</p>
+<ul>
+<li>解决：3个问题（脏读、不可重复读、幻读）</li>
+</ul>
+</li>
+</ul>
+<p>安全和性能对比</p>
+<ul>
+<li>安全性： <code>serializable &gt; repeatable read &gt; read committed &gt; read uncommitted</code></li>
+<li>性能 ： <code>serializable &lt; repeatable read &lt; read committed &lt; read uncommitted</code></li>
+</ul>
+<p>常见数据库的默认隔离级别：</p>
+<ul>
+<li>MySql： <code>repeatable read</code></li>
+<li>Oracle：<code> read committed</code></li>
+</ul>
+<h2 id="四、事务底层原理详解"><a href="#四、事务底层原理详解" class="headerlink" title="四、事务底层原理详解"></a>四、事务底层原理详解</h2><h3 id="4-1-丢失更新问题"><a href="#4-1-丢失更新问题" class="headerlink" title="4.1 丢失更新问题"></a>4.1 丢失更新问题</h3><p>两个事务针对同一数据进行修改操作时会丢失更新，这个现象称之为丢失更新问题</p>
+<p>举个栗子：管理者查询所有用户的存款总额，假设除了用户01和用户01之外，其他用户的存款都为0，用户01、02各有存款1000，所以所有用户的存款总额为2000。但是在查询过程中，用户01会向用户02进行转账操作。</p>
+<p>转账和查询总额操作的时序图如下：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253576.png" srcset="/img/loading.gif" lazyload alt="图片2"></p>
+<h3 id="4-2-解决方案"><a href="#4-2-解决方案" class="headerlink" title="4.2 解决方案"></a>4.2 解决方案</h3><h4 id="4-2-1-解决方案一：基于锁并发控制LBCC"><a href="#4-2-1-解决方案一：基于锁并发控制LBCC" class="headerlink" title="4.2.1 解决方案一：基于锁并发控制LBCC"></a>4.2.1 解决方案一：基于锁并发控制LBCC</h4><p>使用基于锁的并发控制LBCC（Lock Based Concurrency Control）可以解决上述问题。</p>
+<p>查询总额事务会对读取的行加锁，等到操作结束后再释放所有行上的锁。因为用户A的存款被锁，导致转账操作被阻塞，直到查询总额事务提交并将所有锁都释放。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253246.png" srcset="/img/loading.gif" lazyload alt="图片3"></p>
+<p>这种方案比较简单粗暴，就是一个事务去读取一条数据的时候，就上锁，不允许其他事务来操作。假如当前事务只是加<strong>读锁</strong>，那么其他事务就不能有<strong>写锁</strong>，也就是不能修改数据；而假如当前事务需要加<strong>写</strong>锁，那么其他事务就不能持有任何锁。总而言之，能加锁成功，就确保了除了当前事务之外，其他事务不会对当前数据产生影响，所以自然而然的，当前事务读取到的数据就只能是<strong>最新</strong>的，而不会是<strong>快照</strong>数据。</p>
+<blockquote>
+<p>关于锁，会在锁篇详细讲解</p>
+</blockquote>
+<h4 id="4-2-2-解决方案二：基于版本并发控制MVCC"><a href="#4-2-2-解决方案二：基于版本并发控制MVCC" class="headerlink" title="4.2.2 解决方案二：基于版本并发控制MVCC"></a>4.2.2 解决方案二：基于版本并发控制MVCC</h4><p>当然使用版本的并发控制MVCC（Multi Version Concurrency Control）机制也可以解决这个问题。</p>
+<p>查询总额事务先读取了用户A的账户存款，然后转账事务会修改用户A和用户B账户存款，查询总额事务读取用户B存款时不会读取转账事务修改后的数据，而是读取本事务开始时的副本数据【快照数据】。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253691.png" srcset="/img/loading.gif" lazyload alt="图片4"></p>
+<p><strong>MVCC使得普通的SELECT请求不加锁，读写不冲突，显著提高了数据库的并发处理能力</strong>。MVCC保障了ACID中的隔离性，究竟怎么实现？接下来看</p>
+<h3 id="4-3-MVCC实现原理【InnoDB】"><a href="#4-3-MVCC实现原理【InnoDB】" class="headerlink" title="4.3 MVCC实现原理【InnoDB】"></a>4.3 MVCC实现原理【InnoDB】</h3><p>首先来看一下MVCC的定义：</p>
+<blockquote>
+<p><strong>Multiversion concurrency control (MVCC)</strong> is a concurrency control method commonly used by database management systems to provide concurrent access to the database and in programming languages to implement transactional memory.</p>
+</blockquote>
+<p><strong>MVCC全称叫多版本并发控制，是RDBMS常用的一种并发控制方法，用来对数据库数据进行并发访问，实现事务。</strong>。核心思想是<strong>读不加锁，读写不冲突</strong>。在读多写少的OLTP应用中，读写不冲突非常重要，极大的增加了系统的并发性能，这也是为什么几乎所有的RDBMS，都支持MVCC的原因。</p>
+<p>MVCC 实现原理是数据快照，不同的事务访问不同版本的数据快照，从而实现事务下对数据的隔离级别。虽然说具有多个版本的数据快照，但这并不意味着必须拷贝数据，保存多份数据文件（这样会浪费存储空间），InnoDB通过事务的Undo日志巧妙地实现了多版本的数据快照。</p>
+<p>MVCC 的实现依赖与<strong>Undo日志</strong> 与 <strong>Read View</strong> 。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253477.png" srcset="/img/loading.gif" lazyload alt="图片5"></p>
+<p>InnoDB下的表有<strong>默认字段</strong>和<strong>可见字段</strong>，默认字段是实现MVCC的关键，默认字段是隐藏的列。默认字段最关键的两个列，<strong>一个保存了行的事务ID，一个保存了行的回滚指针</strong>。每开始新的事务，都会自动递增产生一个新的事务id。事务开始后，生成当前事务影响行的ReadView。当查询时，需要用当前查询的事务id与ReadView确定要查询的数据版本。</p>
+<h4 id="4-3-1-Undo日志"><a href="#4-3-1-Undo日志" class="headerlink" title="4.3.1 Undo日志"></a>4.3.1 Undo日志</h4><p>Redo日志记录了事务的行为，可以很好地通过其对页进行“重做”操作。但是事务有时还需要进行回滚操作，这时就需要undo。因此在对数据库进行修改时，InnoDB存储引擎不但会产生Redo，还会产生一定量的Undo。这样如果用户执行的事务或语句由于某种原因失败了，又或者用户用一条Rollback语句请求回滚，就可以利用这些undo信息将数据回滚到修改之前的样子。在多事务读取数据时，有了Undo日志可以做到读不加锁，读写不冲突。</p>
+<p>Undo存放在数据库内部的一个特殊段（segment）中，这个段称为Undo段（undo segment）。Undo段位于系统表空间内，也可以设置为Undo表空间。</p>
+<p>Undo日志保存了记录修改前的快照。所以，对于更新和删除操作，InnoDB并不是真正的删除原来的记录，而是设置记录的delete mark为1。因此为了解决数据Page和Undo日志膨胀问题，则需要回收机制进行清理Undo日志。</p>
+<p>根据行为的不同Undo日志分为两种： <code>Insert Undo Log</code> 和 <code>Update Undo Log</code></p>
+<h5 id="1）Insert-Undo日志：是在Insert操作中产生的Undo日志"><a href="#1）Insert-Undo日志：是在Insert操作中产生的Undo日志" class="headerlink" title="1）Insert Undo日志：是在Insert操作中产生的Undo日志"></a>1）Insert Undo日志：是在Insert操作中产生的Undo日志</h5><p>Insert 操作的记录只对事务本身可见，对于其它事务此记录是不可见的，所以 Insert Undo Log 可以在事务提交后直接删除而不需要进行回收操作。</p>
+<p>如下图所示（初始状态）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务1：<br>Insert into tab_user(id,name,age,address) values (10,&#x27;麦麦&#x27;,23,&#x27;beijing&#x27;)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253723.png" srcset="/img/loading.gif" lazyload alt="图片6"></p>
+<h5 id="2）Update-Undo日志：是Update或Delete操作中产生的Undo日志"><a href="#2）Update-Undo日志：是Update或Delete操作中产生的Undo日志" class="headerlink" title="2）Update Undo日志：是Update或Delete操作中产生的Undo日志"></a>2）Update Undo日志：是Update或Delete操作中产生的Undo日志</h5><p>Update操作会对已经存在的行记录产生影响，为了实现MVCC多版本并发控制机制，因此Update Undo日志不能在事务提交时就删除，而是在事务提交时将日志放入指定区域，等待 Purge 线程进行最后的删除操作。</p>
+<p>如下图所示（第一次修改）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务2：<br>update tab_user set name=&#x27;雄雄&#x27;,age=18 where id=10;<br># 当事务2使用Update语句修改该行数据时，会首先使用写锁锁定目标行，将该行当前的值复制到Undo中，然后再真正地修改当前行的值，最后填写事务ID，使用回滚指针指向Undo中修改前的行。<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253133.png" srcset="/img/loading.gif" lazyload alt="图片7"></p>
+<p><strong>当事务3进行修改与事务2的处理过程类似，如下图所示（第二次修改）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务3：<br>update tab_user set name=&#x27;迪迪&#x27;,age=16 where id=10;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253249.png" srcset="/img/loading.gif" lazyload alt="图片8"></p>
+<h4 id="4-3-2-ReadView日志"><a href="#4-3-2-ReadView日志" class="headerlink" title="4.3.2 ReadView日志"></a>4.3.2 ReadView日志</h4><p><strong>MVCC的核心问题就是：判断一下版本链中的哪个版本是当前事务可见的！</strong></p>
+<ul>
+<li>对于使用 <code>RU</code> 隔离级别的事务来说，直接读取记录的最新版本就好了，不需要Undo log。</li>
+<li>对于使用 <code>串行化 </code>隔离级别的事务来说，使用加锁的方式来访问记录，不需要Undo log。</li>
+<li>对于使用 <code>RC</code> 和 <code>RR</code> 隔离级别的事务来说，需要用到undo log的版本链。</li>
+</ul>
+<h5 id="1）什么是ReadView？"><a href="#1）什么是ReadView？" class="headerlink" title="1）什么是ReadView？"></a>1）什么是ReadView？</h5><p>ReadView是张存储事务id的表，主要包含当前系统中有哪些活跃的读写事务，把它们的事务id放到一个列表中。结合Undo日志的默认字段【事务trx_id】来控制那个版本的Undo日志可被其他事务看见。</p>
+<p>四个列：</p>
+<ul>
+<li><strong>m_ids</strong>：表示在生成ReadView时，当前系统中<strong>活跃的读写事务id列表</strong></li>
+<li><strong>m_low_limit_id</strong>：事务id下限，表示当前系统中活跃的读写事务中最小的事务id，m_ids事务列表中的最小事务id</li>
+<li><strong>m_up_limit_id</strong>：事务id上限，表示生成ReadView时，系统中应该分配给下一个事务的id值</li>
+<li><strong>m_creator_trx_id</strong>：表示生成该ReadView的事务的事务id</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253674.png" srcset="/img/loading.gif" lazyload alt="image-20230423012445524"></p>
+<h5 id="2）ReadView怎么产生，什么时候生成？"><a href="#2）ReadView怎么产生，什么时候生成？" class="headerlink" title="2）ReadView怎么产生，什么时候生成？"></a>2）ReadView怎么产生，什么时候生成？</h5><ul>
+<li><p>开启事务之后，在第一次查询(select)时，生成ReadView</p>
+</li>
+<li><p><code>RC</code> 和 <code>RR</code> 隔离级别的差异本质是因为MVCC中ReadView的生成时机不同，详细生成时机在案例中分析</p>
+</li>
+</ul>
+<h5 id="3）如何判断可见性？"><a href="#3）如何判断可见性？" class="headerlink" title="3）如何判断可见性？"></a>3）如何判断可见性？</h5><p>开启事务执行第一次查询时，首先生成ReadView，然后依据Undo日志和ReadView按照判断可见性，按照下边步骤判断记录的版本链的某个版本是否可见。</p>
+<p><strong>循环判断规则如下：</strong></p>
+<ul>
+<li><p>如果被访问版本的 <code>trx_id</code> 属性值，小于ReadView中的<strong>事务下限id</strong>，表明生成该版本的事务在生成 <code>ReadView </code>前已经提交，所以该版本<strong>可以</strong>被当前事务访问。</p>
+</li>
+<li><p>如果被访问版本的<code>trx_id</code>属性值，等于ReadView中的 <code>m_creator_trx_id</code> ，<strong>可以</strong>被访问。</p>
+</li>
+<li><p>如果被访问版本的<code> trx_id</code> 属性值，大于等于ReadView中的<strong>事务上限id</strong>，在生成<code>ReadView</code>后才产生的数据，所以该版本<strong>不可以</strong>被当前事务访问。</p>
+</li>
+<li><p>如果被访问版本的<code>trx_id</code>属性值，在<strong>事务下限id</strong>和<strong>事务上限id</strong>之间，那就需要判断是不是在<code>m_ids </code>列表中。</p>
+<ul>
+<li><p>如果在，说明创建 ReadView 时生成该版本的事务还是活跃的，该版本<strong>不可以</strong>被访问；</p>
+</li>
+<li><p>如果不在，说明创建 ReadView 时生成该版本的事务已经被提交，该版本<strong>可以</strong>被访问。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>循环判断Undo log中的版本链某一的版本是否对当前事务可见，如果循环到最后一个版本也不可见的话，那么就意味着该条记录对该事务不可见，查询结果就不包含该记录。</p>
+<h4 id="4-3-3-ReadView案例分析"><a href="#4-3-3-ReadView案例分析" class="headerlink" title="4.3.3 ReadView案例分析"></a>4.3.3 ReadView案例分析</h4><h5 id="案例01-读已提交RC隔离级别下的可见性分析"><a href="#案例01-读已提交RC隔离级别下的可见性分析" class="headerlink" title="案例01-读已提交RC隔离级别下的可见性分析"></a>案例01-读已提交RC隔离级别下的可见性分析</h5><p>每次读取数据前都生成一个ReadView，默认tab_user表中只有一条数据，数据内容是刘备。</p>
+<table>
+<thead>
+<tr>
+<th>时<br/>间</th>
+<th>事务01<br/>【db_trx_id&#x3D;100】</th>
+<th>事务02<br/>【db_trx_id&#x3D;200】</th>
+<th>事务03<br>【db_trx_id&#x3D;300】</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td>开启事务</td>
+<td>开启事务</td>
+<td>开启事务</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>更新为关羽</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>更新为张飞</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>T4</td>
+<td></td>
+<td>更新为赵云</td>
+<td></td>
+</tr>
+<tr>
+<td>T5</td>
+<td></td>
+<td>更新为诸葛亮</td>
+<td></td>
+</tr>
+<tr>
+<td>T6</td>
+<td></td>
+<td></td>
+<td>SELECT01，id&#x3D;1，name为刘备</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>提交事务01</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T8</td>
+<td></td>
+<td></td>
+<td>SELECT02，id&#x3D;1，name为张飞</td>
+</tr>
+<tr>
+<td>T9</td>
+<td></td>
+<td>提交事务02</td>
+<td></td>
+</tr>
+<tr>
+<td>T10</td>
+<td></td>
+<td></td>
+<td>SELECT03，id&#x3D;1，name为诸葛亮</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意：事务id是递增的</p>
+</blockquote>
+<p>T3时刻，表 <code>tab_user</code> 中 <code>id</code> 为 <code>1 </code>的记录得到的版本链表如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253516.png" srcset="/img/loading.gif" lazyload alt="image-20230423012527952"></p>
+<p>这个 <code>SELECT01</code> 的执行过程如下：</p>
+<ul>
+<li><p>在执行<code>SELECT</code>语句时会先生成一个 <code>ReadView </code>， <code>m_ids</code> 列表的内容就是<code> [100, 200]</code> 。</p>
+</li>
+<li><p>然后从版本链中挑选可见的记录，从图中可以看出</p>
+<ul>
+<li><p>最新版本的列 <code>c </code>的内容是<code>&#39;张飞&#39;</code>，该版本的<code>trx_id</code>值为<code> 100</code>，在 <code>m_ids</code> 列表内，所以不符合可见性要求，跳下一个版本。</p>
+</li>
+<li><p>下一个版本的列 <code>c</code> 的内容是 <code>&#39;关羽&#39;</code> ，该版本的 <code>trx_id</code> 值也为 <code>100</code> ，也在 <code>m_ids</code> 列表内，所以也不符合要求，跳下一个版本。</p>
+</li>
+<li><p>下一个版本的列 <code>c</code> 的内容是 <code>&#39;刘备&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>80</code> ，小于 <code>m_ids</code> 列表中最小的事务id <code>100</code> ，此版符合要求</p>
+</li>
+</ul>
+</li>
+<li><p>最后返回给用户的版本就是这条列 <code>c</code> 为 <code>&#39;刘备&#39;</code> 的记录。</p>
+</li>
+</ul>
+<p>T5时刻，表 <code>tab_user</code> 中 <code>id</code> 为 <code>1</code> 的记录的版本链就长这样：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253075.png" srcset="/img/loading.gif" lazyload alt="image-20230423012825070"></p>
+<p>这个 <code>SELECT02</code> 的执行过程如下：</p>
+<ul>
+<li>在执行 <code>SELECT</code> 语句时会先生成一个 ReadView ， ReadView 的 <code>m_ids</code> 列表的内容就是 <code>[200]</code><ul>
+<li>事务<code>id</code>为 <code>100</code> 的那个事务已经提交了，所以生成快照时就没有它了</li>
+</ul>
+</li>
+<li>然后从版本链中挑选可见的记录，从图中可以看出<ul>
+<li>最新版本的列 <code>c</code> 的内容是 <code>&#39;诸葛亮&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>200</code> ，在 <code>m_ids</code> 列表内，不符合可见性要求，跳下一个版本</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;赵云&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>200</code> ，也在 <code>m_ids</code> 列表内，不符合要求，跳下一个版本</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;张飞&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>100</code> ，比 <code>m_ids</code> 列表中最小的事务id <code>200</code> 还要小，此版符合要求</li>
+</ul>
+</li>
+<li>最后返回给用户的版本就是这条列 <code>c</code> 为 <code>&#39;张飞&#39;</code> 的记录。</li>
+</ul>
+<p>以此类推，如果之后事务id为 <code>200</code> 的记录也提交了，再此在使用 <code>RC</code> 隔离级别的事务中查询表 <code>t</code> 中 <code>id</code> 值为 <code>1</code> 的记录时，得到的结果就是 <code>&#39;诸葛亮&#39;</code> 了，具体流程我们就不分析了。</p>
+<p><strong>总结：使用RC隔离级别的事务在每次查询开始时都会生成一个独立的ReadView。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tab_user` (<br>`id` int(11) NOT NULL,<br>`name` varchar(100) DEFAULT NULL,<br>`age` int(11) NOT NULL,<br>`address` varchar(255) DEFAULT NULL,<br>PRIMARY KEY (`id`)<br>) ENGINE=InnoDB;<br>Insert into tab_user(id,name,age,address) values (1,&#x27;刘备&#x27;,18,&#x27;蜀国&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p>案例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务01<br>-- 查询事务隔离级别：<br>select @@tx_isolation;<br>-- 设置数据库的隔离级别<br>set session transaction isolation level read committed;<br>SELECT * FROM tab_user; # 默认是刘备<br># Transaction 100<br>BEGIN;<br>UPDATE tab_user SET name = &#x27;关羽&#x27; WHERE id = 1;<br>UPDATE tab_user SET name = &#x27;张飞&#x27; WHERE id = 1;<br>COMMIT;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务02<br>-- 查询事务隔离级别：<br>select @@tx_isolation;<br>-- 设置数据库的隔离级别<br>set session transaction isolation level read committed;<br># Transaction 200<br>BEGIN;<br># 更新了一些别的表的记录<br>...<br>UPDATE tab_user SET name = &#x27;赵云&#x27; WHERE id = 1;<br>UPDATE tab_user SET name = &#x27;诸葛亮&#x27; WHERE id = 1;<br>COMMIT;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs mysql"># 事务03<br>-- 查询事务隔离级别：<br>select @@tx_isolation;<br>-- 设置数据库的隔离级别<br>set session transaction isolation level read committed;<br>BEGIN;<br># SELECT01：Transaction 100、200未提交<br>SELECT * FROM tab_user WHERE id = 1; # 得到的列c的值为&#x27;刘备&#x27;<br># SELECT02：Transaction 100提交，Transaction 200未提交<br>SELECT * FROM tab_user WHERE id = 1; # 得到的列c的值为&#x27;张飞&#x27;<br># SELECT03：Transaction 100、200提交<br>SELECT * FROM tab_user WHERE id = 1; # 得到的列c的值为&#x27;诸葛亮&#x27;<br>COMMIT;<br></code></pre></td></tr></table></figure>
+
+<p>使用到的SQL小结：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs mysql">-- 开启事务：还有一种方式begin<br>start transaction<br>-- 提交事务：<br>commit<br>-- 回滚事务：<br>rollback<br>-- 查询事务隔离级别：<br>select @@tx_isolation;<br>-- 设置数据库的隔离级别<br>set session transaction isolation level read committed<br>-- 级别字符串：`read uncommitted`、`read committed`、`repeatable read【默认】`、`serializable`<br><br><br>-- 查看当前运行的事务<br>SELECT<br>    a.trx_id,a.trx_state,a.trx_started,a.trx_query,<br>    b.ID,b.USER,b.DB,b.COMMAND,b.TIME,b.STATE,b.INFO,<br>    c.PROCESSLIST_USER,c.PROCESSLIST_HOST,c.PROCESSLIST_DB, d.SQL_TEXT<br>FROM<br>    information_schema.INNODB_TRX a<br>LEFT JOIN information_schema.PROCESSLIST b ON a.trx_mysql_thread_id = b.id<br>AND b.COMMAND = &#x27;Sleep&#x27;<br>LEFT JOIN PERFORMANCE_SCHEMA.threads c ON b.id = c.PROCESSLIST_ID<br>LEFT JOIN PERFORMANCE_SCHEMA.events_statements_current d ON d.THREAD_ID = c.THREAD_ID;<br></code></pre></td></tr></table></figure>
+
+<h5 id="案例02-可重复读RR隔离级别下的可见性分析"><a href="#案例02-可重复读RR隔离级别下的可见性分析" class="headerlink" title="案例02-可重复读RR隔离级别下的可见性分析"></a>案例02-可重复读RR隔离级别下的可见性分析</h5><p>在事务开始后第一次读取数据时生成一个ReadView。对于使用 <code>RR</code> 隔离级别的事务来说，只会在第一次执行查询语句时生成一个 <code>ReadView</code> ，之后的查询就不会重复生成了。我们还是用例子看一下是什么效果。</p>
+<p><strong>代码与执行流程与RC案例完全相同，唯一不同的是事务隔离级别。</strong></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253073.png" srcset="/img/loading.gif" lazyload alt="image-20230423012843570"></p>
+<p>这个 <code>SELECT1</code> 的执行过程如下：</p>
+<ul>
+<li><p>在执行 <code>SELECT</code> 语句时会先生成一个 <code>ReadView</code> ， <code>ReadView</code> 的 <code>m_ids</code> 列表的内容就是 <code>[100,200]</code> 。</p>
+</li>
+<li><p>然后从版本链中挑选可见的记录，从图中可以看出，</p>
+<ul>
+<li>最新版本的列 <code>c</code> 的内容是 <code>&#39;张飞&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>100</code> ，在 <code>m_ids</code> 列表内，不符合可见性要求，跳下一个版本。</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;关羽&#39;</code> ，该版本的 <code>trx_id</code> 值也为 <code>100</code> ，也在 <code>m_ids</code> 列表内，不符合要求，跳下一个版本。</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;刘备&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>80</code> ，小于 <code>m_ids</code> 列表中最小的事务id <code>100</code> ，版本符合要求</li>
+</ul>
+</li>
+<li><p>最后返回给用户的版本就是这条列 <code>c</code> 为 <code>&#39;刘备&#39;</code> 的记录。</p>
+</li>
+</ul>
+<p>T5时刻，表 <code>t</code> 中 <code>id</code> 为 1 的记录的版本链就长这样：</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253568.png" srcset="/img/loading.gif" lazyload alt="image-20230423012902368"></p>
+<p>这个 <code>SELECT2</code> 的执行过程如下：</p>
+<ul>
+<li><strong>因为之前已经生成过 <code>ReadView</code> 了，所以此时直接复用之前的 <code>ReadView</code> ，之前的 <code>ReadView</code> 中的<code>m_ids</code> 列表就是 <code>[100, 200]</code> 。</strong></li>
+<li>然后从版本链中挑选可见的记录，从图中可以看出：<ul>
+<li>最新版本的列 <code>c</code> 的内容是 <code>&#39;诸葛亮&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>200</code> ，在 <code>m_ids</code> 列表内，不符合可见性要求，跳下一个版本</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;赵云&#39;</code> ，该版本的 trx_id 值为 200 ，也在 m_ids 列表内，不符合要求，跳下一个版本</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;张飞&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>100</code> ，也在 <code>m_ids</code> 列表内，不符合要求，跳下一个版本</li>
+<li>下一个版本的列 <code>c</code> 的内容是 <code>&#39;关羽&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>100</code> ，也在 <code>m_ids</code> 列表内，不符合要求，跳下一个版本</li>
+<li>下一个版本的列 c 的内容是 <code>&#39;刘备&#39;</code> ，该版本的 <code>trx_id</code> 值为 <code>80</code> ， 80 小于 <code>m_ids</code> 列表中最小的事务id <code>100</code> ，<strong>版本符合要求</strong></li>
+</ul>
+</li>
+<li>最后返回给用户的版本就是这条列 <code>c</code> 为 <code>&#39;刘备&#39;</code> 的记录。</li>
+</ul>
+<p>也就是说两次 <code>SELECT</code> 查询得到的结果是重复的，记录的列 <code>c</code> 值都是 <code>&#39;刘备&#39;</code> ，这就是 <code>可重复读</code> 的含义。</p>
+<p>如果我们之后再把事务id为 <code>200</code> 的记录提交了，之后再到刚才使用 <code>REPEATABLE READ</code> 隔离级别的事务中继续查找这个<code>id</code>为 <code>1</code> 的记录，得到的结果还是 <code>&#39;刘备&#39;</code> ，具体执行过程大家可以自己分析一下。</p>
+<p>注意：<strong>MVCC只在RR和RC两个隔离级别下工作。RU和串行化隔离级别不需要 MVCC，为什么？</strong></p>
+<ul>
+<li>因为RU总是读取最新的数据行，本身就没有隔离性，也不解决并发潜在问题，因此不需要！</li>
+<li>而SERIALIZABLE则会对所有读取的行都加锁，相当于串行执行，线程之间绝对隔离，也不需要。</li>
+</ul>
+<h3 id="4-4-MVCC下的读操作"><a href="#4-4-MVCC下的读操作" class="headerlink" title="4.4 MVCC下的读操作"></a>4.4 MVCC下的读操作</h3><p>在MVCC并发控制中，读操作可以分成两类：<strong>快照读 (Snapshot Read)<strong>与</strong>当前读 (Current Read)</strong></p>
+<ul>
+<li><strong>快照读</strong>：读取的是记录的可见版本 (有可能是历史版本)，不用加锁。刚才案例中都是快照读</li>
+<li><strong>当前读</strong>：读取的是记录的最新版本，并且当前读返回的记录，都会加上锁，保证其他事务不会再并发修改这条记录。</li>
+</ul>
+<h4 id="4-4-1-当前读与快照读"><a href="#4-4-1-当前读与快照读" class="headerlink" title="4.4.1 当前读与快照读"></a>4.4.1 当前读与快照读</h4><p><strong>快照读</strong>也就是一致性非锁定读(Consistent Nonlocking Read)是指InnoDB存储引擎通过多版本控制(MVCC)读取当前数据库中行数据的方式。如果读取的行正在执行DELETE或UPDATE操作，这时读取操作不会因此去等待行上锁的释放。相反地，InnoDB会去读取行的一个最新可见快照。ReadView的读取操作就是快照读；</p>
+<p>举例：</p>
+<ul>
+<li><strong>快照读：</strong>简单的select操作，属于快照读，不加锁。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select * from table where ?;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>当前读：</strong>特殊的读操作，插入&#x2F;更新&#x2F;删除操作，属于当前读，需要加锁。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select * from table where ? lock in share mode; # 加读锁<br>select * from table where ? for update;# 加写锁<br>insert into table values (…);# 加写锁<br>update table set ? where ?;# 加写锁<br>delete from table where ?;# 加写锁<br><br># 所有以上的语句，都属于当前读，读取记录的最新版本。并且，读取之后，还需要保证其他并发事务不能修改当前记录，对读取记录加锁。<br># 其中，除了第一条语句，对读取记录加读锁外，其他的操作都加的是写锁。<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-4-2-案例：当前读"><a href="#4-4-2-案例：当前读" class="headerlink" title="4.4.2 案例：当前读"></a>4.4.2 案例：当前读</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mysql">BEGIN;<br># SELECT1：Transaction 100、200未提交<br>SELECT * FROM tab_user WHERE id = 1; # 得到的列name的值为&#x27;刘备&#x27;<br><br># SELECT2：Transaction 100提交，Transaction 200未提交<br>SELECT * FROM tab_user WHERE id = 1; # 得到的列name的值为&#x27;张飞&#x27;<br><br>select * from tab_user where id=1 lock in share mode; # 当前读<br>COMMIT;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：本案例是在之前的案例基础上进行的</strong></p>
+<h4 id="4-4-3-一个CRUD的CUD操作的具体流程"><a href="#4-4-3-一个CRUD的CUD操作的具体流程" class="headerlink" title="4.4.3 一个CRUD的CUD操作的具体流程"></a>4.4.3 一个CRUD的CUD操作的具体流程</h4><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240253369.png" srcset="/img/loading.gif" lazyload alt="图片17"></p>
+<p>从图中可以看到：</p>
+<p><strong>当Update SQL被发给MySQL后，</strong></p>
+<ul>
+<li>首先，<strong>MySQL Server会根据where条件，读取第一条满足条件的记录，然后InnoDB引擎会将第一条记录返回，并加锁 (current read)。</strong></li>
+<li>待MySQL Server收到这条加锁的记录之后，会再发起一个Update请求，更新这条记录。</li>
+<li>一条记录操作完成，再读取下一条记录，直至没有满足条件的记录为止。因此，Update操作内部，就包含了一个当前读。</li>
+</ul>
+<p>同理，Delete操作也一样。Insert操作会稍微有些不同，简单来说，就是Insert操作可能会触发UniqueKey的冲突检查，也会进行一个当前读。</p>
+<p><strong>注</strong>：根据上图的交互，针对一条当前读的SQL语句，InnoDB与MySQL Server的交互，是一条一条进行的，因此，加锁也是一条一条进行的。先对一条满足条件的记录加锁，返回给MySQL Server，做一些DML操作；然后在读取下一条加锁，直至读取完毕。</p>
+<h3 id="4-5-小结"><a href="#4-5-小结" class="headerlink" title="4.5 小结"></a>4.5 小结</h3><ul>
+<li>MVCC指在使用RC、RR隔离级别下，使不同事务的 <code>读-写</code> 、 <code>写-读</code> 操作并发执行，提升系统性能</li>
+<li>MVCC核心思想是<strong>读不加锁，读写不冲突。</strong></li>
+<li>RC、RR这两个隔离级别的一个很大不同就是生成 <code>ReadView</code> 的时机不同<ul>
+<li>RC在每一次进行普通 <code>SELECT</code> 操作前都会生成一个 <code>ReadView</code></li>
+<li>RR在第一次进行普通 <code>SELECT</code> 操作前生成一个 <code>ReadView</code> ，之后的查询操作都重复这个<code>ReadView</code></li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%90%8E%E7%AB%AF/MySQL/" class="category-chain-item">MySQL</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%90%8E%E7%AB%AF/MySQL/MySQL%E8%BF%9B%E9%98%B6/" class="category-chain-item">MySQL进阶</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MySQL/">#MySQL</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MySQL事务篇</div>
+      <div>https://haktiong.gitee.io/2022/04/03/MySQL事务篇/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/27/MySQL%E9%94%81%E7%AF%87/" title="MySQL锁篇">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL锁篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/02/HashMap/" title="HashMap">
+                        <span class="hidden-mobile">HashMap</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

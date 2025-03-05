@@ -1,0 +1,1126 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ShardingSphere-JDBC一、ShardingSphere介绍1.Apache ShardingSphereApache ShardingSphere 是一套开源的分布式数据库解决方案组成的生态圈，它由 JDBC、Proxy 和 Sidecar（规划中）这 3 款既能够独立部署，又支持混合部署配合使用的产品组成。它们均提供标准化的数据水平扩展、分布式事务和分布式治理等功能，可适用于如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ShardingSphere-JDBC">
+<meta property="og:url" content="https://haktiong.gitee.io/2022/07/23/ShardingSphere-JDBC/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="ShardingSphere-JDBC一、ShardingSphere介绍1.Apache ShardingSphereApache ShardingSphere 是一套开源的分布式数据库解决方案组成的生态圈，它由 JDBC、Proxy 和 Sidecar（规划中）这 3 款既能够独立部署，又支持混合部署配合使用的产品组成。它们均提供标准化的数据水平扩展、分布式事务和分布式治理等功能，可适用于如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/default.jpeg">
+<meta property="article:published_time" content="2022-07-23T04:48:19.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.632Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="分库分表">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/default.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ShardingSphere-JDBC - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ShardingSphere-JDBC"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-23 12:48" pubdate>
+          2022年7月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          43k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          359 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ShardingSphere-JDBC</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ShardingSphere-JDBC"><a href="#ShardingSphere-JDBC" class="headerlink" title="ShardingSphere-JDBC"></a>ShardingSphere-JDBC</h1><h2 id="一、ShardingSphere介绍"><a href="#一、ShardingSphere介绍" class="headerlink" title="一、ShardingSphere介绍"></a>一、ShardingSphere介绍</h2><h3 id="1-Apache-ShardingSphere"><a href="#1-Apache-ShardingSphere" class="headerlink" title="1.Apache ShardingSphere"></a>1.Apache ShardingSphere</h3><p>Apache ShardingSphere 是一套开源的分布式数据库解决方案组成的生态圈，它由 JDBC、Proxy 和 Sidecar（规划中）这 3 款既能够独立部署，又支持混合部署配合使用的产品组成。它们均提供标准化的数据水平扩展、分布式事务和分布式治理等功能，可适用于如 Java 同构、异构语⾔、云原生等各种多样化的应用场景。</p>
+<p>Apache ShardingSphere 旨在充分合理地在分布式的场景下利用关系型数据库的计算和存储能力，而并非实现一个全新的关系型数据库。 关系型数据库当今依然占有巨大市场份额，是企业核心系统的基石，未来也难于撼动，我们更加注重在原有基础上提供增量，而非颠覆。</p>
+<p>ShardingSphere 已于2020年4月16日成为 Apache 软件基金会的顶级项目。</p>
+<h3 id="2-ShardingSphere-JDBC"><a href="#2-ShardingSphere-JDBC" class="headerlink" title="2.ShardingSphere-JDBC"></a>2.ShardingSphere-JDBC</h3><p>定位为轻量级 Java 框架，在 Java 的 JDBC 层提供的额外服务。 它使用客户端直连数据库，以 jar 包形式提供服务，无需额外部署和依赖，可理解为增强版的 JDBC 驱动，完全兼容JDBC 和各种 ORM 框架。</p>
+<ul>
+<li>适用于任何基于 JDBC 的 ORM 框架，如：JPA, Hibernate, Mybatis, Spring JDBCTemplate 或直接使用 JDBC；</li>
+<li>支持任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, HikariCP 等；</li>
+<li>支持任意实现 JDBC 规范的数据库，目前支持 MySQL，PostgreSQL，Oracle，SQLServer 以及任何可使用 JDBC 访问的数据库。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230517235839013.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-ShardingSphere-Proxy"><a href="#3-ShardingSphere-Proxy" class="headerlink" title="3.ShardingSphere-Proxy"></a>3.ShardingSphere-Proxy</h3><p>定位为透明化的数据库代理端，提供封装了数据库⼆进制协议的服务端版本，用于完成对异构语⾔的支持。 目前提供 MySQL 和 PostgreSQL（兼容 openGauss 等基于 PostgreSQL 的数据库）版本，它可以使用任何兼容MySQL&#x2F;PostgreSQL 协议的访问客户端（如：MySQLCommand Client, MySQL Workbench, Navicat 等）操作数据，对 DBA 更加友好。</p>
+<ul>
+<li>向应用程序完全透明，可直接当做 MySQL&#x2F;PostgreSQL 使用；</li>
+<li>适用于任何兼容 MySQL&#x2F;PostgreSQL 协议的的客户端。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000240949.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="4-ShardingSphere-Sidecar（TODO）"><a href="#4-ShardingSphere-Sidecar（TODO）" class="headerlink" title="4.ShardingSphere-Sidecar（TODO）"></a>4.ShardingSphere-Sidecar（TODO）</h3><p>定位为 Kubernetes 的云原生数据库代理，以 Sidecar 的形式代理所有对数据库的访问。 通过无中心、零侵入的方案提供与数据库交互的啮合层，即 <code>Database Mesh </code>，又可称数据库网格。</p>
+<p>Database Mesh 的关注重点在于如何将分布式的数据访问应用与数据库有机串联起来，它更加关注的是交互，是将杂乱无章的应用与数据库之间的交互进行有效地梳理。 使⽤Database Mesh，访问数据库的应用和数据库终将形成一个巨大的网格体系，应用和数据库只需在网格体系中对号入座即可，它们都是被啮合层所治理的对象。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518000358776.png" srcset="/img/loading.gif" lazyload alt="image-20230518000358776"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ShardingSphere-JDBC</th>
+<th>ShardingSphere-Proxy</th>
+<th>ShardingSphere-Sidecar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库</td>
+<td>任意</td>
+<td>MySQL&#x2F;PostgreSQL</td>
+<td>MySQL&#x2F;PostgreSQL</td>
+</tr>
+<tr>
+<td>连接消耗数</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>异构语⾔</td>
+<td>仅 Java</td>
+<td>任意</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>损耗低</td>
+<td>损耗略高</td>
+<td>损耗低</td>
+</tr>
+<tr>
+<td>无中心化</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>静态入口</td>
+<td>无</td>
+<td>有</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h2 id="二、快速开始"><a href="#二、快速开始" class="headerlink" title="二、快速开始"></a>二、快速开始</h2><h3 id="1-部署第一台MySQL服务器"><a href="#1-部署第一台MySQL服务器" class="headerlink" title="1.部署第一台MySQL服务器"></a>1.部署第一台MySQL服务器</h3><p>使⽤docker部署第一台MySQL服务器，先来快速体验ShardingSphere带来的分表功能。在之后的分库分表中，再加入第⼆台MySQL服务器。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql-0:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql-0</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--default-authentication-plugin=mysql_native_password</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data:/var/lib/mysql</span><br></code></pre></td></tr></table></figure>
+
+<p>使用<code>docker-compose up -d</code>命令启动</p>
+<h3 id="2-创建数据库"><a href="#2-创建数据库" class="headerlink" title="2.创建数据库"></a>2.创建数据库</h3><p>创建名为<code>db_device_0</code>的数据库。</p>
+<h3 id="3-创建物理表"><a href="#3-创建物理表" class="headerlink" title="3.创建物理表"></a>3.创建物理表</h3><p>逻辑上tb_device表示的是描述设备信息的表，为了体现分表的概念，把tb_device表分成了两张。于是tb_device就是逻辑表，⽽tb_device_0和tb_device_1就是该逻辑表的物理表。</p>
+<ul>
+<li>创建<code>tb_device_0</code>表</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_0` (<br> `device_id` bigint NOT NULL AUTO_INCREMENT,<br> `device_type` int DEFAULT NULL,<br> PRIMARY KEY (`device_id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>创建<code>tb_device_1</code>表</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_1` (<br> `device_id` bigint NOT NULL AUTO_INCREMENT,<br> `device_type` int DEFAULT NULL,<br> PRIMARY KEY (`device_id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-创建ShardingSphere项目并引入依赖"><a href="#4-创建ShardingSphere项目并引入依赖" class="headerlink" title="4.创建ShardingSphere项目并引入依赖"></a>4.创建ShardingSphere项目并引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag"> <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0</span></span><br><span class="hljs-string"><span class="hljs-tag">https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.qf<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>my-sharding-jdbc-demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>my-sharding-jdbc-demo<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>Demo project for Spring Boot<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">spring-boot.version</span>&gt;</span>2.3.7.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">spring-boot.version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.18.16<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>druid<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.22<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.baomidou<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.0.5<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.shardingsphere<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>sharding-jdbc-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.1.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.junit.vintage<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>junit-vintage-engine<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;spring-boot.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">source</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">target</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">target</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">encoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">encoding</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.3.7.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">mainClass</span>&gt;</span>com.qf.my.sharding.jdbc.demo.MyShardingJdbcDemoApplication<span class="hljs-tag">&lt;/<span class="hljs-name">mainClass</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>repackage<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span><br>                        <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span><br>                            <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>repackage<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span><br>                        <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span><br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-编写配置⽂件application-properties"><a href="#5-编写配置⽂件application-properties" class="headerlink" title="5.编写配置⽂件application.properties"></a>5.编写配置⽂件application.properties</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 配置真实数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.names</span>=<span class="hljs-string">ds1</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置第 1 个数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.url</span>=<span class="hljs-string">jdbc:mysql://172.16.253.84:3306/db_device_0?serverTimezone=Asia/Shanghai</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.username</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置物理表</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.actual-data-nodes</span>=<span class="hljs-string">ds1.tb_device_$-&gt;&#123;0..1&#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置分表策略：根据device_id作为分片的依据（分片键）</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">tb_device_$-&gt;&#123;device_id%2&#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 开启SQL显示</span><br><span class="hljs-attr">spring.shardingsphere.props.sql.show</span> = <span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-创建逻辑表对应的实体"><a href="#6-创建逻辑表对应的实体" class="headerlink" title="6.创建逻辑表对应的实体"></a>6.创建逻辑表对应的实体</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.entity;<br><span class="hljs-keyword">import</span> lombok.Data;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TbDevice</span> &#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-type">long</span> deviceId;<br>	<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> deviceType;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-使用MyBatis-Plus做映射"><a href="#7-使用MyBatis-Plus做映射" class="headerlink" title="7.使用MyBatis-Plus做映射"></a>7.使用MyBatis-Plus做映射</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.mapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.mapper.BaseMapper;<br><span class="hljs-keyword">import</span> com.qf.my.sharding.jdbc.demo.entity.TbDevice;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">DeviceMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseMapper</span>&lt;TbDevice&gt; &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-配置Springboot启动类"><a href="#8-配置Springboot启动类" class="headerlink" title="8.配置Springboot启动类"></a>8.配置Springboot启动类</h3><p>关键是配置MapperScan</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo;<br><span class="hljs-keyword">import</span> org.mybatis.spring.annotation.MapperScan;<br><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;<br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;<br><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@MapperScan(&quot;com.qf.my.sharding.jdbc.demo.mapper&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyShardingJdbcDemoApplication</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>		SpringApplication.run(MyShardingJdbcDemoApplication.class,args);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-编写单元测试"><a href="#9-编写单元测试" class="headerlink" title="9.编写单元测试"></a>9.编写单元测试</h3><p>尝试插入10条device数据，因为分片键是device_id，且分片策略是 <code>tb_device_$-&gt;&#123;device_id%2&#125;</code> ，因此会根据device_id来决定该条数据会插入到哪张物理表中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo;<br><span class="hljs-keyword">import</span> com.qf.my.sharding.jdbc.demo.entity.TbDevice;<br><span class="hljs-keyword">import</span> com.qf.my.sharding.jdbc.demo.mapper.DeviceMapper;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;<br><br><span class="hljs-meta">@SpringBootTest</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyShardingJdbcDemoApplicationTests</span> &#123;<br>    <br>	<span class="hljs-meta">@Autowired</span><br>	<span class="hljs-keyword">private</span> DeviceMapper deviceMapper;<br>    <br>	<span class="hljs-meta">@Test</span><br>	<span class="hljs-keyword">void</span> <span class="hljs-title function_">initData</span><span class="hljs-params">()</span>&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>			<span class="hljs-type">TbDevice</span> <span class="hljs-variable">device</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbDevice</span>();<br>			device.setDeviceId((<span class="hljs-type">long</span>) i);<br>			device.setDeviceType(i);<br>			deviceMapper.insert(device);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发现，根据分片策略，这10条数据中id是奇数的数据将会被插入到tb_device_1表中，id是奇数的数据将会被插入到tb_device_0表中。</p>
+<h2 id="三、尝试分库分表"><a href="#三、尝试分库分表" class="headerlink" title="三、尝试分库分表"></a>三、尝试分库分表</h2><h3 id="1-准备第二台MySQL服务器"><a href="#1-准备第二台MySQL服务器" class="headerlink" title="1.准备第二台MySQL服务器"></a>1.准备第二台MySQL服务器</h3><p>使⽤docker创建第⼆台MySQL服务器。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql-1:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql-1</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--default-authentication-plugin=mysql_native_password</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">./data:/var/lib/mysql</span><br></code></pre></td></tr></table></figure>
+
+<p>创建db_device_1数据库。并在数据库中创建两张物理表：</p>
+<ul>
+<li>创建tb_device_0表</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_0` (<br> `device_id` bigint NOT NULL AUTO_INCREMENT,<br> `device_type` int DEFAULT NULL,<br> PRIMARY KEY (`device_id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>创建tb_device_1表</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_1` (<br> `device_id` bigint NOT NULL AUTO_INCREMENT,<br> `device_type` int DEFAULT NULL,<br> PRIMARY KEY (`device_id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-配置数据库源"><a href="#2-配置数据库源" class="headerlink" title="2.配置数据库源"></a>2.配置数据库源</h3><p>提供两个数据源，将之前搭建的两台MySQL服务器作为数据源。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 配置真实数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.names</span>=<span class="hljs-string">ds0,ds1</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置第 1 个数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds0.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds0.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds0.url</span>=<span class="hljs-string">jdbc:mysql://172.16.253.84:3306/db_device_0?serverTimezone=Asia/Shanghai</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds0.username</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds0.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置第 2 个数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.url</span>=<span class="hljs-string">jdbc:mysql://172.16.253.85:3306/db_device_1?serverTimezone=Asia/Shanghai</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.username</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">spring.shardingsphere.datasource.ds1.password</span>=<span class="hljs-string">123456</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-配置数据库表的分片策略"><a href="#3-配置数据库表的分片策略" class="headerlink" title="3.配置数据库表的分片策略"></a>3.配置数据库表的分片策略</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 配置分库的分片策略，根据device_id进行分片，奇偶不同进入不同的数据库：ds1,ds2</span><br><span class="hljs-attr">spring.shardingsphere.sharding.default-database-strategy.inline.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.default-database-strategy.inline.algorithm-expression</span>=<span class="hljs-string">ds$-&gt;&#123;device_id % 2&#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 根据groovy脚本配置数据源+表名</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.tb_device_$-&gt;&#123;0..1&#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置分表策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">tb_device_$-&gt;&#123;device_id%2&#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 开启显示sql语句</span><br><span class="hljs-attr">spring.shardingsphere.props.sql.show</span> = <span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+
+<p>相比之前的配置，这次加入了两个数据库的分片策略，根据device_id的奇偶特性决定存入哪个数据库中。同时，使用groovy脚本确定了数据库和表之间的关系。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">ds$-&gt;&#123;<span class="hljs-number">0.</span><span class="hljs-number">.1</span>&#125;.tb_device_$-&gt;&#123;<span class="hljs-number">0.</span><span class="hljs-number">.1</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>等效于：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">ds0<span class="hljs-selector-class">.tb_device_0</span><br>ds0<span class="hljs-selector-class">.tb_device_1</span><br>ds1<span class="hljs-selector-class">.tb_device_0</span><br>ds1.tb_device_1<br></code></pre></td></tr></table></figure>
+
+<p>此时再运行测试用例，发现device_id的奇数数据会存入 <code>ds1.tb_device_1</code> 表中，偶数数据会存入 <code>ds0.tb_device_0</code> 表中。</p>
+<h3 id="4-在分库分表下做查询"><a href="#4-在分库分表下做查询" class="headerlink" title="4.在分库分表下做查询"></a>4.在分库分表下做查询</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br> <span class="hljs-keyword">void</span> <span class="hljs-title function_">queryDeviceByID</span><span class="hljs-params">()</span>&#123;<br> QueryWrapper&lt;TbDevice&gt; queryWrapper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryWrapper</span>&lt;&gt;();<br> queryWrapper.eq(<span class="hljs-string">&quot;device_id&quot;</span>,<span class="hljs-number">1L</span>);<br> List&lt;TbDevice&gt; deviceList =<br>deviceMapper.selectList(queryWrapper);<br> System.out.println(deviceList);<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-分库分表存在的问题"><a href="#5-分库分表存在的问题" class="headerlink" title="5.分库分表存在的问题"></a>5.分库分表存在的问题</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">queryDeviceByID</span><span class="hljs-params">()</span>&#123;<br>	QueryWrapper&lt;TbDevice&gt; queryWrapper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryWrapper</span>&lt;&gt;();<br>	queryWrapper.eq(<span class="hljs-string">&quot;device_id&quot;</span>,<span class="hljs-number">1L</span>);<br>	List&lt;TbDevice&gt; deviceList =<br>	deviceMapper.selectList(queryWrapper);<br>	System.out.println(deviceList);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使⽤device_id做范围查询时，发现报错了：inline的分片策略没有办法支持范围查询。</p>
+<p>### Cause: java.lang.IllegalStateException: Inline strategy cannot support this type sharding:RangeRouteValue(columnName&#x3D;device_id, tableName&#x3D;tb_device, valueRange&#x3D;[1‥10])</p>
+<p>接下来需要掌握的是分片策略</p>
+<h2 id="四、分库分表核心知识点"><a href="#四、分库分表核心知识点" class="headerlink" title="四、分库分表核心知识点"></a>四、分库分表核心知识点</h2><h3 id="1-核心概念"><a href="#1-核心概念" class="headerlink" title="1.核心概念"></a>1.核心概念</h3><p>在了解分片策略之前，先来了解以下几个重点概念：逻辑表、真实表、数据节点、绑定表、⼴播表。</p>
+<ul>
+<li><p>逻辑表</p>
+<p>水平拆分的数据库（表）的相同逻辑和数据结构表的总称。例：订单数据根据主键尾数拆分为10张表，分别是 <code>t_order_0</code> 到 <code>t_order_9</code> ，他们的逻辑表名为 <code>t_order</code> 。</p>
+</li>
+<li><p>真实表</p>
+<p>在分片的数据库中真实存在的物理表。即上个示例中的 <code>t_order_0</code> 到 <code>t_order_9</code> 。</p>
+</li>
+<li><p>数据节点</p>
+<p>数据分片的最小单元。由数据源名称和数据表组成，例： <code>ds_0.t_order_0</code> 。</p>
+</li>
+<li><p>绑定表</p>
+<p>指分片规则一致的主表和子表。例如： <code>t_order</code> 表和 <code>t_order_item</code> 表，均按照 <code>order_id</code> 分片，则此两张表互为绑定表关系。绑定表之间的多表关联查询不会出现笛卡尔积关联，关联查询效率将大大提升。举例说明，如果SQL为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br></code></pre></td></tr></table></figure>
+
+<p>在不配置绑定表关系时，假设分片键 order_id 将数值10路由至第0⽚，将数值11路由至第1片，那么路由后的SQL应该为4条，它们呈现为笛卡尔积：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT i.* FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br>SELECT i.* FROM t_order_0 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br>SELECT i.* FROM t_order_1 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br>SELECT i.* FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br></code></pre></td></tr></table></figure>
+
+<p>在配置绑定表关系后，路由的SQL应该为2条：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT i.* FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br>SELECT i.* FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>t_order</code> 在FROM的最左侧，ShardingSphere将会以它作为整个绑定表的主表。 所有路由计算将会只使用主表的策略，那么 <code>t_order_item</code> 表的分片计算将会使用 <code>t_order</code> 的条件。故绑定表之间的分区键要完全相同。</p>
+</li>
+<li><p>⼴播表</p>
+<p>指所有的分片数据源中都存在的表，表结构和表中的数据在每个数据库中均完全一致。适用于数据量不大且需要与海量数据的表进行关联查询的场景，例如：字典表。</p>
+</li>
+</ul>
+<h3 id="2-分片及分片策略"><a href="#2-分片及分片策略" class="headerlink" title="2.分片及分片策略"></a>2.分片及分片策略</h3><h4 id="1）分片键"><a href="#1）分片键" class="headerlink" title="1）分片键"></a>1）分片键</h4><p>用于分片的数据库字段，是将数据库(表)水平拆分的关键字段。例：将订单表中的订单主键的尾数取模分片，则订单主键为分片字段。 SQL中如果无分片字段，将执行全路由，性能较差。 除了对单分片字段的支持，ShardingSphere也支持根据多个字段进行分片。</p>
+<h4 id="2）分片算法"><a href="#2）分片算法" class="headerlink" title="2）分片算法"></a>2）分片算法</h4><p>通过分片算法将数据分片，支持通过 <code>=</code> 、 <code>&gt;=</code> 、 <code>&lt;=</code> 、 <code>&gt;</code> 、 <code>&lt;</code> 、 <code>BETWEEN</code> 和 <code>IN</code> 分片。分片算法需要应用方开发者自行实现，可实现的灵活度非常高。</p>
+<p>目前提供4种分片算法。由于分片算法和业务实现紧密相关，因此并未提供内置分片算法，而是通过分片策略将各种场景提炼出来，提供更高层级的抽象，并提供接口让应用开发者自行实现分片算法。</p>
+<ul>
+<li><p>精确分片算法</p>
+<p>对应<code>PreciseShardingAlgorithm</code>，用于处理使用单一键作为分片键的&#x3D;与IN进行分片的场景。需要配合<code>StandardShardingStrategy</code>使用。</p>
+</li>
+<li><p>范围分片算法</p>
+<p>对应<code>RangeShardingAlgorithm</code>，用于处理使用单一键作为分片键的BETWEEN AND、&gt;、&lt;、&gt;&#x3D;、&lt;&#x3D;进行分片的场景。需要配合<code>StandardShardingStrategy</code>使用。</p>
+</li>
+<li><p>复合分片算法</p>
+<p>对应C<code>omplexKeysShardingAlgorithm</code>，用于处理使用多键作为分片键进行分片的场景，包含多个分片键的逻辑较复杂，需要应用开发者自行处理其中的复杂度。需要配合<code>ComplexShardingStrategy</code>使用。</p>
+</li>
+<li><p>Hint分片算法</p>
+<p>对应<code>HintShardingAlgorithm</code>，用于处理使⽤Hint⾏分片的场景。需要配合<code>HintShardingStrategy</code>使用</p>
+</li>
+</ul>
+<h4 id="3）分片策略"><a href="#3）分片策略" class="headerlink" title="3）分片策略"></a>3）分片策略</h4><p>包含分片键和分片算法，由于分片算法的独立性，将其独立抽离。真正可用于分片操作的是分片键 + 分片算法，也就是分片策略。目前提供5种分片策略。</p>
+<ul>
+<li><p>标准分片策略</p>
+<p>对应StandardShardingStrategy。</p>
+<p>提供对SQL语句中的&#x3D;, &gt;, &lt;, &gt;&#x3D;, &lt;&#x3D;, IN和BETWEEN AND的分片操作支持。</p>
+<p>StandardShardingStrategy只支持单分片键，提供PreciseShardingAlgorithm和RangeShardingAlgorithm两个分片算法。</p>
+<p>PreciseShardingAlgorithm是必选的，用于处理&#x3D;和IN的分片。</p>
+<p>RangeShardingAlgorithm是可选的，用于处理BETWEEN AND, &gt;, &lt;, &gt;&#x3D;, &lt;&#x3D;分片，如果不配置RangeShardingAlgorithm，SQL中的BETWEEN AND将按照全库路由处理。</p>
+</li>
+<li><p>复合分片策略</p>
+<p>对应ComplexShardingStrategy。</p>
+<p>复合分片策略。提供对SQL语句中的&#x3D;, &gt;, &lt;, &gt;&#x3D;, &lt;&#x3D;, IN和BETWEEN AND的分片操作支持。</p>
+<p>ComplexShardingStrategy⽀持多分片键，由于多分片键之间的关系复杂，因此并未进行过多的封装，而是直接将分片键值组合以及分片操作符透传至分片算法，完全由应用开发者实现，提供最大的灵活度。</p>
+</li>
+<li><p>行表达式分片策略</p>
+<p>对应InlineShardingStrategy。</p>
+<p>使⽤Groovy的表达式，提供对SQL语句中的&#x3D;和IN的分片操作支持，只支持单分片键。</p>
+<p>对于简单的分片算法，可以通过简单的配置使用，从而避免繁琐的Java代码开发，如: <code>t_user_$-&gt;&#123;u_id % 8&#125;</code> 表示t_user表根据u_id模8，而分成8张表，表名称为 <code>t_user_0</code> 到 <code>t_user_7</code> 。</p>
+</li>
+<li><p>Hint分片策略</p>
+<p>对应HintShardingStrategy。通过Hint指定分片值而非从SQL中提取分片值的方式进行分片的策略。</p>
+</li>
+<li><p>不分片策略</p>
+<p>对应NoneShardingStrategy。不分片的策略。</p>
+</li>
+</ul>
+<h3 id="3-分片策略的实现"><a href="#3-分片策略的实现" class="headerlink" title="3.分片策略的实现"></a>3.分片策略的实现</h3><h4 id="1）Standard标准分片策略的精准分片"><a href="#1）Standard标准分片策略的精准分片" class="headerlink" title="1）Standard标准分片策略的精准分片"></a>1）Standard标准分片策略的精准分片</h4><p>在Standard标准分片策略可以分别配置在分库和分表中。配置时需要指明分片键，精确分片或范围分片。</p>
+<ul>
+<li><p>配置分库的精确分片</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.shardingsphere.sharding.default-databasestrategy.standard.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.default-databasestrategy.standard.precise-algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.database.MyDatabaseStandardPreciseAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>需要提供一个实现精确分片算法的实现类，其中精确分片的逻辑可以与inline中的行表达式用意相同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.database;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyDatabaseStandardPreciseAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PreciseShardingAlgorithm</span>&lt;<span class="hljs-type">long</span>&gt; &#123;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 数据库的标准分片策略</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> collection 具体的物理库</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> preciseShardingValue 分片条件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,PreciseShardingValue&lt;<span class="hljs-type">long</span>&gt; preciseShardingValue)</span> &#123;<br>        <span class="hljs-comment">//获得逻辑表名</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">logicTableName</span> <span class="hljs-operator">=</span>preciseShardingValue.getLogicTableName();<br>        <span class="hljs-comment">//分片键，列名</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">columnName</span> <span class="hljs-operator">=</span> preciseShardingValue.getColumnName();<br>        <span class="hljs-comment">//分片键的具体值</span><br>        <span class="hljs-type">long</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> preciseShardingValue.getValue();<br>        <span class="hljs-comment">//根据分片策略：ds$-&gt;&#123;device_id % 2&#125; 做精确分片</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">shardingKey</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ds&quot;</span> + (value % <span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">if</span>(!collection.contains(shardingKey))&#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>(<span class="hljs-string">&quot;数据库:&quot;</span>+shardingKey+<span class="hljs-string">&quot;不存在&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> shardingKey;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置分表的精确分片</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># standard</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.tablestrategy.standard.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-comment"># 精确查找的算法实现类</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.tablestrategy.standard.precise-algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.table.MyTableStandardPreciseAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>同时，需要提供分表的精确分片算法的实现类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.table;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyTableStandardPreciseAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PreciseShardingAlgorithm</span>&lt;<span class="hljs-type">long</span>&gt; &#123;<br>     <span class="hljs-meta">@Override</span><br>     <span class="hljs-keyword">public</span> String <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,PreciseShardingValue&lt;<span class="hljs-type">long</span>&gt; preciseShardingValue)</span> &#123;<br>        <span class="hljs-comment">//获得逻辑表名</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">logicTableName</span> <span class="hljs-operator">=</span>preciseShardingValue.getLogicTableName();<br>        <span class="hljs-comment">//分片键，列名</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">columnName</span> <span class="hljs-operator">=</span> preciseShardingValue.getColumnName();<br>        <span class="hljs-comment">//分片键的具体值</span><br>        <span class="hljs-type">long</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> preciseShardingValue.getValue();<br>        <span class="hljs-comment">//根据分片策略：tb_device_$-&gt;&#123;device_id%2&#125; 做精确分片</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">shardingKey</span> <span class="hljs-operator">=</span> logicTableName + <span class="hljs-string">&quot;_&quot;</span> + (value % <span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">if</span> (!collection.contains(shardingKey)) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>(<span class="hljs-string">&quot;表:&quot;</span> + shardingKey+ <span class="hljs-string">&quot;不存在&quot;</span>);<br>        &#125;<br>		<span class="hljs-keyword">return</span> shardingKey;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>尝试在之前的精确查找测试用例，发现与之前的效果相同，根据id定位到某个库的某张表中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">queryDeviceByID</span><span class="hljs-params">()</span>&#123;<br>	QueryWrapper&lt;TbDevice&gt; queryWrapper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryWrapper</span>&lt;&gt;();<br>	queryWrapper.eq(<span class="hljs-string">&quot;device_id&quot;</span>,<span class="hljs-number">1L</span>);<br>	List&lt;TbDevice&gt; deviceList =	deviceMapper.selectList(queryWrapper);<br>	System.out.println(deviceList);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2）Standard标准分片策略的范围分片"><a href="#2）Standard标准分片策略的范围分片" class="headerlink" title="2）Standard标准分片策略的范围分片"></a>2）Standard标准分片策略的范围分片</h4><ul>
+<li><p>配置分库的范围分片</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.shardingsphere.sharding.default-database-strategy.standard.range-algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.database.MyDatabaseStandardRangeAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>提供范围查询算法的实现类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.database;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyDatabaseStandardRangeAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">RangeShardingAlgorithm</span>&lt;Long&gt; &#123;<br> <span class="hljs-comment">/**</span><br><span class="hljs-comment"> * select * from tb_device where id between (1,10);</span><br><span class="hljs-comment"> * 由于范围查询，需要在两个库的两张表中查。</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> collection</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> rangeShardingValue 提供了这次查询的条件 1,10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> 返回要进行范围查询的库名</span><br><span class="hljs-comment"> */</span><br> <span class="hljs-meta">@Override</span><br> <span class="hljs-keyword">public</span> Collection&lt;String&gt; <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,RangeShardingValue&lt;Long&gt; rangeShardingValue)</span> &#123;<br> <span class="hljs-keyword">return</span> Arrays.asList(<span class="hljs-string">&quot;ds0&quot;</span>,<span class="hljs-string">&quot;ds1&quot;</span>);<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置分表的范围分片</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.tablestrategy.standard.range-algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.table.MyTableStandardRangeAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>提供范围查询算法的实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.table;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyTableStandardRangeAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">RangeShardingAlgorithm</span>&lt;<span class="hljs-type">long</span>&gt; &#123;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> Collection&lt;String&gt; <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,RangeShardingValue&lt;<span class="hljs-type">long</span>&gt; rangeShardingValue)</span> &#123;<br>        <span class="hljs-comment">//返回两种物理表</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">logicTableName</span> <span class="hljs-operator">=</span> rangeShardingValue.getLogicTableName();<br>        <span class="hljs-keyword">return</span> Arrays.asList(logicTableName+<span class="hljs-string">&quot;_0&quot;</span>,logicTableName+<span class="hljs-string">&quot;_1&quot;</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时，再运行范围查询的测试用例，发现成功了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">queryDeviceByRange</span><span class="hljs-params">()</span>&#123;<br>	QueryWrapper&lt;TbDevice&gt; queryWrapper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryWrapper</span>&lt;&gt;();<br>	queryWrapper.between(<span class="hljs-string">&quot;device_id&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">10</span>);<br>	List&lt;TbDevice&gt; deviceList =	deviceMapper.selectList(queryWrapper);<br>	System.out.println(deviceList);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-Complex分片策略"><a href="#3-Complex分片策略" class="headerlink" title="3) Complex分片策略"></a>3) Complex分片策略</h4><ul>
+<li><p>问题的出现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">queryDeviceByRangeAndDeviceType</span><span class="hljs-params">()</span>&#123;<br>	QueryWrapper&lt;TbDevice&gt; queryWrapper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryWrapper</span>&lt;&gt;();<br>	queryWrapper.between(<span class="hljs-string">&quot;device_id&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">10</span>);<br>	queryWrapper.eq(<span class="hljs-string">&quot;device_type&quot;</span>, <span class="hljs-number">5</span>);<br>	List&lt;TbDevice&gt; deviceList =deviceMapper.selectList(queryWrapper);<br>	System.out.println(deviceList);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在对device_id进行范围查询的同时，需要根据device_type做精确查找，发现此时也需要查两个库的三张表，但是奇数的device_type只会在奇数库的奇数表中，此时冗余了多次不必要的查询。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">INFO <span class="hljs-number">5879</span> --- [ main] <span class="hljs-keyword">ShardingSphere-SQL </span>: Actual SQL: ds0 ::: SELECT device_id,device_type FROM tb_device_0 <br>WHERE device_id <span class="hljs-keyword">BETWEEN </span>? <span class="hljs-keyword">AND </span>? <span class="hljs-keyword">AND </span>device_type = ? ::: [<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>]<br>INFO <span class="hljs-number">5879</span> --- [ main] <span class="hljs-keyword">ShardingSphere-SQL </span>: Actual SQL: ds0 ::: SELECT device_id,device_type FROM tb_device_1 <br>WHERE device_id <span class="hljs-keyword">BETWEEN </span>? <span class="hljs-keyword">AND </span>? <span class="hljs-keyword">AND </span>device_type = ? ::: [<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>]<br>INFO <span class="hljs-number">5879</span> --- [ main] <span class="hljs-keyword">ShardingSphere-SQL </span>: Actual SQL: ds1 ::: SELECT device_id,device_type FROM tb_device_0 <br>WHERE device_id <span class="hljs-keyword">BETWEEN </span>? <span class="hljs-keyword">AND </span>? <span class="hljs-keyword">AND </span>device_type = ? ::: [<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>]<br>INFO <span class="hljs-number">5879</span> --- [ main] <span class="hljs-keyword">ShardingSphere-SQL </span>: Actual SQL: ds1 ::: SELECT device_id,device_type FROM tb_device_1 <br>WHERE device_id <span class="hljs-keyword">BETWEEN </span>? <span class="hljs-keyword">AND </span>? <span class="hljs-keyword">AND </span>device_type = ? ::: [<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>]<br></code></pre></td></tr></table></figure>
+
+<p>为了解决冗余的多次查找，可以使⽤complex的分片策略。</p>
+</li>
+<li><p>complex的分片策略</p>
+<p>支持多个字段的分片策略。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 分库的分片策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.default-database-strategy.complex.sharding-columns</span>=<span class="hljs-string">device_id,device_type</span><br><span class="hljs-attr">spring.shardingsphere.sharding.default-database-strategy.complex.algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.database.MyDatabaseComplexAlgorithm</span><br><span class="hljs-comment"># 分表的分片策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.complex.sharding-columns</span>=<span class="hljs-string">device_id,device_type</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.complex.algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.table.MyTableComplexAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>配置分库的算法实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.database;<br><span class="hljs-keyword">import</span> com.google.common.collect.Range;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;<br><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyDatabaseComplexAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ComplexKeysShardingAlgorithm</span>&lt;Integer&gt; &#123;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> Collection&lt;String&gt; <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,ComplexKeysShardingValue&lt;Integer&gt; complexKeysShardingValue)</span> &#123;<br>		<span class="hljs-comment">//获得这一次查询的device_type的所有值。</span><br>		Collection&lt;Integer&gt; deviceTypes =complexKeysShardingValue.getColumnNameAndShardingValuesMap().get(<span class="hljs-string">&quot;devic</span><br><span class="hljs-string">e_type&quot;</span>);<br>		<span class="hljs-comment">//存放指定的库</span><br>		Collection&lt;String&gt; databases = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>		<span class="hljs-keyword">for</span> (Integer deviceType : deviceTypes) &#123;<br>			<span class="hljs-comment">//根据deviceType的奇偶选择哪个数据库</span><br>			<span class="hljs-type">String</span> <span class="hljs-variable">database</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ds&quot;</span> + (deviceType % <span class="hljs-number">2</span>);<br>			databases.add(database);<br>		&#125;<br>		<span class="hljs-keyword">return</span> databases;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>配置分表的算法实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.table;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue ;<br><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyTableComplexAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ComplexKeysShardingAlgorithm</span>&lt;Integer&gt; &#123;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> Collection&lt;String&gt; <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,ComplexKeysShardingValue&lt;Integer&gt; complexKeysShardingValue)</span> &#123;<br>		<span class="hljs-comment">//获得这一次查询的device_type的所有值。</span><br>		Collection&lt;Integer&gt; deviceTypes =complexKeysShardingValue.getColumnNameAndShardingValuesMap().get(<span class="hljs-string">&quot;devic</span><br><span class="hljs-string">e_type&quot;</span>);<br>		<span class="hljs-comment">//存放指定的表</span><br>		Collection&lt;String&gt; tables = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>		<span class="hljs-keyword">for</span> (Integer deviceType : deviceTypes) &#123;<br>			<span class="hljs-comment">//根据deviceType的奇偶选择哪个数据库</span><br>			<span class="hljs-type">String</span> <span class="hljs-variable">tableName</span> <span class="hljs-operator">=</span>complexKeysShardingValue.getLogicTableName()+ <span class="hljs-string">&quot;_&quot;</span> + (deviceType % <span class="hljs-number">2</span>);<br>			tables.add(tableName);<br>		&#125;<br>		<span class="hljs-keyword">return</span> tables;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="4-Hint强制路由策略"><a href="#4-Hint强制路由策略" class="headerlink" title="4) Hint强制路由策略"></a>4) Hint强制路由策略</h4><p>hint可以不根据sql语句特性，强制路由到某个库的某个表中。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#hint</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.hint.algorithm-class-name</span>=<span class="hljs-string">com.qf.my.sharding.jdbc.demo.sharding.algorithm.table.MyTableHintAlgorithm</span><br></code></pre></td></tr></table></figure>
+
+<p>配置hint算法的实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.sharding.algorithm.table;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.hint.HintShardingAlgorithm;<br><span class="hljs-keyword">import</span> org.apache.shardingsphere.api.sharding.hint.HintShardingValue;<br><span class="hljs-keyword">import</span> java.util.Arrays;<br><span class="hljs-keyword">import</span> java.util.Collection;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyTableHintAlgorithm</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HintShardingAlgorithm</span>&lt;<span class="hljs-type">long</span>&gt; &#123;<br>    <br> <span class="hljs-meta">@Override</span><br> <span class="hljs-keyword">public</span> Collection&lt;String&gt; <span class="hljs-title function_">doSharding</span><span class="hljs-params">(Collection&lt;String&gt; collection,HintShardingValue&lt;<span class="hljs-type">long</span>&gt; hintShardingValue)</span> &#123;<br>	<span class="hljs-comment">//根据指定参数强制路由</span><br>	<span class="hljs-type">String</span> <span class="hljs-variable">tableName</span> <span class="hljs-operator">=</span> hintShardingValue.getLogicTableName() + <span class="hljs-string">&quot;_&quot;</span>+ hintShardingValue.getValues().toArray()[<span class="hljs-number">0</span>];<br>	<span class="hljs-keyword">if</span> (!collection.contains(tableName)) &#123;<br>		<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>(<span class="hljs-string">&quot;表：&quot;</span> + tableName+ <span class="hljs-string">&quot;，不存在&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">return</span> Arrays.asList(tableName);<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编写单元测试。这次查询都会查询两个数据库的tb_device_0这张表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">queryByHint</span><span class="hljs-params">()</span>&#123;<br>	<span class="hljs-type">HintManager</span> <span class="hljs-variable">hintManager</span> <span class="hljs-operator">=</span> HintManager.getInstance();<br>	<span class="hljs-comment">//指定强制路由的表</span><br>	hintManager.addTableShardingValue(<span class="hljs-string">&quot;tb_device&quot;</span>,<span class="hljs-number">0</span>);<br>	List&lt;TbDevice&gt; deviceList = deviceMapper.selectList(<span class="hljs-literal">null</span>);<br>	System.out.println(deviceList);<br>	hintManager.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-绑定表"><a href="#4-绑定表" class="headerlink" title="4.绑定表"></a>4.绑定表</h3><p>先来模拟笛卡尔积的出现。</p>
+<ul>
+<li><p>创建 <code>tb_device_info</code> 表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_info_0` (<br> `id` bigint NOT NULL,<br> `device_id` bigint DEFAULT NULL,<br> `device_intro` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,<br> PRIMARY KEY (`id`)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置 tb_device 和 tb_device_info 表的分片策略。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># tb_device表的分片策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.tb_device_$-&gt;&#123;0..1&#125;</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">tb_device_$-&gt;&#123;device_id%2&#125;</span><br><span class="hljs-comment"># # tb_device_info表的分片策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device_info.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.tb_device_info_$-&gt;&#123;0..1&#125;</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device_info.table-strategy.inline.sharding-column</span>=<span class="hljs-string">device_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_device_info.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">tb_device_info_$-&gt;&#123;device_id%2&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>两张表的分片键都是device_id。</p>
+</li>
+<li><p>编写测试用例，插入数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testInsertType</span><span class="hljs-params">()</span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>		<span class="hljs-type">TbDevice</span> <span class="hljs-variable">device</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbDevice</span>();<br>		device.setDeviceId((<span class="hljs-type">long</span>) i);<br>		device.setDeviceType(i);<br>		deviceMapper.insert(device);<br>		<span class="hljs-type">TbDeviceInfo</span> <span class="hljs-variable">deviceInfo</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbDeviceInfo</span>();<br>		deviceInfo.setDeviceId((<span class="hljs-type">long</span>) i);<br>		deviceInfo.setDeviceIntro(<span class="hljs-string">&quot;&quot;</span>+i);<br>		deviceInfoMapper.insert(deviceInfo);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>join查询时出现笛卡尔积</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.qf.my.sharding.jdbc.demo.mapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.mapper.BaseMapper;<br><span class="hljs-keyword">import</span> com.qf.my.sharding.jdbc.demo.entity.TbDeviceInfo;<br><span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Select;<br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">DeviceInfoMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseMapper</span>&lt;TbDeviceInfo&gt; &#123;<br> <span class="hljs-meta">@Select(&quot;select a.id,a.device_id,a.device_intro,b.device_type from tb_device_info a left join tb_device b on a.device_id = b.device_id &quot;)</span><br> <span class="hljs-keyword">public</span> List&lt;TbDeviceInfo&gt; <span class="hljs-title function_">queryDeviceInfo</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>出现笛卡尔积的查询</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testQueryDeviceInfo</span><span class="hljs-params">()</span>&#123;<br>	List&lt;TbDeviceInfo&gt; deviceInfos =deviceInfoMapper.queryDeviceInfo();<br>	deviceInfos.forEach( deviceInfo -&gt;System.out.println(deviceInfo));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2022-03-28 21:09:17.413 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.413 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_1 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:09:17.414 <span class="hljs-built_in">INFO</span> 14006 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_1 b on a.device_id = b.device_id<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776753684482, <span class="hljs-attribute">deviceId</span>=0, <span class="hljs-attribute">deviceIntro</span>=0)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776938233858, <span class="hljs-attribute">deviceId</span>=2, <span class="hljs-attribute">deviceIntro</span>=2)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777097617410, <span class="hljs-attribute">deviceId</span>=4, <span class="hljs-attribute">deviceIntro</span>=4)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777210863618, <span class="hljs-attribute">deviceId</span>=6, <span class="hljs-attribute">deviceIntro</span>=6)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777328304130, <span class="hljs-attribute">deviceId</span>=8, <span class="hljs-attribute">deviceIntro</span>=8)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776753684482, <span class="hljs-attribute">deviceId</span>=0, <span class="hljs-attribute">deviceIntro</span>=0)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776938233858, <span class="hljs-attribute">deviceId</span>=2, <span class="hljs-attribute">deviceIntro</span>=2)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777097617410, <span class="hljs-attribute">deviceId</span>=4, <span class="hljs-attribute">deviceIntro</span>=4)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777210863618, <span class="hljs-attribute">deviceId</span>=6, <span class="hljs-attribute">deviceIntro</span>=6)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777328304130, <span class="hljs-attribute">deviceId</span>=8, <span class="hljs-attribute">deviceIntro</span>=8)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776858542081, <span class="hljs-attribute">deviceId</span>=1, <span class="hljs-attribute">deviceIntro</span>=1)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777030508546, <span class="hljs-attribute">deviceId</span>=3, <span class="hljs-attribute">deviceIntro</span>=3)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777152143362, <span class="hljs-attribute">deviceId</span>=5, <span class="hljs-attribute">deviceIntro</span>=5)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777273778177, <span class="hljs-attribute">deviceId</span>=7, <span class="hljs-attribute">deviceIntro</span>=7)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777378635778, <span class="hljs-attribute">deviceId</span>=9, <span class="hljs-attribute">deviceIntro</span>=9)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776858542081, <span class="hljs-attribute">deviceId</span>=1, <span class="hljs-attribute">deviceIntro</span>=1)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777030508546, <span class="hljs-attribute">deviceId</span>=3, <span class="hljs-attribute">deviceIntro</span>=3)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777152143362, <span class="hljs-attribute">deviceId</span>=5, <span class="hljs-attribute">deviceIntro</span>=5)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777273778177, <span class="hljs-attribute">deviceId</span>=7, <span class="hljs-attribute">deviceIntro</span>=7)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777378635778, <span class="hljs-attribute">deviceId</span>=9, <span class="hljs-attribute">deviceIntro</span>=9)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置绑定表</p>
+<p>配置绑定表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring.shardingsphere.sharding.binding-tables[0]</span>=<span class="hljs-string">tb_device,tb_device_info</span><br></code></pre></td></tr></table></figure>
+
+<p>再次查询，不再出现笛卡尔积：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2022-03-28 21:10:48.549 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds0 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_0 a left join tb_device_0 b on a.device_id = b.device_id<br>2022-03-28 21:10:48.550 <span class="hljs-built_in">INFO</span> 14661 --- [ main]<br>ShardingSphere-SQL : Actual SQL: ds1 ::: select a.id,a.device_id,a.device_intro,b.device_type <span class="hljs-keyword">from</span> tb_device_info_1 a left join tb_device_1 b on a.device_id = b.device_id<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776753684482, <span class="hljs-attribute">deviceId</span>=0, <span class="hljs-attribute">deviceIntro</span>=0)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776938233858, <span class="hljs-attribute">deviceId</span>=2, <span class="hljs-attribute">deviceIntro</span>=2)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777097617410, <span class="hljs-attribute">deviceId</span>=4, <span class="hljs-attribute">deviceIntro</span>=4)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777210863618, <span class="hljs-attribute">deviceId</span>=6, <span class="hljs-attribute">deviceIntro</span>=6)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777328304130, <span class="hljs-attribute">deviceId</span>=8, <span class="hljs-attribute">deviceIntro</span>=8)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423776858542081, <span class="hljs-attribute">deviceId</span>=1, <span class="hljs-attribute">deviceIntro</span>=1)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777030508546, <span class="hljs-attribute">deviceId</span>=3, <span class="hljs-attribute">deviceIntro</span>=3)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777152143362, <span class="hljs-attribute">deviceId</span>=5, <span class="hljs-attribute">deviceIntro</span>=5)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777273778177, <span class="hljs-attribute">deviceId</span>=7, <span class="hljs-attribute">deviceIntro</span>=7)<br>TbDeviceInfo(<span class="hljs-attribute">id</span>=1508423777378635778, <span class="hljs-attribute">deviceId</span>=9, <span class="hljs-attribute">deviceIntro</span>=9)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-广播表"><a href="#5-广播表" class="headerlink" title="5.广播表"></a>5.广播表</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518004837728.png" srcset="/img/loading.gif" lazyload></p>
+<p>现在有这么一个场景，device_type列对应的tb_device_type表中的数据，不应该被分表，两个库中都应该有全量的该表的数据。</p>
+<ul>
+<li><p>在两个数据库中创建 tb_device_type 表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_device_type` (<br> `type_id` int NOT NULL AUTO_INCREMENT,<br> `type_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,<br> PRIMARY KEY (`type_id`)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置⼴播表</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#⼴播表配置</span><br><span class="hljs-attr">spring.shardingsphere.sharding.broadcast-tables</span>=<span class="hljs-string">tb_device_type</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.t_dict.key-generator.column</span>=<span class="hljs-string">type_id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.t_dict.key-generator.type</span>=<span class="hljs-string">SNOWFLAKE</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>编写测试用例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testAddDeviceType</span><span class="hljs-params">()</span>&#123;<br>	<span class="hljs-type">TbDeviceType</span> <span class="hljs-variable">deviceType1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbDeviceType</span>();<br>	deviceType1.setTypeId(<span class="hljs-number">1</span>);<br>	deviceType1.setTypeName(<span class="hljs-string">&quot;人脸考勤&quot;</span>);<br>	deviceTypeMapper.insert(deviceType1);<br>	<span class="hljs-type">TbDeviceType</span> <span class="hljs-variable">deviceType2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbDeviceType</span>();<br>	deviceType2.setTypeId(<span class="hljs-number">2</span>);<br>	deviceType2.setTypeName(<span class="hljs-string">&quot;人脸通道&quot;</span>);<br>	deviceTypeMapper.insert(deviceType2);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="五、实现读写分离"><a href="#五、实现读写分离" class="headerlink" title="五、实现读写分离"></a>五、实现读写分离</h2><h3 id="1-搭建主从同步数据库"><a href="#1-搭建主从同步数据库" class="headerlink" title="1.搭建主从同步数据库"></a>1.搭建主从同步数据库</h3><ul>
+<li>主从同步原理</li>
+</ul>
+<p>Master将数据写入到binlog⽇志中。Slave读取主节点的Binlog数据到本地的relaylog⽇志⽂件中。此时，Slave持续不断的与Master同步，且数据存在于relaylog中，而并非落在数据库。于是Slave开启一条线程，专门讲relaylog中的数据写入到数据库中。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005118415.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>准备Master主库</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7.25</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">TZ:</span> <span class="hljs-string">Asia/Shanghai</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>      <span class="hljs-string">--max_allowed_packet=128M</span><br>      <span class="hljs-string">--server-id=47</span><br>      <span class="hljs-string">--log_bin=master-bin</span><br>      <span class="hljs-string">--log_bin-index=master-bin.index</span><br>      <span class="hljs-string">--skip-name-resolve</span><br>      <span class="hljs-string">--sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mysql-data:/var/lib/mysql</span><br>      <br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">mysql-data:</span><br></code></pre></td></tr></table></figure>
+
+<p>注意其中的配置：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">服务id：<span class="hljs-attribute">server-id</span>=47<br>开启binlog：<span class="hljs-attribute">log_bin</span>=master-bin<br>binlog索引：<span class="hljs-attribute">log_bin-index</span>=master-bin.index<br></code></pre></td></tr></table></figure>
+
+<p>通过 <code>show master status</code> 命令查看并记录⽂件名和偏移量。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005437414.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>准备Slave从库：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.1&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">always</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7.25</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mysql</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">3306</span><span class="hljs-string">:3306</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">TZ:</span> <span class="hljs-string">Asia/Shanghai</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-number">123456</span><br>    <span class="hljs-attr">command:</span><br>      <span class="hljs-string">--character-set-server=utf8mb4</span><br>      <span class="hljs-string">--collation-server=utf8mb4_general_ci</span><br>      <span class="hljs-string">--explicit_defaults_for_timestamp=true</span><br>      <span class="hljs-string">--lower_case_table_names=1</span><br>      <span class="hljs-string">--max_allowed_packet=128M</span><br>      <span class="hljs-string">--server-id=48</span><br>      <span class="hljs-string">--relay-log-index=slave-relay-bin.index</span><br>      <span class="hljs-string">--relay-log=slave-relay-bin</span><br>      <span class="hljs-string">--log-bin=mysql-bin</span><br>      <span class="hljs-string">--log-slave-updates=1</span><br>      <span class="hljs-string">--sql-mode=&quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mysql-data:/var/lib/mysql</span><br>      <br><span class="hljs-attr">volumes:</span><br>  <span class="hljs-attr">mysql-data:</span><br></code></pre></td></tr></table></figure>
+
+<p>注意其中的关键配置：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">服务id：<span class="hljs-attribute">server-id</span>=48<br>开启中继日志：<span class="hljs-attribute">relay-log-index</span>=slave-relay-bin.index<br>开启中继日志：<span class="hljs-attribute">relay-log</span>=slave-relay-bin<br></code></pre></td></tr></table></figure>
+
+<p>启动从库后进入到从库，并依次执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mysql">#登录从服务<br>mysql -u root -p;<br>#设置同步主节点：<br>CHANGE MASTER TO<br>MASTER_HOST=&#x27;172.16.253.31&#x27;,<br>MASTER_PORT=3306,<br>MASTER_USER=&#x27;root&#x27;,<br>MASTER_PASSWORD=&#x27;123456&#x27;,<br>MASTER_LOG_FILE=&#x27;master-bin.000003&#x27;,<br>MASTER_LOG_POS=154;<br>#开启slave<br>start slave;<br></code></pre></td></tr></table></figure>
+
+<p>至此，主从同步集群搭建完成。</p>
+<p>在主库中创建 db_device 数据库，并在库中创建表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE `tb_user` (<br> `id` bigint(20) NOT NULL AUTO_INCREMENT,<br> `name` varchar(255) DEFAULT NULL,<br> PRIMARY KEY (`id`)<br>) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-使⽤sharding-jdbc实现读写分离"><a href="#2-使⽤sharding-jdbc实现读写分离" class="headerlink" title="2.使⽤sharding-jdbc实现读写分离"></a>2.使⽤sharding-jdbc实现读写分离</h3><ul>
+<li><p>编写配置⽂件</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 配置真实数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.names</span>=<span class="hljs-string">m0,s0</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置主数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.m0.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-attr">spring.shardingsphere.datasource.m0.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-attr">spring.shardingsphere.datasource.m0.url</span>=<span class="hljs-string">jdbc:mysql://172.16.253.73:3306/db_device?serverTimezone=Asia/Shanghai</span><br><span class="hljs-attr">spring.shardingsphere.datasource.m0.username</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">spring.shardingsphere.datasource.m0.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 配置从数据源</span><br><span class="hljs-attr">spring.shardingsphere.datasource.s0.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-attr">spring.shardingsphere.datasource.s0.driver-classname</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-attr">spring.shardingsphere.datasource.s0.url</span>=<span class="hljs-string">jdbc:mysql://172.16.253.74:3306/db_device?serverTimezone=Asia/Shanghai</span><br><span class="hljs-attr">spring.shardingsphere.datasource.s0.username</span>=<span class="hljs-string">root</span><br><span class="hljs-attr">spring.shardingsphere.datasource.s0.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 分配读写规则</span><br><span class="hljs-attr">spring.shardingsphere.sharding.master-slave-rules.ds0.master-data-source-name</span>=<span class="hljs-string">m0</span><br><span class="hljs-attr">spring.shardingsphere.sharding.master-slave-rules.ds0.slave-data-source-names[0]</span>=<span class="hljs-string">s0</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 确定实际表</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.tb_user.actual-data-nodes</span>=<span class="hljs-string">ds0.tb_user</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 确定主键生成策略</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.t_dict.key-generator.column</span>=<span class="hljs-string">id</span><br><span class="hljs-attr">spring.shardingsphere.sharding.tables.t_dict.key-generator.type</span>=<span class="hljs-string">SNOWFLAKE</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 开启显示sql语句</span><br><span class="hljs-attr">spring.shardingsphere.props.sql.show</span> = <span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>测试写数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">testInsertUser</span><span class="hljs-params">()</span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>         <span class="hljs-type">TbUser</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TbUser</span>();<br>         user.setName(<span class="hljs-string">&quot;&quot;</span>+i);<br>         userMapper.insert(user);<br> 	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时，所有的数据只会往主库中写，然后再同步到从库。</p>
+</li>
+<li><p>测试读数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">testQueryUser</span><span class="hljs-params">()</span>&#123;<br>	List&lt;TbUser&gt; tbUsers = userMapper.selectList(<span class="hljs-literal">null</span>);<br>	tbUsers.forEach( tbUser -&gt; System.out.println(tbUser));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时，所有的数据都读自于从库。</p>
+</li>
+</ul>
+<h2 id="六、实现原理-连接模式"><a href="#六、实现原理-连接模式" class="headerlink" title="六、实现原理-连接模式"></a>六、实现原理-连接模式</h2><p>ShardingSphere 采用一套自动化的执行引擎，负责将路由和改写完成之后的真实 SQL 安全且高效发送到底层数据源执行。 它不是简单地将 SQL 通过 JDBC 直接发送至数据源执行；也并非直接将执行请求放入线程池去并发执行。它更关注平衡数据源连接创建以及内存占用所产生的消耗，以及最大限度地合理利用并发等问题。 执行引擎的目标是自动化的平衡资源控制与执行效率。</p>
+<h3 id="1-连接模式"><a href="#1-连接模式" class="headerlink" title="1.连接模式"></a>1.连接模式</h3><p>从资源控制的⻆度看，业务方访问数据库的连接数量应当有所限制。它能够有效地防⽌某一业务操作过多的占用资源，从而将数据库连接的资源耗尽，以致于影响其他业务的正常访问。 特别是在一个数据库实例中存在较多分表的情况下，一条不包含分片键的逻辑 SQL 将产生落在同库不同表的大量真实 SQL ，如果每条真实SQL都占用一个独立的连接，那么一次查询无疑将会占用过多的资源。</p>
+<p>从执行效率的⻆度看，为每个分片查询维持一个独立的数据库连接，可以更加有效的利用多线程来提升执行效率。 为每个数据库连接开启独立的线程，可以将 I&#x2F;O 所产生的消耗并行处理。为每个分片维持一个独立的数据库连接，还能够避免过早的将查询结果数据加载至内存。 独立的数据库连接，能够持有查询结果集游标位置的引用，在需要获取相应数据时移动游标即可。</p>
+<p>以结果集游标下移进行结果归并的方式，称之为流式归并，它无需将结果数据全数加载至内存，可以有效的节省内存资源，进而减少垃圾回收的频次。 当无法保证每个分片查询持有一个独立数据库连接时，则需要在复用该数据库连接获取下一张分表的查询结果集之前，将当前的查询结果集全数加载至内存。 因此，即使可以采用流式归并，在此场景下也将退化为内存归并。</p>
+<p>一方⾯是对数据库连接资源的控制保护，一方⾯是采用更优的归并模式达到对中间件内存资源的节省，如何处理好两者之间的关系，是 ShardingSphere 执行引擎需要解决的问题。 具体来说，如果一条 SQL 在经过 ShardingSphere 的分片后，需要操作某数据库实例下的 200张表。 那么，是选择创建 200 个连接并行执行，还是选择创建一个连接串行执行呢？效率与资源控制又应该如何抉择呢？</p>
+<p>针对上述场景，ShardingSphere 提供了一种解决思路。 它提出了连接模式（ConnectionMode）的概念，将其划分为内存限制模式（MEMORY_STRICTLY）和连接限制模式（CONNECTION_STRICTLY）这两种类型。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518005933107.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="1）内存限制模式"><a href="#1）内存限制模式" class="headerlink" title="1）内存限制模式"></a>1）内存限制模式</h4><p>使用此模式的前提是，ShardingSphere 对一次操作所耗费的数据库连接数量不做限制。 如果实际执行的 SQL 需要对某数据库实例中的 200 张表做操作，则对每张表创建一个新的数据库连接，并通过多线程的方式并发处理，以达成执行效率最大化。 并且在 SQL 满⾜条件情况下，优先选择流式归并，以防⽌出现内存溢出或避免频繁垃圾回收情况。</p>
+<h4 id="2）连接限制模式"><a href="#2）连接限制模式" class="headerlink" title="2）连接限制模式"></a>2）连接限制模式</h4><p>使用此模式的前提是，ShardingSphere 严格控制对一次操作所耗费的数据库连接数量。 如果实际执行的 SQL 需要对某数据库实例中的 200 张表做操作，那么只会创建唯一的数据库连接，并对其 200 张表串行处理。 如果一次操作中的分片散落在不同的数据库，仍然采用多线程处理对不同库的操作，但每个库的每次操作仍然只创建一个唯一的数据库连接。 这样即可以防⽌对一次请求对数据库连接占用过多所带来的问题。该模式始终选择内存归并。</p>
+<p>内存限制模式适用于 OLAP 操作，可以通过放宽对数据库连接的限制提升系统吞吐量； 连接限制模式适用于 OLTP 操作，OLTP 通常带有分片键，会路由到单一的分片，因此严格控制数据库连接，以保证在线系统数据库资源能够被更多的应用所使用，是明智的选择。</p>
+<h3 id="2-自动化执行引擎"><a href="#2-自动化执行引擎" class="headerlink" title="2.自动化执行引擎"></a>2.自动化执行引擎</h3><p>ShardingSphere 最初将使用何种模式的决定权交由用户配置，让开发者依据自己业务的实际场景需求选择使用内存限制模式或连接限制模式。</p>
+<p>这种解决方案将两难的选择的决定权交由用户，使得用户必须要了解这两种模式的利弊，并依据业务场景需求进行选择。 这无疑增加了用户对 ShardingSphere 的学习和使用的成本，并非最优方案。</p>
+<p>这种一分为⼆的处理方案，将两种模式的切换交由静态的初始化配置，是缺乏灵活应对能力的。在实际的使用场景中，⾯对不同 SQL 以及占位符参数，每次的路由结果是不同的。 这就意味着某些操作可能需要使用内存归并，而某些操作则可能选择流式归并更优，具体采用哪种方式不应该由用户在 ShardingSphere 启动之前配置好，而是应该根据 SQL 和占位符参数的场景，来动态的决定连接模式。</p>
+<p>为了降低用户的使用成本以及连接模式动态化这两个问题，ShardingSphere 提炼出自动化执行引擎的思路，在其内部消化了连接模式概念。 用户无需了解所谓的内存限制模式和连接限制模式是什么，而是交由执行引擎根据当前场景自动选择最优的执行方案。</p>
+<p>自动化执行引擎将连接模式的选择粒度细化至每一次 SQL 的操作。 针对每次 SQL 请求，自动化执行引擎都将根据其路由结果，进行实时的演算和权衡，并自主地采用恰当的连接模式执行，以达到资源控制和效率的最优平衡。 针对自动化的执行引擎，用户只需配置maxConnectionSizePerQuery 即可，该参数表示一次查询时每个数据库所允许使用的最大连接数。</p>
+<p>执行引擎分为准备和执行两个阶段。</p>
+<h3 id="3-准备阶段"><a href="#3-准备阶段" class="headerlink" title="3.准备阶段"></a>3.准备阶段</h3><p>顾名思义，此阶段用于准备执行的数据。它分为结果集分组和执行单元创建两个步骤。</p>
+<p>结果集分组是实现内化连接模式概念的关键。执行引擎根据maxConnectionSizePerQuery配置项，结合当前路由结果，选择恰当的连接模式。 具体步骤如下：</p>
+<ul>
+<li><p>将 SQL 的路由结果按照数据源的名称进行分组。</p>
+</li>
+<li><p>通过下图的公式，可以获得每个数据库实例在 <code>maxConnectionSizePerQuery</code> 的允许范围内，每个连接需要执行的 SQL 路由结果组，并计算出本次请求的最优连接模式。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010213578.png" srcset="/img/loading.gif" lazyload alt="image-20230518010213578"></p>
+<p>在 maxConnectionSizePerQuery 允许的范围内，当一个连接需要执行的请求数量大于 1时，意味着当前的数据库连接无法持有相应的数据结果集，则必须采用内存归并； 反之，当一个连接需要执行的请求数量等于 1 时，意味着当前的数据库连接可以持有相应的数据结果集，则可以采用流式归并。</p>
+<p>每一次的连接模式的选择，是针对每一个物理数据库的。也就是说，在同一次查询中，如果路由至一个以上的数据库，每个数据库的连接模式不一定一样，它们可能是混合存在的形态。</p>
+</li>
+</ul>
+<h2 id="七、实现原理-归并引擎"><a href="#七、实现原理-归并引擎" class="headerlink" title="七、实现原理-归并引擎"></a>七、实现原理-归并引擎</h2><p>将从各个数据节点获取的多数据结果集，组合成为一个结果集并正确的返回至请求客户端，称为结果归并。</p>
+<p>ShardingSphere 支持的结果归并从功能上分为遍历、排序、分组、分页和聚合 5 种类型，它们是组合而非互斥的关系。 从结构划分，可分为流式归并、内存归并和装饰者归并。流式归并和内存归并是互斥的，装饰者归并可以在流式归并和内存归并之上做进一步的处理。</p>
+<p>由于从数据库中返回的结果集是逐条返回的，并不需要将所有的数据一次性加载至内存中，因此，在进行结果归并时，沿用数据库返回结果集的方式进行归并，能够极大减少内存的消耗，是归并方式的优先选择。</p>
+<p>流式归并是指每一次从结果集中获取到的数据，都能够通过逐条获取的方式返回正确的单条数据，它与数据库原生的返回结果集的方式最为契合。遍历、排序以及流式分组都属于流式归并的一种。</p>
+<p>内存归并则是需要将结果集的所有数据都遍历并存储在内存中，再通过统一的分组、排序以及聚合等计算之后，再将其封装成为逐条访问的数据结果集返回。</p>
+<p>装饰者归并是对所有的结果集归并进行统一的功能增强，目前装饰者归并有分页归并和聚合归并这 2 种类型。</p>
+<h3 id="1-遍历归并"><a href="#1-遍历归并" class="headerlink" title="1.遍历归并"></a>1.遍历归并</h3><p>它是最为简单的归并方式。 只需将多个数据结果集合并为一个单向链表即可。在遍历完成链表中当前数据结果集之后，将链表元素后移一位，继续遍历下一个数据结果集即可。</p>
+<h3 id="2-排序归并"><a href="#2-排序归并" class="headerlink" title="2.排序归并"></a>2.排序归并</h3><p>由于在 SQL 中存在 <code>ORDER BY</code> 语句，因此每个数据结果集自身是有序的，因此只需要将数据结果集当前游标指向的数据值进行排序即可。 这相当于对多个有序的数组进行排序，归并排序是最适合此场景的排序算法。</p>
+<p>ShardingSphere 在对排序的查询进行归并时，将每个结果集的当前数据值进行比较（通过实现 Java 的 Comparable 接口完成），并将其放入优先级队列。 每次获取下一条数据时，只需将队列顶端结果集的游标下移，并根据新游标重新进入优先级排序队列找到自己的位置即可。</p>
+<p>通过一个例子来说明 ShardingSphere 的排序归并，下图是一个通过分数进行排序的示例图。 图中展示了 3 张表返回的数据结果集，每个数据结果集已经根据分数排序完毕，但是 3个数据结果集之间是无序的。 将 3 个数据结果集的当前游标指向的数据值进行排序，并放入优先级队列，t_score_0 的第一个数据值最大，t_score_2 的第一个数据值次之，t_score_1的第一个数据值最小，因此优先级队列根据 t_score_0，t_score_2 和 t_score_1 的方式排序队列。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010426647.png" srcset="/img/loading.gif" lazyload></p>
+<p>下图则展现了进行 next 调用的时候，排序归并是如何进行的。 通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_0 将会被弹出队列，并且将当前游标指向的数据值（也就是 100）返回至查询客户端，并且将游标下移一位之后，重新放入优先级队列。 而优先级队列也会根据 t_score_0 的当前数据结果集指向游标的数据值（这⾥是 90）进行排序，根据当前数值，t_score_0 排列在队列的最后一位。 之前队列中排名第⼆的t_score_2 的数据结果集则自动排在了队列⾸位。</p>
+<p>在进行第⼆次 next 时，只需要将目前排列在队列⾸位的 t_score_2 弹出队列，并且将其数据结果集游标指向的值返回至客户端，并下移游标，继续加入队列排队，以此类推。 当一个结果集中已经没有数据了，则无需再次加入队列。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010459607.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到，对于每个数据结果集中的数据有序，而多数据结果集整体无序的情况下，ShardingSphere 无需将所有的数据都加载至内存即可排序。 它使用的是流式归并的方式，每次 next 仅获取唯一正确的一条数据，极大的节省了内存的消耗。</p>
+<p>从另一个⻆度来说，ShardingSphere 的排序归并，是在维护数据结果集的纵轴和横轴这两个维度的有序性。 纵轴是指每个数据结果集本身，它是天然有序的，它通过包含 ORDER BY 的SQL 所获取。 横轴是指每个数据结果集当前游标所指向的值，它需要通过优先级队列来维护其正确顺序。 每一次数据结果集当前游标的下移，都需要将该数据结果集重新放入优先级队列排序，而只有排列在队列⾸位的数据结果集才可能发生游标下移的操作。</p>
+<h3 id="3-分组归并"><a href="#3-分组归并" class="headerlink" title="3.分组归并"></a>3.分组归并</h3><p>分组归并的情况最为复杂，它分为流式分组归并和内存分组归并。 流式分组归并要求 SQL 的排序项与分组项的字段以及排序类型（ASC 或 DESC）必须保持一致，否则只能通过内存归并才能保证其数据的正确性。</p>
+<p>举例说明，假设根据科目分片，表结构中包含考生的姓名（为了简单起见，不考虑重名的情况）和分数。通过 SQL 获取每位考生的总分，可通过如下 SQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT name, SUM(score) FROM t_score GROUP BY name ORDER BY name;<br></code></pre></td></tr></table></figure>
+
+<p>在分组项与排序项完全一致的情况下，取得的数据是连续的，分组所需的数据全数存在于各个数据结果集的当前游标所指向的数据值，因此可以采用流式归并。如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010609103.png" srcset="/img/loading.gif" lazyload></p>
+<p>进行归并时，逻辑与排序归并类似。 下图展现了进行 next 调用的时候，流式分组归并是如何进行的。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010634421.png" srcset="/img/loading.gif" lazyload></p>
+<p>通过图中我们可以看到，当进行第一次 next 调用时，排在队列⾸位的 t_score_java 将会被弹出队列，并且将分组值同为 “Jerry” 的其他结果集中的数据一同弹出队列。 在获取了所有的姓名为 “Jerry” 的同学的分数之后，进行累加操作，那么，在第一次 next 调用结束后，取出的结果集是 “Jerry” 的分数总和。 与此同时，所有的数据结果集中的游标都将下移至数据值“Jerry” 的下一个不同的数据值，并且根据数据结果集当前游标指向的值进行重排序。 因此，包含名字顺着第⼆位的 “John” 的相关数据结果集则排在的队列的前列。</p>
+<p>流式分组归并与排序归并的区别仅仅在于两点：</p>
+<ul>
+<li>它会一次性的将多个数据结果集中的分组项相同的数据全数取出。</li>
+<li>它需要根据聚合函数的类型进行聚合计算。</li>
+</ul>
+<p>对于分组项与排序项不一致的情况，由于需要获取分组的相关的数据值并非连续的，因此无法使用流式归并，需要将所有的结果集数据加载至内存中进行分组和聚合。 例如，若通过以下 SQL 获取每位考生的总分并按照分数从高至低排序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT name, SUM(score) FROM t_score GROUP BY name ORDER BY score DESC;<br></code></pre></td></tr></table></figure>
+
+<p>那么各个数据结果集中取出的数据与排序归并那张图的上半部分的表结构的原始数据一致，是无法进行流式归并的。</p>
+<p>当 SQL 中只包含分组语句时，根据不同数据库的实现，其排序的顺序不一定与分组顺序一致。 但由于排序语句的缺失，则表示此 SQL 并不在意排序顺序。 因此，ShardingSphere 通过 SQL 优化的改写，自动增加与分组项一致的排序项，使其能够从消耗内存的内存分组归并方式转化为流式分组归并方案。</p>
+<h3 id="4-聚合归并"><a href="#4-聚合归并" class="headerlink" title="4.聚合归并"></a>4.聚合归并</h3><p>无论是流式分组归并还是内存分组归并，对聚合函数的处理都是一致的。 除了分组的 SQL 之外，不进行分组的 SQL 也可以使用聚合函数。 因此，聚合归并是在之前介绍的归并类的之上追加的归并能力，即装饰者模式。聚合函数可以归类为比较、累加和求平均值这 3 种类型。</p>
+<p>比较类型的聚合函数是指 <code>MAX</code> 和 <code>MIN</code> 。它们需要对每一个同组的结果集数据进行比较，并且直接返回其最大或最小值即可。</p>
+<p>累加类型的聚合函数是指 <code>SUM</code> 和 <code>COUNT</code> 。它们需要将每一个同组的结果集数据进行累加。</p>
+<p>求平均值的聚合函数只有 <code>AVG</code> 。它必须通过 SQL 改写的 <code>SUM</code> 和 <code>COUNT</code> 进行计算，相关内容已在 SQL 改写的内容中涵盖，不再赘述。</p>
+<h3 id="5-分页归并"><a href="#5-分页归并" class="headerlink" title="5.分页归并"></a>5.分页归并</h3><p>上⽂所述的所有归并类型都可能进行分页。 分页也是追加在其他归并类型之上的装饰器，ShardingSphere 通过装饰者模式来增加对数据结果集进行分页的能力。 分页归并负责将无需获取的数据过滤掉。</p>
+<p>ShardingSphere 的分页功能比较容易让使用者误解，用户通常认为分页归并会占用大量内存。 在分布式的场景中，将 <code>LIMIT 10000000, 10</code> 改写为 <code>LIMIT 0, 10000010</code> ，才能保证其数据的正确性。 用户非常容易产生 ShardingSphere 会将大量无意义的数据加载至内存中，造成内存溢出⻛险的错觉。 其实，通过流式归并的原理可知，会将数据全部加载到内存中的只有内存分组归并这一种情况。 而通常来说，进行 OLAP 的分组 SQL，不会产生大量的结果数据，它更多的用于大量的计算，以及少量结果产出的场景。 除了内存分组归并这种情况之外，其他情况都通过流式归并获取数据结果集，因此 ShardingSphere 会通过结果集的next 方法将无需取出的数据全部跳过，并不会将其存入内存。</p>
+<p>但同时需要注意的是，由于排序的需要，大量的数据仍然需要传输到 ShardingSphere 的内存空间。 因此，采用 LIMIT 这种方式分页，并非最佳实践。 由于 LIMIT 并不能通过索引查询数据，因此如果可以保证 ID 的连续性，通过 ID 进行分页是比较好的解决方案，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT * FROM t_order WHERE id &gt; 100000 AND id &lt;= 100010 ORDER BY id;<br></code></pre></td></tr></table></figure>
+
+<p>或通过记录上次查询结果的最后一条记录的 ID 进行下一页的查询，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT * FROM t_order WHERE id &gt; 10000000 LIMIT 10;<br></code></pre></td></tr></table></figure>
+
+<p>归并引擎的整体结构划分如下图。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230518010917074.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>文献来源：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1CL4y157ie">Sharding-JDBC+Mycat，从原理到配置</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%90%8E%E7%AB%AF/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" class="category-chain-item">分库分表</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">#分库分表</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ShardingSphere-JDBC</div>
+      <div>https://haktiong.gitee.io/2022/07/23/ShardingSphere-JDBC/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/21/MVCC%E5%8E%9F%E7%90%86/" title="MVCC原理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MVCC原理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/08/MySQL%E7%B4%A2%E5%BC%95%E7%AF%87/" title="MySQL索引篇">
+                        <span class="hidden-mobile">MySQL索引篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

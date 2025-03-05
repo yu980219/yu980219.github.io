@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一文搞懂HTTPSHTTPS（S：secure）安全  随着互联网的应用越来越广泛，其中所传递数据的价值越来越大时，人们便不得不考虑为http协议提供安全保障。  一、对称加密先对数据加密后再传输，对方收到后解密再使用。 但这不得不涉及一个问题，那就是【密钥】。 发送者使用密钥将数据加密，接收者使用同样的密钥将其解密，互为逆向过程。  这也被称之为，【对称加密】，即加解密使用相同的密钥。 所以，浏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文搞懂HTTPS">
+<meta property="og:url" content="https://haktiong.gitee.io/2023/05/23/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82HTTPS/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="一文搞懂HTTPSHTTPS（S：secure）安全  随着互联网的应用越来越广泛，其中所传递数据的价值越来越大时，人们便不得不考虑为http协议提供安全保障。  一、对称加密先对数据加密后再传输，对方收到后解密再使用。 但这不得不涉及一个问题，那就是【密钥】。 发送者使用密钥将数据加密，接收者使用同样的密钥将其解密，互为逆向过程。  这也被称之为，【对称加密】，即加解密使用相同的密钥。 所以，浏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/https.jpg">
+<meta property="article:published_time" content="2023-05-23T15:36:00.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.632Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="https">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/https.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>一文搞懂HTTPS - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="一文搞懂HTTPS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-23 23:36" pubdate>
+          2023年5月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一文搞懂HTTPS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一文搞懂HTTPS"><a href="#一文搞懂HTTPS" class="headerlink" title="一文搞懂HTTPS"></a>一文搞懂HTTPS</h1><p>HTTPS（S：secure）安全</p>
+<blockquote>
+<p>随着互联网的应用越来越广泛，其中所传递数据的价值越来越大时，人们便不得不考虑为http协议提供安全保障。</p>
+</blockquote>
+<h2 id="一、对称加密"><a href="#一、对称加密" class="headerlink" title="一、对称加密"></a>一、对称加密</h2><p>先对数据加密后再传输，对方收到后解密再使用。</p>
+<p>但这不得不涉及一个问题，那就是【密钥】。</p>
+<p>发送者使用密钥将数据加密，接收者使用同样的密钥将其解密，互为逆向过程。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523011422840.png" srcset="/img/loading.gif" lazyload></p>
+<p>这也被称之为，【对称加密】，即<strong>加解密使用相同的密钥</strong>。</p>
+<p>所以，浏览器和服务器如何确定出一个相同的密钥呢？</p>
+<p>如果由一方生成，以【明文】的方式传递过去，中间的攻击者自然也能轻松的拦截下来。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523012044625.png" srcset="/img/loading.gif" lazyload></p>
+<p>攻击者一旦有了【密钥】，那后续的加密将会变得毫无意义。</p>
+<h2 id="二、非对称加密"><a href="#二、非对称加密" class="headerlink" title="二、非对称加密"></a>二、非对称加密</h2><p>【对称加密】的加解密过程使用的是同一个密钥，具有对称性。</p>
+<p>【非对称加密】中，密钥总是<strong>成对出现</strong>，分别称为【公钥】和【私钥】。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523013035936.png" srcset="/img/loading.gif" lazyload></p>
+<p>由【公钥】加密的数据，只能由【私钥】解密，【公钥】自己也无法破解。</p>
+<p>同理，【私钥】加密的数据，只能由【公钥】解密，【私钥】自己也无法破解。</p>
+<p>加解密的过程并不对称。所以，</p>
+<ol>
+<li>服务器先将自己的公钥发送给浏览器。</li>
+<li>浏览器生成一个随机的数据，用服务器的公钥进行加密，再发送给服务器。</li>
+<li>服务器用自己的私钥解密，如此，双方就得到了一个同样的随机数据。</li>
+</ol>
+<p>这个随机数据就可以作为【对称加密】的【密钥】。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523014043587.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果攻击者，在服务器发送给浏览器公钥的过程中将其拦截，并替换成自己的公钥再发送给浏览器。</p>
+<p>浏览器收到公钥，它无法辨别这个公钥是否被篡改过，所以用攻击者的公钥将随机数据加密作为对称加密的密钥。</p>
+<p>攻击者收到后，因为是被自己的公钥加密过的数据，所以自然可以用自己的私钥解密，得到【明文】。</p>
+<p>然后再用服务器的公钥对【明文】进行加密，再发送给服务器，服务器用自己的私钥解密。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523015426689.png" srcset="/img/loading.gif" lazyload></p>
+<p>这样虽然，通信双方协商出了对称加密的密钥，但攻击者也知道了，所以后续的加密变得毫无意义。</p>
+<p>问题的根本在于：<strong>公钥并不能代表自己属于谁</strong></p>
+<p>所以解决的方式是让其具有<strong>表明自己身份的能力</strong>。</p>
+<h2 id="三、CA（certificate-Authority，证书授权）"><a href="#三、CA（certificate-Authority，证书授权）" class="headerlink" title="三、CA（certificate Authority，证书授权）"></a>三、CA（certificate Authority，证书授权）</h2><p>这时候需要引入一个第三方的角色。</p>
+<p>现在服务器把自己的【公钥】【域名】【组织名】【所申请的第三方机构名】等信息放在一起，形成一个数据集合。</p>
+<p>拿着这份数据去找这个第三方机构，该机构也有一个【公私钥】对。</p>
+<p>用自己的私钥对这些数据进行加密，得到一个密文，这就是【签名】。</p>
+<p>把【签名数据】和【原始明文】放在一起，发送给服务器的管理员，这就是所谓的【TLS证书】，这个第三方机构被称为【CA】</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523223227212.png" srcset="/img/loading.gif" lazyload></p>
+<p>现在服务器传递给浏览器的不再是自己的公钥，而是这个能表明自己身份的证书，浏览器拿到证书之后需要先进行【验证】。</p>
+<p>拿【CA】机构的【公钥】对证书中的密文进行解密，如果解密的结果和证书中的明文一致，通过验证。</p>
+<p>然后从证书中提取出【服务器的公钥】，加密随机数据进行发送。双方再协商出【对称加密】的【密钥】</p>
+<ol>
+<li>这时如果攻击者拦截到服务器的【证书后】，将证书中明文的【公钥】改成自己的，那么浏览器收到后，解密签名中的公钥部分和篡改之后的对不上，其中必然有诈。</li>
+<li>如果攻击者也在CA机构申请到了一个证书，并在拦截后替换成了自己的证书，这样解密签名的结果和明文部分确实对的上，但证书中的域名和浏览器正在访问的地址又对不上，其中也必然有诈。</li>
+</ol>
+<h2 id="四、安全性"><a href="#四、安全性" class="headerlink" title="四、安全性"></a>四、安全性</h2><p>以上就可以巧妙的解决攻击者偷天换日的把戏。</p>
+<p>如果CA给攻击者错误地签发了一张域名和机构信息是被攻击的站点，但公钥是攻击者的证书，浏览器便无法识破其中的玄机。所以CA在给申请者颁发证书的时候，需要仔细甄别攻击者的身份。</p>
+<p><strong>浏览器又怎么知道该信任哪些CA机构呢？</strong></p>
+<p>答案是内置，只有这些被系统或浏览器内置的CA机构颁发的证书才能通过浏览器的认证。操作系统和浏览器厂商在内置这些CA机构的时候也是经过谨慎考察的，因为一旦某些CA机构出现了问题，将对自己的品牌观瞻产生巨大的负面影响。</p>
+<p>这样一来，成为一个CA机构是一个门槛比较高的事情，所以一般具有一定行业影响力的权威机构才堪当此任，比如微软、谷歌、中国金融认证中心等等，这些机构一般没有颁发错误的证书的动机。</p>
+<p>CA机构责任重大的同时，权力也有些过于集中，以至于让这种建立在信任之上的安全显得十分脆弱。</p>
+<p>证书的颁发依靠的是人的判断，也就是那些办事员，但只要是人就有失误的可能，另一方面，只要是人，就难保不出现腐败以及收受贿赂，为不法分子开方便之门。</p>
+<h2 id="五、CT（certificate-Transparency，证书透明）"><a href="#五、CT（certificate-Transparency，证书透明）" class="headerlink" title="五、CT（certificate Transparency，证书透明）"></a>五、CT（certificate Transparency，证书透明）</h2><p>2013年，人们提供了【证书透明】的方案。</p>
+<p>证书透明要求CA机构每颁发一个证书的时候，都要向一个叫【日志服务】的角色提交证书的详情，日志服务负责将其记录下来，同时向CA返回一个【SCT】数据，CA将SCT加入证书的扩展中，把这个携带SCT的证书颁发给站点服务器，浏览器拿到这个带有SCT的证书，除了验证证书本身以外，还要向日志服务验证SCT，日志服务含有自己的【公私钥】对，而SCT中则包含被其私钥签名的数据，所以浏览器使用日志服务的公钥，对SCT中的签名进行验签来确定真实性。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523231802878.png" srcset="/img/loading.gif" lazyload></p>
+<p>这种看起来无意义的套娃操作，在CA机制上套了一层CT的机制，那CA机构可以篡改和颁发错误的证书，日志服务就不能篡改或颁发错误的SCT吗？这就是CT机制要解决的核心问题：【去中心化】。</p>
+<h2 id="六、去中心化"><a href="#六、去中心化" class="headerlink" title="六、去中心化"></a>六、去中心化</h2><p>区块链技术给人们带来最大的启示就是：任何中心化的节点都是不可信任的，不论它如何权威，只有将信任分配到每个利益相关方的手中，相互监督才能打破困境。</p>
+<p>【日志服务】采用了区块链中常用的【Merkle tree】默克尔树来防止篡改：</p>
+<p>将证书颁发记录按照产生时间依次排序，分别计算出每个记录的哈希值，相邻的两个哈希值组合在一起，形成新数据，再对这个数据进行哈希计算，同样再把相邻的两个哈希值组合在一起，形成新的数据，直到最后只有一个数据，这个哈希值的数据被称为根哈希值（Root Hash），只要大家监督这个根哈希值，就能保证数据无法被私自篡改。</p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/image-20230523233348242.png" srcset="/img/loading.gif" lazyload></p>
+<p>这样修改叶子的任何一个哈希值，都会导致根哈希值的改变。同样你也无法删除这棵树中任何一个节点，这也会引起根哈希值的改变。</p>
+<p>也就是说日志服务是一个只能添加的账本系统，而且他的数据完全公开，所有人都可以查询并且验证。</p>
+<p>比如域名的拥有者，就可以通过对日志服务的周期性查询，以检查自己的域名下有没有可疑的证书颁发记录。</p>
+<p>CA机构可以作为监视者，监视自己的同行中是否出现失误或者腐败的现象。</p>
+<p>现在各家浏览器都开始强制对SCT信息的检查，一个不携带SCT的证书会被浏览器标注为【不安全】。</p>
+<p><strong>文献来源：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uY4y1D7Ng/">Ele实验室：https技术鉴赏</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/https/">#https</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>一文搞懂HTTPS</div>
+      <div>https://haktiong.gitee.io/2023/05/23/一文搞懂HTTPS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/18/IntelliJ%20IDEA%20%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%A7%E5%85%A8/" title="IntelliJ IDEA 快捷键大全">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IntelliJ IDEA 快捷键大全</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="23种设计模式">
+                        <span class="hidden-mobile">23种设计模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

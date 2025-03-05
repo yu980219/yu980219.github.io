@@ -1,0 +1,1014 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Haktiong">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Redis基础一、Redis介绍1.1 引言1. 由于用户量增大，请求数量也随之增大，数据压力过大。 例：数据库根据SQL语句去磁盘通过io来拿到数据，数据压力就会比较大，轻则查询效率降低，重则服务器宕机。 解决：针对热点数据添加缓存，把数据放到Redis，查询都找Redis。 原理：Redis是基于内存存储数据和读取数据的，并且支持并发量很大。 2. 多台服务器之间，数据不同步。 例：客户端发送">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis基础">
+<meta property="og:url" content="https://haktiong.gitee.io/2020/10/06/redis/index.html">
+<meta property="og:site_name" content="Haktiong&#39;s Blog">
+<meta property="og:description" content="Redis基础一、Redis介绍1.1 引言1. 由于用户量增大，请求数量也随之增大，数据压力过大。 例：数据库根据SQL语句去磁盘通过io来拿到数据，数据压力就会比较大，轻则查询效率降低，重则服务器宕机。 解决：针对热点数据添加缓存，把数据放到Redis，查询都找Redis。 原理：Redis是基于内存存储数据和读取数据的，并且支持并发量很大。 2. 多台服务器之间，数据不同步。 例：客户端发送">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haktiong.gitee.io/img/default.jpeg">
+<meta property="article:published_time" content="2020-10-06T15:44:42.000Z">
+<meta property="article:modified_time" content="2025-03-04T02:52:11.632Z">
+<meta property="article:author" content="Haktiong">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haktiong.gitee.io/img/default.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Redis基础 - Haktiong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"haktiong.gitee.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Haktiong</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Redis基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-10-06 23:44" pubdate>
+          2020年10月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          113 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Redis基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Redis基础"><a href="#Redis基础" class="headerlink" title="Redis基础"></a>Redis基础</h1><h2 id="一、Redis介绍"><a href="#一、Redis介绍" class="headerlink" title="一、Redis介绍"></a>一、Redis介绍</h2><h3 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h3><p><strong>1. 由于用户量增大，请求数量也随之增大，数据压力过大。</strong></p>
+<p><strong>例</strong>：数据库根据SQL语句去磁盘通过io来拿到数据，数据压力就会比较大，轻则查询效率降低，重则服务器宕机。</p>
+<p><strong>解决</strong>：针对热点数据添加缓存，把数据放到Redis，查询都找Redis。</p>
+<p><strong>原理</strong>：Redis是基于内存存储数据和读取数据的，并且支持并发量很大。</p>
+<p><strong>2. 多台服务器之间，数据不同步。</strong></p>
+<p><strong>例</strong>：客户端发送请求，说不定请求会发到哪台服务器中，比如客户在登录中，在服务器1存放了客户的唯一标识，下一次如果请求发送到服务器2，就没有标识了。</p>
+<p><strong>解决</strong>：不用Session来存放用户数据，用Redis统一存放。</p>
+<p><strong>原理</strong>：Redis是独立于Tomcat服务器之外的单独中间件，可以将之前存储在Session中的共享数据统一的存放在Redis中，服务器1和服务器2都找Redis。</p>
+<p><strong>3. 多台服务器之间的锁，已经不存在互斥性了。</strong></p>
+<p><strong>例</strong>：在服务器1使用锁操作，和在服务器2使用锁操作，两把锁不存在互斥性，会导致锁失效。</p>
+<p><strong>解决</strong>：使用Redis</p>
+<p><strong>原理</strong>：Redis基于它接收用户的请求是单线程的，可以帮我们实现类似锁的功能。</p>
+<h3 id="1-2-NoSQL"><a href="#1-2-NoSQL" class="headerlink" title="1.2 NoSQL"></a>1.2 NoSQL</h3><p>Redis就是一款NoSQL</p>
+<p>NoSQL -&gt; 菲关系型数据库 -&gt; Not Only SQL</p>
+<p>除了关系型数据库都是非关系型数据库。</p>
+<p>NoSQL只是一种概念，泛指非关系型数据库，和关系型数据库做一个区分。</p>
+<h3 id="1-3-Redis介绍"><a href="#1-3-Redis介绍" class="headerlink" title="1.3 Redis介绍"></a>1.3 Redis介绍</h3><p>Redis（Remote Dictionary Server）远程字典服务，由C语言去编写，所以不需要java环境。</p>
+<h2 id="二、Redis安装"><a href="#二、Redis安装" class="headerlink" title="二、Redis安装"></a>二、Redis安装</h2><h3 id="2-1-下载中文版Redis可视化软件"><a href="#2-1-下载中文版Redis可视化软件" class="headerlink" title="2.1 下载中文版Redis可视化软件"></a>2.1 下载中文版Redis可视化软件</h3><p><font size=5 color=orange>RedisDesktopManager</font></p>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240223404.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-2-为Redis赋值"><a href="#2-2-为Redis赋值" class="headerlink" title="2.2 为Redis赋值"></a>2.2 为Redis赋值</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240224063.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-3-在Redis中查看"><a href="#2-3-在Redis中查看" class="headerlink" title="2.3 在Redis中查看"></a>2.3 在Redis中查看</h3><p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240248957.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="三、Redis常用命令"><a href="#三、Redis常用命令" class="headerlink" title="三、Redis常用命令"></a>三、Redis常用命令</h2><blockquote>
+<p>官网Redis命令参考文档：redisdoc.com</p>
+</blockquote>
+<h3 id="3-1-Redis存储数据的结构"><a href="#3-1-Redis存储数据的结构" class="headerlink" title="3.1 Redis存储数据的结构"></a>3.1 Redis存储数据的结构</h3><p>常用的五种数据结构</p>
+<ul>
+<li><p><strong>key-string</strong>：一个key对应一个值</p>
+</li>
+<li><p><strong>key-hash</strong>：一个key对应一个Map</p>
+</li>
+<li><p><strong>key-list</strong>：一个key对应一个列表</p>
+</li>
+<li><p><strong>key-set</strong>：一个key对应一个集合</p>
+</li>
+<li><p><strong>key-zset</strong>：一个key对应一个有序的集合</p>
+<p><em>另外三种数据结构。</em></p>
+<p>HyperLogLog：计算近似值的。</p>
+<p>GEO：存储地理位置（经纬度）</p>
+<p>BIT：一般存储的也是一个字符串，存储的是一个byte[]</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/yu980219/image-host/master/hexo/202411240248212.png" srcset="/img/loading.gif" lazyload></p>
+<p>应用：</p>
+<p>key-string：最常用的，一般用于存储一个值</p>
+<p>key-hash：存储一个对象数据的</p>
+<p>key-list：使用list结构实现栈和队列结构</p>
+<p>key-set：交集，差集和并集的操作</p>
+<p>key-zest：排行榜，积分存储等操作。</p>
+<h3 id="3-2-String常用命令"><a href="#3-2-String常用命令" class="headerlink" title="3.2 String常用命令"></a>3.2 String常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	添加值</span><br><span class="hljs-built_in">set</span> key value<br><br><span class="hljs-comment">#2.	取值</span><br>get key<br><br><span class="hljs-comment">#3.	批量操作</span><br>mset key value [key value...]<br>mget key [key...]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#4.	自增命令（自增1）（应用场景 -&gt; 点赞）</span><br>incr key<br><br><span class="hljs-comment">#5.	自减命令（自减1)</span><br>decr key<br><br><span class="hljs-comment">#6.	自增或自减指定数量</span><br>incrby key &lt;increment&gt;<br>decrby key &lt;increment&gt;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#7.	设置值的同时。指定生存时间（每次向Redis中添加数据时，尽量都设置上生存时间）</span><br>setex key &lt;second&gt; value<br><br><span class="hljs-comment">#8.	设置值，如果当前key不存在的话（如果这个key存在，什么事都不做，如果这个key不存在，和set命令一样）</span><br>setnx key value<br><br><span class="hljs-comment">#9. 在key对应的value后，追加内容</span><br>append key value<br><br><span class="hljs-comment">#10. 查看value字符串的长度</span><br>strlen key<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-3-hash常用命令"><a href="#3-3-hash常用命令" class="headerlink" title="3.3 hash常用命令"></a>3.3 hash常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	存储数据</span><br>hset key field value<br><br><span class="hljs-comment">#2.	获取数据</span><br>hget key field<br><br><span class="hljs-comment">#3.	批量操作</span><br>hmset key field value [field value ...]<br>hmget key field [field ...]<br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#4.	自增（指定自增的值）</span><br>hincrby key field increment<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#5.	设置值（如果key-field不存在，那么就正常添加，如果存在，什么事都不做）</span><br>hsetnx key field value<br><br><span class="hljs-comment">#6.	检查field是否存在</span><br>hexists key field<br><br><span class="hljs-comment">#7.	删除key对应的某一个field，可以删除多个</span><br>hdel key field [field]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#8.	获取当前hash结构中的全部field和value</span><br>hgetall key<br><br><span class="hljs-comment">#9.	获取当前hash结构中的全部field</span><br>hkeys key<br><br><span class="hljs-comment">#10. 获取当前hash结构中的全部value</span><br>hvals key<br><br><span class="hljs-comment">#11. 获取当前hash结构中field的数量</span><br>hlen key<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-4-list常用命令"><a href="#3-4-list常用命令" class="headerlink" title="3.4 list常用命令"></a>3.4 list常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	存储数据（从左侧插入数据，从右侧插入数据）</span><br>lpush key value [value ...]<br>rpush key value [value ...]<br><br><span class="hljs-comment">#2.	存储数据（如果key不存在，什么事都不做，如果key存在，但是不是list结构，什么都不做）</span><br>lpushx key value<br>rpushx key value<br><br><span class="hljs-comment">#3.	修改数据（在存储数据时，指定好你的索引位置，覆盖之前索引位置的数据，index超出整个列表的长度，也会失败）</span><br>lset key index value<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#4.	弹栈方式获取数据（左侧弹出数据，从右侧弹出数据）</span><br>lpop key<br>rpop key<br><br><span class="hljs-comment">#5.	获取指定索引范围的数据（start从0开始，stop输入-1代表最后一个）</span><br>lrange key start stop<br><br><span class="hljs-comment">#6.	获取指定索引位置的数据</span><br>lindex kek index<br><br><span class="hljs-comment">#7.	获取整个列表的长度</span><br>llen key<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#8.	删除列表中的数据（删除当前列表中的count个value值；count&gt;0，从左侧向右侧删除；count&lt;0，从右侧向左侧删除；count==0，删除列表中全部数据）</span><br>lrem key count value<br><br><span class="hljs-comment">#9.	保留列表中的数据（保留指定索引范围内的数据，超过整个索引范围被移除掉）</span><br>ltrim key start stop<br><br><span class="hljs-comment">#10. 将一个列表中最后的一个数据，插入到另外一个列表的头部位置</span><br>rpoplpush list1 list2<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-5-set常用命令"><a href="#3-5-set常用命令" class="headerlink" title="3.5 set常用命令"></a>3.5 set常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	存储数据</span><br>sadd key member [member ...]<br><br><span class="hljs-comment">#2.	获取数据（获取全部数据）</span><br>smembers key<br><br><span class="hljs-comment">#3.	随机获取一个数据（获取的同时，移除数据，count默认为1，代表弹出数据的数量）</span><br>spop key [count]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#4. 交集（取多个set集合交集）</span><br>sinter set1 set2 ...<br><br><span class="hljs-comment">#5. 并集（获取全部集合中的数据）</span><br>sunion set1 set2 ...<br><br><span class="hljs-comment">#6.	差集(获取多个集合中不一样的数据)</span><br>sdiff set1 set2 ... （获取set1-set2）<br>sdiff set2 set1 ... （获取set2-set1）<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#7.	删除数据</span><br>srem key member [member ...]<br><br><span class="hljs-comment">#8.	查看当前的set集合中是否包含这个值</span><br>sismember key member<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-6-zset常用命令"><a href="#3-6-zset常用命令" class="headerlink" title="3.6 zset常用命令"></a>3.6 zset常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	添加数据（score必须是一个数值，member不允许重复）</span><br>zadd key score member [socre member ...]<br><br><span class="hljs-comment">#2. 修改member的分数（如果member是存在于key中的，正常增加分数，如果member不存在，这个命令就相当于zadd）</span><br>zincrby key increment member<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#3.	查看指定的member的分数</span><br>zscore key member<br><br><span class="hljs-comment">#4.	获取zset中数据的数量</span><br>zcard key<br><br><span class="hljs-comment">#5.	根据score的范围查询member数量</span><br>zcount key min max<br><br><span class="hljs-comment">#6.	删除zset中的成员</span><br>zrem key member [member ...]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#7.	根据分数从小到大排序，获取指定范围内的数据（withscore如果添加这个参数，那么会返回member对应的分数）</span><br>zrange key start stop [withscores]<br><br><span class="hljs-comment">#8.	根据分数从大到小排序，获取指定范围内的数据</span><br>zrevrange key start stop [withscores]<br><br><span class="hljs-comment">#9.	根据分数的返回去获取member（withscores代表返回score，添加limit，就和MySQL一样，如果不希望等于min或者max的值被查询出来可以采用‘（分数’相当于 &lt; 但是不等于的方式，最大值和最小值使用+inf和-inf来表示）</span><br>zrangebyscore key min max [withscores] [<span class="hljs-built_in">limit</span> offset count]<br><br><span class="hljs-comment">#10.	根据分数的返回去获取member（withscores代表返回score，添加limit，就和MySQL一个样）</span><br>zrangebyscore key max min [withscores] [<span class="hljs-built_in">limit</span> offset count]<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-7-key常用命令"><a href="#3-7-key常用命令" class="headerlink" title="3.7 key常用命令"></a>3.7 key常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1.	查看Redis中的全部的key（pattern: *, xxx*, *xxx）</span><br>keys pattern<br><br><span class="hljs-comment">#2.	查看某一个key是否存在（1 - key存在，0 - key不存在）</span><br>exists key<br><br><span class="hljs-comment">#3.	删除key</span><br>del key [key ...]<br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#4.	设置key的生存时间，单位为秒，单位为毫秒，设置还能活多久</span><br>expire key second<br>pexpire key milliseconds<br><br><span class="hljs-comment">#5.	设置key的生存时间，单位为秒，单位为毫秒，设置能活到什么时间点</span><br>expireat key timestamp<br>pexpireat key milliseconds<br><br><span class="hljs-comment">#6. 查看key的剩余生存时间，单位为秒，单位为毫秒（-2 - 当前key不存在，-1 - 当前key没有设置生存时间，具体剩余的生存时间）</span><br>ttl key<br>pttl key<br><br><span class="hljs-comment">#7. 移除key的生存时间（1 - 移除成功，0 - key不存在生存时间，key不存在）</span><br>persist key <br></code></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#8.	选择操作的库</span><br>select 0~15<br><br><span class="hljs-comment">#9.	移动key到另外一个库中</span><br>move key db<br></code></pre></td></tr></table></figure>
+
+<p>3.8 库的常用命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#1. 清空当前所在的数据库</span><br>flushdb<br><br><span class="hljs-comment">#2.	清空全部数据库</span><br>flushall<br><br><span class="hljs-comment">#3.	查看当前数据库中有多少个key</span><br>dbsize<br><br><span class="hljs-comment">#4.	查看最后一次操作的时间</span><br>lastsave<br><br><span class="hljs-comment">#5.	实时监控redis服务接收到的目录</span><br>monitor<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、Java连接Redis"><a href="#四、Java连接Redis" class="headerlink" title="四、Java连接Redis"></a>四、Java连接Redis</h2><p>Jedis连接Redis，Lettuce连接Redis</p>
+<h3 id="4-1-Jedis连接Redis"><a href="#4-1-Jedis连接Redis" class="headerlink" title="4.1 Jedis连接Redis"></a>4.1 Jedis连接Redis</h3><blockquote>
+<ol>
+<li>创建maven项目</li>
+<li>导入需要的依赖</li>
+<li>测试</li>
+</ol>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JedisTest</span> &#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">set</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//2. 操作Redis - 因为Redis的命令是什么，Jedis的方法就是什么</span><br>        jedis.set(<span class="hljs-string">&quot;name&quot;</span>,<span class="hljs-string">&quot;王五&quot;</span>);<br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">get</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//2. 操作Redis - 因为Redis的命令是什么，Jedis的方法就是什么</span><br>        String value=jedis.get(<span class="hljs-string">&quot;name&quot;</span>);<br>        System.out.println(value);<br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-2-Jedis如何存储一个对象到Redis以Byte-的形式"><a href="#4-2-Jedis如何存储一个对象到Redis以Byte-的形式" class="headerlink" title="4.2 Jedis如何存储一个对象到Redis以Byte[]的形式"></a>4.2 Jedis如何存储一个对象到Redis以Byte[]的形式</h3><blockquote>
+<p>准备一个User实体类</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <br>    <span class="hljs-comment">// serialVersionUID</span><br>    <span class="hljs-comment">// NoArgsConstructor</span><br>    <span class="hljs-comment">// AllArgsConstructor</span><br>    <br>    <span class="hljs-keyword">private</span> Integer id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> Date birthday;<br>    <br>    <span class="hljs-comment">// get set...</span><br>        <br>    <span class="hljs-comment">// toString ...</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>导入spring-context依赖</p>
+<blockquote>
+<p>创建Demo类，编写测试内容</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JedisTest2</span> &#123;<br><br>    <span class="hljs-comment">// 存储对象 - 以byte[]形式存储在Redis中</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setByteArray</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//-------------------------------</span><br>        <span class="hljs-comment">//2.1 准备key(String)-value(User)</span><br>        String key=<span class="hljs-string">&quot;user&quot;</span>;<br>        User value=<span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>(<span class="hljs-number">10</span>,<span class="hljs-string">&quot;李四&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>        <span class="hljs-comment">//2.2 将key和value转换为byte[]</span><br>        <span class="hljs-type">byte</span>[] byteKey = SerializationUtils.serialize(key);<br>        <span class="hljs-type">byte</span>[] byteValue = SerializationUtils.serialize(value);<br>        <span class="hljs-comment">//2.3 将key和value存储到Redis</span><br>        jedis.set(byteKey,byteValue);<br>        <span class="hljs-comment">//-------------------------------</span><br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br>    &#125;<br><br>    <span class="hljs-comment">// 获取对象 - 以byte[]形式在Redis中获取</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getByteArray</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//-------------------------------</span><br>        <span class="hljs-comment">//2.1 准备key</span><br>        String key=<span class="hljs-string">&quot;user&quot;</span>;<br>        <span class="hljs-comment">//2.2 将key转换为byte[]</span><br>        <span class="hljs-type">byte</span>[] byteKey = SerializationUtils.serialize(key);<br>        <span class="hljs-comment">//2.3 jedis去Redis中获取value</span><br>        <span class="hljs-type">byte</span>[] value = jedis.get(byteKey);<br>        <span class="hljs-comment">//2.4 将value反序列化为User对象</span><br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> (User) SerializationUtils.deserialize(value);<br>        <span class="hljs-comment">//2.5 输出</span><br>        System.out.println(user.toString());<br>        <span class="hljs-comment">//-------------------------------</span><br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-3-Jedis如何存储一个对象到Redis以String的形式"><a href="#4-3-Jedis如何存储一个对象到Redis以String的形式" class="headerlink" title="4.3 Jedis如何存储一个对象到Redis以String的形式"></a>4.3 Jedis如何存储一个对象到Redis以String的形式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JedisTest3</span> &#123;<br><br>    <span class="hljs-comment">// 存储对象 - 以String形式存储</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setString</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//2.1 准备key(String)-value(User)</span><br>        String stringKey=<span class="hljs-string">&quot;stringUser&quot;</span>;<br>        User value=<span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>(<span class="hljs-number">2</span>,<span class="hljs-string">&quot;李四&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>        <span class="hljs-comment">//2.2 使用fastJSON将value转化为json字符串</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">stringValue</span> <span class="hljs-operator">=</span> JSON.toJSONString(value);<br>        <span class="hljs-comment">//2.3 存储到redis中</span><br>        jedis.set(stringKey,stringValue);<br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br><br>    &#125;<br><br>    <span class="hljs-comment">// 获取对象 - 以String形式获取</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getString</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//1. 连接Redis</span><br>        Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>        <span class="hljs-comment">//2.1 准备一个key</span><br>        String key=<span class="hljs-string">&quot;stringUser&quot;</span>;<br>        <span class="hljs-comment">//2.2 去Redis中查询value</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> jedis.get(key);<br>        <span class="hljs-comment">//2.3 存储到redis中</span><br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> JSON.parseObject(value, User.class);<br>        <span class="hljs-comment">//2.4 输出</span><br>        System.out.println(user.toString());<br><br>        <span class="hljs-comment">//3. 释放资源</span><br>        jedis.close();<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-4-Jedis的连接池操作"><a href="#4-4-Jedis的连接池操作" class="headerlink" title="4.4 Jedis的连接池操作"></a>4.4 Jedis的连接池操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pool2</span><span class="hljs-params">()</span>&#123;<br>    <br>    <span class="hljs-comment">//1. 创建连接池的配置信息</span><br>    GenericObjectPoolConfig poolConfig=<span class="hljs-keyword">new</span> <span class="hljs-title class_">GenericObjectPoolConfig</span>();<br>    poolConfig.setMaxTotal(<span class="hljs-number">100</span>); <span class="hljs-comment">// 连接池中最大活跃数</span><br>    poolConfig.setMaxIdle(<span class="hljs-number">10</span>); <span class="hljs-comment">// 最大空闲数</span><br>    poolConfig.setMinIdle(<span class="hljs-number">5</span>); <span class="hljs-comment">// 最小空闲数</span><br>    poolConfig.setMaxWaitMillis(<span class="hljs-number">3000</span>); <span class="hljs-comment">// 当连接池空了，多久没获取到jedis对象就超时</span><br><br>    <span class="hljs-comment">//2. 创建连接池</span><br>    JedisPool pool=<span class="hljs-keyword">new</span> <span class="hljs-title class_">JedisPool</span>(poolConfig,<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br><br>    <span class="hljs-comment">//3. 通过连接池获取Jedis对象</span><br>    <span class="hljs-type">Jedis</span> <span class="hljs-variable">jedis</span> <span class="hljs-operator">=</span> pool.getResource();<br><br>    <span class="hljs-comment">//4. 操作</span><br>    String value=jedis.get(<span class="hljs-string">&quot;stringUser&quot;</span>);<br>    System.out.println(value);<br><br>    <span class="hljs-comment">//5. 释放资源</span><br>    jedis.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-5-Redis的管道操作"><a href="#4-5-Redis的管道操作" class="headerlink" title="4.5 Redis的管道操作"></a>4.5 Redis的管道操作</h3><p>因为在操作Redis的时候，执行一个命令需要先发送请求到Redis服务器，这个过程需要经历网络的延迟，Rdis还需要给客户端一个响应。</p>
+<p>如果我需要一次性执行很多个命令，上述的方式效率很低，可以通过Redis的管道，先将命令放到客户端的一个Pipeline中，之后一次性的将全部命令都发送Redis服务，Redis服务一次性的将全部的返回结果响应给客户端。</p>
+<p>（提高Redis并发能力，处理请求的效率更高）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Redis管道的操作</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pipeline</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-comment">//1. 创建连接池</span><br>    JedisPool pool=<span class="hljs-keyword">new</span> <span class="hljs-title class_">JedisPool</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br>    <span class="hljs-type">long</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br><br>    <span class="hljs-comment">//2. 获取一个连接对象</span><br>    <span class="hljs-type">Jedis</span> <span class="hljs-variable">jedis</span> <span class="hljs-operator">=</span> pool.getResource();<br><br>    <span class="hljs-comment">//3. 执行incr - 10000次</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10000</span>;i++)&#123;<br>        jedis.incr(<span class="hljs-string">&quot;qq&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">//4. 释放资源</span><br>    jedis.close();<br><br>    <span class="hljs-comment">// =================================</span><br><br>    <span class="hljs-comment">//2. 获取一个连接对象</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">l1</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>    Jedis jedis1=pool.getResource();<br>    <span class="hljs-comment">//3. 创建管道</span><br>    <span class="hljs-type">Pipeline</span> <span class="hljs-variable">pipelined</span> <span class="hljs-operator">=</span> jedis1.pipelined();<br>    <span class="hljs-comment">//4. 执行incr - 10000次放到管道中</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10000</span>;i++)&#123;<br>        jedis.incr(<span class="hljs-string">&quot;pp&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//5. 执行命令</span><br>    pipelined.syncAndReturnAll();<br>    <span class="hljs-comment">//6. 释放资源</span><br>    jedis1.close();<br>    <br>    System.out.println(System.currentTimeMillis()-l);<br>    System.out.println(System.currentTimeMillis()-l1);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="五、Redis其它配置及集群"><a href="#五、Redis其它配置及集群" class="headerlink" title="五、Redis其它配置及集群"></a>五、Redis其它配置及集群</h2><h3 id="5-1-Redis的AUTH"><a href="#5-1-Redis的AUTH" class="headerlink" title="5.1 Redis的AUTH"></a>5.1 Redis的AUTH</h3><p>Redis默认配置是不需要密码认证的，也就是说只要连接的Redis服务器的host和port正确，就可以连接使用。这在安全性上会有一定的问题，所以需要启用Redis的认证密码，增加Redis服务器的安全性。</p>
+<h4 id="1-修改配置文件"><a href="#1-修改配置文件" class="headerlink" title="1. 修改配置文件"></a>1. 修改配置文件</h4><p>Redis的配置文件默认在<code>/etc/redis.conf</code>，找到如下行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#requirepass foobared</span><br></code></pre></td></tr></table></figure>
+
+<p>去掉前面的注释，并修改为所需要的密码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">requirepass myPassword （其中myPassword就是要设置的密码）<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-重启Redis"><a href="#2-重启Redis" class="headerlink" title="2. 重启Redis"></a>2. 重启Redis</h4><p>如果Redis已经配置为<code>service</code>服务，可以通过以下方式重启：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">service redis restart<br></code></pre></td></tr></table></figure>
+
+<p>如果Redis没有配置为<code>service</code>服务，可以通过以下方式重启：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">/usr/local/bin/redis-cli shutdown<br>/usr/local/bin/redis-server /etc/redis.conf<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-登录验证"><a href="#3-登录验证" class="headerlink" title="3. 登录验证"></a>3. 登录验证</h4><p>设置Redis认证密码后，客户端登录时需要使用<code>-a</code>参数输入认证密码，不添加该参数虽然也可以登录成功，但是没有任何操作权限。如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ ./redis-cli -h 127.0.0.1 -p 6379<br>127.0.0.1:6379&gt; keys *<br>(error) NOAUTH Authentication required.<br></code></pre></td></tr></table></figure>
+
+<p>使用密码认证登录，并验证操作权限：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ ./redis-cli -h 127.0.0.1 -p 6379 -a myPassword<br>127.0.0.1:6379&gt; config get requirepass<br>1) <span class="hljs-string">&quot;requirepass&quot;</span><br>2) <span class="hljs-string">&quot;myPassword&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>看到类似上面的输出，说明Reids密码认证配置成功。</p>
+<p>除了按上面的方式在登录时，使用<code>-a</code>参数输入登录密码外。也可以不指定，在连接后进行验证：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ ./redis-cli -h 127.0.0.1 -p 6379<br>127.0.0.1:6379&gt; auth myPassword<br>OK<br>127.0.0.1:6379&gt; config get requirepass<br>1) <span class="hljs-string">&quot;requirepass&quot;</span><br>2) <span class="hljs-string">&quot;myPassword&quot;</span><br>127.0.0.1:6379&gt; <br></code></pre></td></tr></table></figure>
+
+<h4 id="4-在命令行客户端配置密码（redis重启前有效）"><a href="#4-在命令行客户端配置密码（redis重启前有效）" class="headerlink" title="4. 在命令行客户端配置密码（redis重启前有效）"></a>4. 在命令行客户端配置密码（redis重启前有效）</h4><p>前面介绍了通过<code>redis.conf</code>配置密码，这种配置方式需要重新启动Redis。也可以通命令行客户端配置密码，这种配置方式不用重新启动Redis。配置方式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">127.0.0.1:6379&gt; config <span class="hljs-built_in">set</span> requirepass newPassword<br>OK<br>127.0.0.1:6379&gt; config get requirepass<br>1) <span class="hljs-string">&quot;requirepass&quot;</span><br>2) <span class="hljs-string">&quot;newPassword&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：<strong>使用命令行客户端配置密码，重启Redis后仍然会使用<code>redis.conf</code>配置文件中的密码。</strong></p>
+<h4 id="5-在Redis集群中使用认证密码"><a href="#5-在Redis集群中使用认证密码" class="headerlink" title="5. 在Redis集群中使用认证密码"></a>5. 在Redis集群中使用认证密码</h4><p>如果Redis服务器，使用了集群。除了在<code>master</code>中配置密码外，也需要在<code>slave</code>中进行相应配置。在<code>slave</code>的配置文件中找到如下行，去掉注释并修改与<code>master</code>相同的密码即可：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># masterauth master-password</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="6-Jedis客户端中使用auth"><a href="#6-Jedis客户端中使用auth" class="headerlink" title="6. Jedis客户端中使用auth"></a>6. Jedis客户端中使用auth</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//连接Redis</span><br>   Jedis jedis=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Jedis</span>(<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>);<br>   jedis.auth(<span class="hljs-string">&quot;123&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//创建连接池（3000：超时时间；123：auth密码）</span><br>JedisPool pool=<span class="hljs-keyword">new</span> <span class="hljs-title class_">JedisPool</span>(poolConfig,<span class="hljs-string">&quot;192.168.200.130&quot;</span>,<span class="hljs-number">6379</span>,<span class="hljs-number">3000</span>,<span class="hljs-string">&quot;123&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-Redis的事务"><a href="#5-2-Redis的事务" class="headerlink" title="5.2 Redis的事务"></a>5.2 Redis的事务</h3><p>Redis的事务：一次事务操作，该成功的成功，该失败的失败。</p>
+<p>先开启事务，执行一系列的命令，但是命令不会立即执行，会被放在一个队列中，如果你执行事务，那么这个队列中的命令全部执行，如果取消了事务，一个队列中的命令全部作废。</p>
+<blockquote>
+<ol>
+<li>开启事务：multi</li>
+<li>输入要执行的命令 -&gt; 放到一个队列中</li>
+<li>执行事务：exec</li>
+<li>取消事务：discard</li>
+</ol>
+</blockquote>
+<p>Redis的事务向发挥功能，需要配置watch监听机制</p>
+<p>在开启事务之前，先通过watch命令去监听一个或多个key，在开启事务之后，如果有其他客户端修改了我监听的key，事务会自动取消。</p>
+<p> 如果执行了事务，或者取消了事务，watch监听自动消除，一般不需要去手动执行unwatch。</p>
+<h3 id="5-3-Redis持久化机制"><a href="#5-3-Redis持久化机制" class="headerlink" title="5.3 Redis持久化机制"></a>5.3 Redis持久化机制</h3><p>RDB是Redis默认的持久化机制</p>
+<blockquote>
+<ol>
+<li><p>RDB是持久化文件，速度比较快，而且存储的是一个二进制的文件，传输起来很方便。</p>
+</li>
+<li><p>RDB持久化的时机：</p>
+<p>save 900 1：在900秒内，有1个key改变了，就执行RDB持久化。<br>save 300 10：在300秒内，有10个key改变了，就执行RDB持久化。<br>save 60 10000：在6秒内，有10000个key改变了，就执行RDB持久化。</p>
+</li>
+<li><p>RDB无法保证数据的绝对安全。</p>
+</li>
+</ol>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 开启RDB持久化的压缩</span><br>rdbcompression <span class="hljs-built_in">yes</span><br><span class="hljs-comment"># RDB持久化文件的名称</span><br>dbfilename redis.rdb<br></code></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<pre><code class="hljs">AOF持久化机制默认是关闭的，Redis官方推荐同时开启RDB和AOF持久化，更安全，避免数据丢失。
+        
+1. AOF持久化的速度，相对RDB是较慢的，存储的是一个文本文件，到了后期文件会比较大，传输困难。
+        
+2. AOF的持久化时机。
+        
+  appendfsync always：每执行一个写操作，立即持久化到AOF文件中，性能比较低。
+        
+  appendfsync everysec：每秒执行一次持久化。
+        
+  appendfsync no：会根据你的操作系统不同，环境的不同，在一定时间内执行一次持久化。
+        
+3. AOF相对RDB更安全，推荐同时开启AOF和RDB。
+</code></pre>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 代表开启AOF持久化</span><br>appendonly <span class="hljs-built_in">yes</span><br><span class="hljs-comment"># AOF文件的名称</span><br>appendfilename <span class="hljs-string">&quot;redis.aof&quot;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>同时开启RDB和AOF的注意项：</p>
+<p>如果同时开启了AOF和RDB持久化，那么Redis宕机重启之后，需要加载一个持久化文件，优先选择AOF文件。</p>
+<p>如果先开启了RDB，再次开启AOF，如果RDB执行了持久化，那么RDB文件中的内容会被AOF覆盖掉。</p>
+<h3 id="5-4-Redis的主从架构"><a href="#5-4-Redis的主从架构" class="headerlink" title="5.4 Redis的主从架构"></a>5.4 Redis的主从架构</h3><p>单机版Redis存在读写瓶颈的问题</p>
+<h3 id="5-5-哨兵"><a href="#5-5-哨兵" class="headerlink" title="5.5 哨兵"></a>5.5 哨兵</h3><p>哨兵可以帮助我们解决主从架构中的单点故障问题</p>
+<p>准备哨兵的配置文件，并且在容器内部手动启动哨兵即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 哨兵需要后台启动</span><br>daemonize no<br><span class="hljs-comment"># 指定Master 节点的ip的端口（主）</span><br>sentinel monitor master localhost 6379 2<br><span class="hljs-comment"># 指定Master 节点的ip的端口（主）</span><br>sentinel monitor master master 6379 2<br><span class="hljs-comment"># 哨兵每隔多久监听一次redis架构</span><br>sentinel down-after-milliseconds master 10000<br></code></pre></td></tr></table></figure>
+
+<p>在Redis容器内部启动sentinel即可</p>
+<h3 id="5-6-Redis的集群"><a href="#5-6-Redis的集群" class="headerlink" title="5.6 Redis的集群"></a>5.6 Redis的集群</h3><p>Redis集群在保证主从加哨兵的基本功能之外，还能够提升Redis存储的能力</p>
+<ol>
+<li>Redis集群是无中心的。</li>
+<li>Redis集群有一个ping-pang机制。</li>
+<li>投票机制，Redis集群节点的数量必须是2n+1。</li>
+<li>Redis集群中默认分配了16384个hash槽，在存储数据时，就会将key进行crc16的算法，并且对16384取余，根据最终的结果，将key-value存放到执行Redis节点中，而且每一个Redis集群都在维护着相应的hash槽。</li>
+<li>为了保证数据的安全性，每一个集群的节点，至少要跟着一个从节点。</li>
+<li>单独的针对Redis集群中的某一个节点搭建主从。</li>
+<li>当Redis集群中，超过半数的节点宕机之后，Redis集群就瘫痪了。</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># redis.conf</span><br><span class="hljs-comment"># 指定redis的端口号</span><br>port 7001<br><span class="hljs-comment"># 开启Redis集群</span><br>cluster-enabled <span class="hljs-built_in">yes</span><br><span class="hljs-comment"># 集群信息的文件</span><br>cluster-config-file nodes-7001.conf<br><span class="hljs-comment"># 集群的对外ip地址</span><br>cluster-announce-ip 192.168.200.130 <br><span class="hljs-comment"># 集群的对外port</span><br>cluster-announce-port 7001<br><span class="hljs-comment"># 集群的总线端口</span><br>cluster-announce-bus-port 17001<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动了6个Redis的节点</p>
+<p>随便跳转到一个容器内部，使用redis-cli管理集群</p>
+</blockquote>
+<h2 id="六、Redis常见问题"><a href="#六、Redis常见问题" class="headerlink" title="六、Redis常见问题"></a>六、Redis常见问题</h2><h3 id="6-1-key的生存时间到了，Redis会立即删除吗？"><a href="#6-1-key的生存时间到了，Redis会立即删除吗？" class="headerlink" title="6.1 key的生存时间到了，Redis会立即删除吗？"></a>6.1 key的生存时间到了，Redis会立即删除吗？</h3><blockquote>
+<p>不会立即删除。</p>
+</blockquote>
+<ol>
+<li>定期删除：</li>
+</ol>
+<p>  Redis每隔一段时间就会去查看Redis设置了过期时间的key。会在100ms的间隔中默认查看3个key。</p>
+<ol start="2">
+<li><p>惰性删除：</p>
+<p>如果当你去查询一个已经过了生存时间的key时，Redis会查看当前key的生存时间，是否已经到了，直接删除当前key，并且给用户返回一个空值。</p>
+</li>
+</ol>
+<h3 id="6-2-Redis的淘汰机制"><a href="#6-2-Redis的淘汰机制" class="headerlink" title="6.2 Redis的淘汰机制"></a>6.2 Redis的淘汰机制</h3><blockquote>
+<p>在Redis内存已经满的时候，添加了一个新的数据，执行淘汰机制。</p>
+</blockquote>
+<ol>
+<li><p>volatile-lru：</p>
+<p>在内存不足时，Redis会在已经设置过了生存时间的key中干掉一个最近最少使用的key。</p>
+</li>
+<li><p>allkeys-lru：</p>
+<p>在内存不足时，Redis会在全部的key中干掉一个最近最少使用的key。</p>
+</li>
+<li><p>volatile-lfu：</p>
+<p>在内存不足时，Redis会在已经设置过了生存时间的key中干掉一个最近最少频次使用的key。</p>
+</li>
+<li><p>allkeys-lfu：</p>
+<p>在内存不足时，Redis会在全部的key中干掉一个最近最少频次使用的key。</p>
+</li>
+<li><p>volatile-random：</p>
+<p>在内存不足时，Redis会在已经设置过了生存时间的key中随机干掉一个。</p>
+</li>
+<li><p>allkeys-random：</p>
+<p>在内存不足时，Redis会在全部的key中随机干掉一个。</p>
+</li>
+<li><p>volatile-ttl：</p>
+<p>在内存不足时，Redis会在已经设置过了生存时间的key中干掉一个剩余生存时间最少的key。</p>
+</li>
+<li><p>noeviction：（默认）</p>
+<p>在内存不足时，直接报错</p>
+</li>
+</ol>
+<p> 指定淘汰机制的方式：maxmemory-policy noeviction</p>
+<p> 设置Redis的最大内存：maxmemory <bytes></p>
+<h3 id="6-3-缓存的常见问题"><a href="#6-3-缓存的常见问题" class="headerlink" title="6.3 缓存的常见问题"></a>6.3 缓存的常见问题</h3><blockquote>
+<p>缓存穿透：</p>
+</blockquote>
+<p>问题出现的原因：查询的数据，Redis中没有，数据库也没有。<br>1：根据id查询时，如果id是自增的，将id的最大值放到Redis中，在查询数据库之前，直接比较一下id。</p>
+<p>2：如果id不是整型，可以将全部的id放到set中，在用户查询之前，去set中查看一下是否有一个id。</p>
+<p>3：获取客户端的ip地址，可以将ip的访问添加限制。</p>
+<blockquote>
+<p>缓存击穿</p>
+</blockquote>
+<p>问题：缓存中的热点数据，突然到期了，造成了大量的请求都去访问数据库，造成数据库宕机。</p>
+<p>1.在访问缓存中没有的时候，直接添加一个锁，让几个请求去访问数据库，避免数据库宕机。</p>
+<p>2.热点数据的生存时间去掉。</p>
+<blockquote>
+<p>缓存雪崩</p>
+</blockquote>
+<p>问题：当大量缓存同时到期时，最终大量的请求同时去访问数据库，导致数据库宕机。</p>
+<p>将缓存中的数据的生存时间，设置为30~60分钟的一个随机时间。</p>
+<blockquote>
+<p>缓存倾斜</p>
+</blockquote>
+<p>问题：热点数据放在了一个Redis节点上，导致Redis节点无法承受住大量的请求，最终Redis宕机。</p>
+<p>1.扩展主从架构，搭建大量的从节点，缓解Redis的压力。</p>
+<p>2.可以在Tomcat中JVM缓存，在查看Redis之前，先去查询Tomcat中的缓存。</p>
+<p><strong>文献来源：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FZ4y1u7ny">Redis超详细版教程通俗易懂</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/115775.htm">详解Redis使用认证密码登录</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF/" class="category-chain-item">后端</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%90%8E%E7%AB%AF/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+        <a href="/tags/redis/">#redis</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Redis基础</div>
+      <div>https://haktiong.gitee.io/2020/10/06/redis/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Haktiong</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年10月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/02/Docker/" title="Docker基础">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%9B%86%E5%9B%A2%E5%BC%80%E5%8F%91%E8%A7%84%E7%BA%A6/" title="阿里巴巴集团开发规约">
+                        <span class="hidden-mobile">阿里巴巴集团开发规约</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

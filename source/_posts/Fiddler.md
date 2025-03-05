@@ -58,7 +58,7 @@ date: 2025/03/05
 
 ![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/20250304112221584.png)
 
-![image-20250225165634373](E:\markdown图片\Fiddler\image-20250225165634373.png)
+![](https://raw.githubusercontent.com/yu980219/image-host/master/hexo/20250305104808720.png)
 
 ### 3.1 HTTP请求报文
 
